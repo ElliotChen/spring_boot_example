@@ -63,7 +63,7 @@ public class CacheConfig {
 	}
 
 	@Bean
-	public CacheManager configBuilder(RedisConnectionFactory rcf) {
+	public CacheManager buildCompositeCacheManager() {
 		EhCacheCacheManager ehCacheCacheManager = this.buildEhCAcheCacheManager();
 		RedisCacheManager redisCacheManager = this.buildRedisCacheManager();
 
