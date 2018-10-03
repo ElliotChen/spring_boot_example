@@ -1,4 +1,4 @@
-package tw.elliot.data.repo;
+package tw.elliot.data.jpa.repo;
 
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
@@ -11,9 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.junit4.SpringRunner;
-import tw.elliot.data.model.Customer;
-
-import static org.junit.Assert.*;
+import tw.elliot.data.jpa.model.Customer;
 
 @Slf4j
 @RunWith(SpringRunner.class)

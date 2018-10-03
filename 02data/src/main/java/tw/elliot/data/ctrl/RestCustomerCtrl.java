@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import tw.elliot.data.model.Customer;
-import tw.elliot.data.repo.PageCustomerRepo;
+import tw.elliot.data.jpa.model.Customer;
+import tw.elliot.data.jpa.repo.PageCustomerRepo;
 
 @RestController
 @RequestMapping("/api/customer/*")

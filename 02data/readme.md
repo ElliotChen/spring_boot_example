@@ -47,3 +47,33 @@ public Page<Customer> findAll(@ModelAttribute Customer customer, @PageableDefaul
 ### ModelAttribute
 
 
+## Redis
+
+## System
+
+### How to start Redis
+
+``` cmd
+redis-server /usr/local/etc/redis.conf
+```
+
+### connect redis
+
+```
+redis-server redis-cli
+```
+
+### Maven Dependency
+
+1. Add spring-boot-starter-data-redis, and spring-data-redis will be imported automatically.
+
+
+### Usage
+
+1. Cache
+2. Session
+
+
+## Reference 
+[Github Example](https://github.com/spring-projects/spring-data-examples)
+

@@ -1,11 +1,11 @@
-package tw.elliot.data.repo;
+package tw.elliot.data.jpa.repo;
 
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
-import tw.elliot.data.model.Customer;
+import tw.elliot.data.jpa.model.Customer;
 
 @Repository
 public interface PageCustomerRepo extends PagingAndSortingRepository<Customer, Long> {

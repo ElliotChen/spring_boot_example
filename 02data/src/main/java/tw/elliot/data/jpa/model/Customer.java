@@ -1,4 +1,4 @@
-package tw.elliot.data.model;
+package tw.elliot.data.jpa.model;
 
 import lombok.Data;
 
