@@ -1,6 +1,14 @@
 # Reids Usage
 
 ## Cache
+
+### Maven Dependency
+```xml
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-data-redis</artifactId>
+</dependency>
+```
 reference [MyConfigService]("./src/main/java/tw/elliot/redis/service/MyConfigService.java")
 ### @Cacheable
 ### @CachePut
@@ -13,7 +21,7 @@ reference [MyConfigService]("./src/main/java/tw/elliot/redis/service/MyConfigSer
 ```xml
 <dependency>
     <groupId>org.springframework.session</groupId>
-	<artifactId>spring-session-data-redis</artifactId>
+    <artifactId>spring-session-data-redis</artifactId>
 </dependency>
 ```
 

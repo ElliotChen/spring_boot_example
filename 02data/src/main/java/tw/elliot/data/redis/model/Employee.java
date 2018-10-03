@@ -13,5 +13,6 @@ public class Employee {
 
 	private String firstname;
 
-	@Indexed private String lastname;
+	@Indexed
+	private String lastname;
 }

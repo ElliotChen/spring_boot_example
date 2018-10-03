@@ -12,8 +12,6 @@ import tw.elliot.data.redis.model.Employee;
 
 import java.util.List;
 
-import static org.junit.Assert.*;
-
 @Slf4j
 @RunWith(SpringRunner.class)
 @SpringBootTest

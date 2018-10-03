@@ -27,6 +27,7 @@ public class RestCustomerCtrl {
 	/**
 	 * Query Example
 	 * http://127.0.0.1:8080/api/customer/example?page=0&size=5&age=30
+	 *
 	 * @param customer
 	 * @param pageable
 	 * @return

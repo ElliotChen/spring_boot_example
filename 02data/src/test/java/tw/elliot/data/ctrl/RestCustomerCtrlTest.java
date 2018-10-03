@@ -13,8 +13,6 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import static org.junit.Assert.*;
-
 @Slf4j
 @RunWith(SpringRunner.class)
 @SpringBootTest
