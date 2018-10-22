@@ -9,10 +9,10 @@
 	/>
 
 	<cache name="service1"
-		   maxElementsInMemory="10000"
-		   eternal="false"
-		   timeToIdleSeconds="300"
-		   timeToLiveSeconds="600"
-		   overflowToDisk="false"
+	       maxElementsInMemory="10000"
+	       eternal="false"
+	       timeToIdleSeconds="300"
+	       timeToLiveSeconds="600"
+	       overflowToDisk="false"
 	/>
 </ehcache>

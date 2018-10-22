@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+	<meta charset="UTF-8">
+	<title th:text="${title}">Here is title</title>
+</head>
+<body>
+	<header>
+
+	</header>
+	<div layout:fragment="content">
+		Content here
+	</div>
+
+	<footer>
+		<div th:replace="~{fragment/footer}">
+			Here is footer, should be replaced by footer.html
+		</div>
+	</footer>
+</body>
+</html>

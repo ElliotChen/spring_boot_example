@@ -28,6 +28,6 @@ public class RestCustomerCtrlTest {
 		ResultMatcher matcher1 = MockMvcResultMatchers.status().isOk();
 		ResultMatcher matcher2 = MockMvcResultMatchers.content().string("");
 		this.mvc.perform(requestBuilder).
-			andExpect(matcher1);
+				andExpect(matcher1);
 	}
 }

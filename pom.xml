@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>tw.elliot</groupId>
 	<artifactId>bootdemo</artifactId>
@@ -261,10 +261,11 @@
 	</profiles>
 
 	<modules>
-        <module>01web</module>
-        <module>02data</module>
-        <module>03redis</module>
-        <module>04cache</module>
+		<module>01web</module>
+		<module>02data</module>
+		<module>03redis</module>
+		<module>04cache</module>
 		<module>06profile</module>
-    </modules>
+		<module>07thymeleaf</module>
+	</modules>
 </project>

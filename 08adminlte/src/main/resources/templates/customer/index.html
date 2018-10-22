@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout">
+<head>
+	<title>Dashboard</title>
+</head>
+<body>
+<!-- Content Header (Page header) -->
+<section class="content-header" layout:fragment="content-header">
+Customer Header
+</section>
+
+<!-- Main content -->
+<section class="content" layout:fragment="content">
+	Customer Content
+	<table id="sample" class="table">
+		<thead>
+			<tr>
+				<th>id</th>
+				<th>name</th>
+				<th>age</th>
+			</tr>
+		</thead>
+	</table>
+</section>
+<!-- /.content -->
+
+<!-- Page used Java Script here -->
+<th:block layout:fragment="script">
+	<script language="JavaScript">
+		$(document).ready(function() {
+			var table = $('table#sample').DataTable({
+				'ajax': '/customer/findAll',
+				'serverSide': true,
+				columns: [{
+					data: 'id'
+				}, {
+					data: 'name'
+				}, {
+					data: 'age'
+				}]
+			});
+		})
+	</script>
+</th:block>
+
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout">
+<head>
+	<title>Dashboard</title>
+</head>
+<body>
+<!-- Content Header (Page header) -->
+<section class="content-header" layout:fragment="content-header">
+
+</section>
+
+<!-- Main content -->
+<section class="content" layout:fragment="content">
+	<!-- Small boxes (Stat box) -->
+	<div class="row">
+		<div class="col-lg-3 col-xs-6">
+			<!-- small box -->
+			<div class="small-box bg-aqua">
+
+			</div>
+		</div>
+		<!-- ./col -->
+	</div>
+	<!-- /.row -->
+	<!-- Main row -->
+	<div class="row">
+		<!-- Left col -->
+		<section class="col-lg-7 connectedSortable">
+
+		</section>
+		<!-- /.Left col -->
+
+	</div>
+	<!-- /.row (main row) -->
+
+</section>
+<!-- /.content -->
+
+<!-- Page used Java Script here -->
+<th:block layout:fragment="script">
+<script src="/dist/js/pages/dashboard.js"></script>
+</th:block>
+
+</body>
+</html>

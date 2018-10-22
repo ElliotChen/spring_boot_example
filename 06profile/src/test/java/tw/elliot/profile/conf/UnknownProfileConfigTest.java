@@ -12,11 +12,11 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest
 @ActiveProfiles("xxxx")
 public class UnknownProfileConfigTest {
-    @Value("${spring.profiles:unknown}")
-    private String profile;
+	@Value("${spring.profiles:unknown}")
+	private String profile;
 
-    @Test
-    public void testProfileName() {
-        Assert.assertEquals("unknown", this.profile);
-    }
+	@Test
+	public void testProfileName() {
+		Assert.assertEquals("unknown", this.profile);
+	}
 }

@@ -13,13 +13,13 @@ import org.springframework.test.context.junit4.SpringRunner;
 @ActiveProfiles("dev")
 public class DevProfileConfigTest {
 
-    @Value("${spring.profiles:unknown}")
-    private String profile;
+	@Value("${spring.profiles:unknown}")
+	private String profile;
 
-    @Test
-    public void testProfileName() {
-        Assert.assertEquals("dev", this.profile);
-    }
+	@Test
+	public void testProfileName() {
+		Assert.assertEquals("dev", this.profile);
+	}
 
 
 }
