@@ -9,4 +9,5 @@ INSERT INTO PUBLIC.CUSTOMER(ID, AGE, NAME) VALUES
 (7, 30, 'Gina'),
 (8, 30, 'Helen'),
 (9, 30, 'Ivn'),
-(10, 30, 'John');
+(10, 30, 'John'),
+(11, 18, 'Kevin');

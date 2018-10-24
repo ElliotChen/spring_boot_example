@@ -4,16 +4,47 @@ server:
 spring:
   thymeleaf:
     cache: false
+    prefix: classpath:/templates/
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
-    driver-class-name: org.h2.Driver
-    url: jdbc:h2:tcp://127.0.0.1/mem:rest
-    username: sa
-    password:
+    #driver-class-name: com.mysql.cj.jdbc.Driver 192.168.2.26
+    url: jdbc:mysql://127.0.0.1:3306/dbSDP?characterEncoding=UTF-8&useSSL=false&serverTimezone=UTC
+    username: latdbdev
+    password: l@tThe0ne
     hikari:
       minimum-idle: 3
       maximum-pool-size: 5
-    platform: h2
-    jpa:
+    platform: mysql
+  jpa:
+    hibernate:
+      ddl-auto: none
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+        #implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
+    properties:
       hibernate:
-        ddl-auto: none
+        show_sql: true
+        format_sql: true
+br:
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/dbBR?characterEncoding=UTF-8&useSSL=false&serverTimezone=UTC
+    username: latdbdev
+    password: l@tThe0ne
+    hibernate:
+      dialect: org.hibernate.dialect.MySQL5Dialect
+    hikari:
+      minimum-idle: 3
+      maximum-pool-size: 5
+    platform: mysql
+  jpa:
+    hibernate:
+      ddl-auto: none
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+logging:
+  level:
+    org:
+      hibernate:
+        type: trace

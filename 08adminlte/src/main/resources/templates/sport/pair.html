@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout">
+<head>
+	<title>Customer Pair</title>
+</head>
+<body>
+<!-- Content Header (Page header) -->
+<section class="content-header" layout:fragment="content-header">
+	<h1>Sport Pair Header</h1>
+</section>
+
+<!-- Main content -->
+<section class="content" layout:fragment="content">
+	<div class="row">
+		<div class="col-xs-12">
+			<div class="box">
+				<div class="box-header">
+					<h3 class="box-title">Sport Pair Content</h3>
+					<div class="box-tools pull-right">
+						<a href="/sport/" type="button" class="btn btn-box-tool"><i class="fa fa-list-ul"></i></a>
+					</div>
+				</div>
+				<form data-toggle="validator" class="form-horizontal" role="form" th:object="${sport}" th:action="@{/sport/savePair}" method="post">
+					<div class="box-body">
+						<input type="hidden" name="sportId" th:field="*{sportId}"/>
+
+						<div class="form-group">
+							<label for="sportName" class="col-sm-2 control-label">Sport Name</label>
+							<div class="col-sm-10">
+								<input type="text" required="true" class="form-control" th:field="*{sportName}" id="sportName" />
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="dgtSportIdXRefs" class="col-sm-2 control-label">DGT</label>
+							<div class="col-sm-10">
+							<select class="form-control" id="dgtSportIdXRefs" name="dgtSportIdXRefs" multiple="multiple"  th:field="*{dgtSportIdXRefs}">
+								<option th:each="i : ${#numbers.sequence(0, 100)}" th:value="${i}" th:text="|${i}, 名称待查|"></option>
+							</select>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="brSportIdXRefs" class="col-sm-2 control-label">BR</label>
+							<div class="col-sm-10">
+							<select class="form-control" id="brSportIdXRefs" name="brSportIdXRefs" multiple="multiple"  th:field="*{brSportIdXRefs}">
+								<option th:each="i : ${#numbers.sequence(0, 100)}" th:value="${i}" th:text="|${i}, 名称待查|"></option>
+							</select>
+							</div>
+						</div>
+
+
+					</div>
+					<div class="box-footer">
+						<button type="submit" class="btn btn-primary">Save</button>
+						<a href="/sport/" class="btn btn-primary">Cancel</a>
+					</div>
+				</form>
+				<!-- /.box-body -->
+			</div>
+			<!-- /.box -->
+		</div>
+	</div>
+</section>
+<!-- /.content -->
+
+<!-- Page used Java Script here -->
+<th:block layout:fragment="script">
+	<script language="JavaScript">
+		$(document).ready(function () {
+
+		})
+	</script>
+</th:block>
+
+</body>
+</html>
