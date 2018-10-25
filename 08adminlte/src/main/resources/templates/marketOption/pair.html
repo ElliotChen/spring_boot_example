@@ -7,7 +7,7 @@
 <body>
 <!-- Content Header (Page header) -->
 <section class="content-header" layout:fragment="content-header">
-	<h1>Region Pair Header</h1>
+	<h1>Sport Pair Header</h1>
 </section>
 
 <!-- Main content -->
@@ -16,35 +16,35 @@
 		<div class="col-xs-12">
 			<div class="box">
 				<div class="box-header">
-					<h3 class="box-title">Region Pair Content</h3>
+					<h3 class="box-title">Market Pair Content</h3>
 					<div class="box-tools pull-right">
-						<a href="/region/" type="button" class="btn btn-box-tool"><i class="fa fa-list-ul"></i></a>
+						<a href="/market/" type="button" class="btn btn-box-tool"><i class="fa fa-list-ul"></i></a>
 					</div>
 				</div>
-				<form data-toggle="validator" class="form-horizontal" role="form" th:object="${region}" th:action="@{/region/savePair}" method="post">
+				<form data-toggle="validator" class="form-horizontal" role="form" th:object="${marketOption}" th:action="@{/marketOption/savePair}" method="post">
 					<div class="box-body">
-						<input type="hidden" name="regionNum" th:field="*{regionNum}"/>
+						<input type="hidden" name="expressId" th:field="*{expressId}"/>
 
 						<div class="form-group">
-							<label for="sportName" class="col-sm-2 control-label">Region Name</label>
+							<label for="sportName" class="col-sm-2 control-label">Full Name</label>
 							<div class="col-sm-10">
-								<input type="text" required="true" class="form-control" th:field="*{regionFullName}" id="sportName" />
+								<input type="text" required="true" class="form-control" th:field="*{fullName}" id="sportName" />
 							</div>
 						</div>
 
 						<div class="form-group">
-							<label for="dgtregionNumXRefs" class="col-sm-2 control-label">DGT</label>
+							<label for="dgtmarketIdXRefs" class="col-sm-2 control-label">DGT</label>
 							<div class="col-sm-10">
-							<select class="form-control" id="dgtregionNumXRefs" name="dgtregionNumXRefs" multiple="multiple"  th:field="*{dgtIdXRefs}">
+							<select class="form-control" id="dgtmarketIdXRefs" name="dgtmarketIdXRefs" multiple="multiple"  th:field="*{dgtIdXRefs}">
 								<option th:each="i : ${#numbers.sequence(0, 100)}" th:value="${i}" th:text="|${i}, 名称待查|"></option>
 							</select>
 							</div>
 						</div>
 
 						<div class="form-group">
-							<label for="brregionNumXRefs" class="col-sm-2 control-label">BR</label>
+							<label for="brmarketIdXRefs" class="col-sm-2 control-label">BR</label>
 							<div class="col-sm-10">
-							<select class="form-control" id="brregionNumXRefs" name="brregionNumXRefs" multiple="multiple"  th:field="*{brIdXRefs}">
+							<select class="form-control" id="brmarketIdXRefs" name="brmarketIdXRefs" multiple="multiple"  th:field="*{brIdXRefs}">
 								<option th:each="i : ${#numbers.sequence(0, 100)}" th:value="${i}" th:text="|${i}, 名称待查|"></option>
 							</select>
 							</div>
@@ -54,7 +54,7 @@
 					</div>
 					<div class="box-footer">
 						<button type="submit" class="btn btn-primary">Save</button>
-						<a href="/region/" class="btn btn-primary">Cancel</a>
+						<a href="/marketOption/" class="btn btn-primary">Cancel</a>
 					</div>
 				</form>
 				<!-- /.box-body -->
