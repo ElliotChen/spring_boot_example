@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout">
+<head>
+	<title>Market Pair</title>
+</head>
+<body>
+<!-- Content Header (Page header) -->
+<section class="content-header" layout:fragment="content-header">
+	<h1>Market I18N Header</h1>
+</section>
+
+<!-- Main content -->
+<section class="content" layout:fragment="content">
+	<div class="row">
+		<div class="col-xs-12">
+			<div class="box box-info">
+				<div class="box-header with-border">
+					<h3 class="box-title">Market I18N Content</h3>
+					<div class="box-tools pull-right">
+						<a href="/market/i18nIndex/" type="button" class="btn btn-box-tool"><i class="fa fa-list-ul"></i></a>
+					</div>
+				</div>
+				<form data-toggle="validator" class="form-horizontal" th:object="${market}" th:action="@{/market/saveI18n}" method="post">
+					<div class="box-body">
+						<input type="hidden" name="marketId" th:field="*{marketId}"/>
+						<h3 th:text="*{marketName}"></h3>
+
+						<div class="form-group" th:each="lc:*{languages}" th:if="${#lists.contains(usedCodes, lc.languageCode)}">
+							<label th:for="${lc.languageCode}" th:text="${lc.languageCode}" class="col-sm-2 control-label">DGT</label>
+							<div class="col-sm-10">
+								<input th:id="${lc.languageCode}" class="form-control" type="text" name="langName" th:value="${lc.sportName}"/>
+							</div>
+						</div>
+
+						<div class="form-group" th:each="lc:${languageCodes}" th:if="${!#lists.contains(usedCodes, lc.languageCode)}">
+							<label th:for="${lc.languageCode}" th:text="|${lc.languageCode} ${lc.languageName}|" class="col-sm-2  control-label">DGT</label>
+							<div class="col-sm-10">
+								<input th:id="${lc.languageCode}" class="form-control" type="text" name="langName"/>
+							</div>
+						</div>
+
+
+					</div>
+					<div class="box-footer">
+						<button type="submit" class="btn btn-primary">Save</button>
+						<a href="/market/i18nIndex/" class="btn btn-primary">Cancel</a>
+					</div>
+				</form>
+				<!-- /.box-body -->
+			</div>
+			<!-- /.box -->
+		</div>
+	</div>
+</section>
+<!-- /.content -->
+
+<!-- Page used Java Script here -->
+<th:block layout:fragment="script">
+	<script language="JavaScript">
+		$(document).ready(function () {
+
+		})
+	</script>
+</th:block>
+
+</body>
+</html>

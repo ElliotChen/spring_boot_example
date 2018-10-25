@@ -267,5 +267,6 @@
 		<module>04cache</module>
 		<module>06profile</module>
 		<module>07thymeleaf</module>
+		<module>08adminlte</module>
 	</modules>
 </project>

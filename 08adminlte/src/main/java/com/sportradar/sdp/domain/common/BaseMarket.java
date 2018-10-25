@@ -9,12 +9,12 @@ import lombok.Data;
 
 @MappedSuperclass
 @Data
-public abstract class BaseMarket {
+public abstract class BaseMarket extends BaseReferenceModel {
 
     @Id
     private Long marketId;
     private String marketName;
-    private Integer marketTypeId;
+
 
     private Integer priority;
 

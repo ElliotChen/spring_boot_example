@@ -9,7 +9,7 @@ import java.util.Date;
 
 @MappedSuperclass
 @Data
-public abstract class BaseSport {
+public abstract class BaseSport extends BaseReferenceModel {
 	@Id
 	@GeneratedValue(strategy= GenerationType.IDENTITY)
 	private Long sportId;

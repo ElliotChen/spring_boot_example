@@ -25,4 +25,19 @@ public class Market extends BaseMarket {
 
 	@OneToMany(fetch= FetchType.LAZY, mappedBy="marketId", cascade = {CascadeType.PERSIST})
 	private List<MarketLanguage> languages;
+
+	@Override
+	public String getExpressId() {
+		return this.getMarketId().toString();
+	}
+
+	@Override
+	public String getIdXRefs() {
+		return this.getMarketIdXRefs();
+	}
+
+	@Override
+	public void setMergedIdXRefs(String mergedIdXRefs) {
+		this.setMarketIdXRefs(mergedIdXRefs);
+	}
 }

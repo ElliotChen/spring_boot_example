@@ -27,4 +27,19 @@ public class League extends BaseLeague {
 
 	@OneToMany(fetch= FetchType.LAZY, mappedBy="leagueId", cascade = {CascadeType.PERSIST})
 	private List<LeagueLanguage> languages;
+
+	@Override
+	public String getExpressId() {
+		return this.getLeagueId().toString();
+	}
+
+	@Override
+	public String getIdXRefs() {
+		return this.getLeagueIdXRefs();
+	}
+
+	@Override
+	public void setMergedIdXRefs(String mergedIdXRefs) {
+		this.setLeagueIdXRefs(mergedIdXRefs);
+	}
 }

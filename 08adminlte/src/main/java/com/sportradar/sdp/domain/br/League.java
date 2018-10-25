@@ -12,4 +12,18 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "League")
 public class League extends BaseLeague {
+	@Override
+	public String getExpressId() {
+		return null;
+	}
+
+	@Override
+	public String getIdXRefs() {
+		return null;
+	}
+
+	@Override
+	public void setMergedIdXRefs(String mergedIdXRefs) {
+
+	}
 }

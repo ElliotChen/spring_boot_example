@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout">
+<head>
+	<title>Dashboard</title>
+</head>
+<body>
+<!-- Content Header (Page header) -->
+<section class="content-header" layout:fragment="content-header">
+	<h1>League Header</h1>
+</section>
+
+<!-- Main content -->
+<section class="content" layout:fragment="content">
+	<div class="row">
+		<div class="col-xs-12">
+			<div class="box">
+				<div class="box-header">
+					<h3 class="box-title">League Content</h3>  <div class="box-tools"><a href="/league/pair/-1" class="btn btn-primary">新增</a></div>
+				</div>
+				<div class="box-body">
+					<table id="sample" class="table table-bordered table-hover">
+						<thead>
+						<tr>
+							<th>League Id</th>
+							<th>League Name</th>
+							<th>DGT Id refs</th>
+							<th>BR Id refs</th>
+							<th>function</th>
+						</tr>
+						</thead>
+						<tbody>
+						</tbody>
+					</table>
+				</div>
+				<!-- /.box-body -->
+			</div>
+			<!-- /.box -->
+		</div>
+	</div>
+</section>
+<!-- /.content -->
+
+<!-- Page used Java Script here -->
+<th:block layout:fragment="script">
+	<script language="JavaScript">
+		$(document).ready(function () {
+			var table = $('table#sample').DataTable({
+				'ajax': '/league/findAll',
+				'serverSide': true,
+				columns: [{
+					data: 'leagueId'
+				}, {
+					data: 'leagueName'
+				},{
+					data: 'dgtIdXRefs',
+					orderable: false,
+					searchable: false
+				},{
+					data: 'brIdXRefs',
+					orderable: false,
+					searchable: false
+				}, {
+					data: null,
+					orderable: false,
+					searchable: false,
+					render: function(data, type, row){
+						return '<a href="/league/pair/'+data.leagueId+'" class="btn btn-primary">Pair</a>';
+					}
+
+				}]
+			});
+		})
+	</script>
+</th:block>
+
+</body>
+</html>

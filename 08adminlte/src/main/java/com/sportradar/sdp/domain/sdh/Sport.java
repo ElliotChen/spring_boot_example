@@ -1,5 +1,6 @@
 package com.sportradar.sdp.domain.sdh;
 
+import com.sportradar.sdp.domain.common.BaseReferenceModel;
 import com.sportradar.sdp.domain.common.BaseSport;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -19,12 +20,14 @@ import java.util.List;
 @Table(name = "Sport")
 public class Sport extends BaseSport {
 
+	/*
 	@Transient
 	private String brSportIdXRefs;
 
 	@Transient
 	private String dgtSportIdXRefs;
 
+	*/
 	@Transient
 	private List<com.sportradar.sdp.domain.dgt.Sport> dgtSportXRefs;
 
@@ -34,6 +37,7 @@ public class Sport extends BaseSport {
 	@OneToMany(fetch=FetchType.LAZY, mappedBy="sportId", cascade = {CascadeType.PERSIST})
 	private List<SportLanguage> languages;
 
+	/*
 	@PostLoad
 	public void splitSportIdXRefs() {
 		String tmpSportIdXRefs = this.getSportIdXRefs();
@@ -56,6 +60,7 @@ public class Sport extends BaseSport {
 		this.brSportIdXRefs = refs[1];
 
 	}
+	*/
 
 	public String getLangString() {
 		StringBuilder sb = new StringBuilder();
@@ -81,5 +86,20 @@ public class Sport extends BaseSport {
 		sb.append("]");
 
 		return sb.toString();
+	}
+
+	@Override
+	public String getExpressId() {
+		return this.getSportId().toString();
+	}
+
+	@Override
+	public String getIdXRefs() {
+		return this.getSportIdXRefs();
+	}
+
+	@Override
+	public void setMergedIdXRefs(String mergedIdXRefs) {
+		this.setSportIdXRefs(mergedIdXRefs);
 	}
 }

@@ -12,4 +12,18 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "Region")
 public class Region extends BaseRegion {
+	@Override
+	public String getExpressId() {
+		return this.getRegionNum().toString();
+	}
+
+	@Override
+	public String getIdXRefs() {
+		return this.getRegionNumXRefs();
+	}
+
+	@Override
+	public void setMergedIdXRefs(String mergedIdXRefs) {
+
+	}
 }

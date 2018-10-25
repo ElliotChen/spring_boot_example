@@ -10,7 +10,7 @@ import lombok.Data;
 
 @MappedSuperclass
 @Data
-public abstract class BaseLeague {
+public abstract class BaseLeague extends BaseReferenceModel {
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)

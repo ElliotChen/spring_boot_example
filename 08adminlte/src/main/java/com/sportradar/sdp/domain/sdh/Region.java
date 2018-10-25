@@ -27,4 +27,19 @@ public class Region extends BaseRegion {
 
 	@OneToMany(fetch=FetchType.LAZY, mappedBy="regionNum", cascade = {CascadeType.PERSIST})
 	private List<RegionLanguage> languages;
+
+	@Override
+	public String getExpressId() {
+		return this.getRegionNum().toString();
+	}
+
+	@Override
+	public String getIdXRefs() {
+		return this.getRegionNumXRefs();
+	}
+
+	@Override
+	public void setMergedIdXRefs(String mergedIdXRefs) {
+		this.setRegionNumXRefs(mergedIdXRefs);
+	}
 }
