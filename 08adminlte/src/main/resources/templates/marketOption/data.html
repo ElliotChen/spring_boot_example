@@ -23,11 +23,37 @@
 				</div>
 				<form data-toggle="validator" role="form" th:object="${marketOption}" th:action="@{/market/saveData}" method="post">
 					<div class="box-body">
+						<h3 th:text="|*{fullName} *{expressId}|"></h3>
 						<input type="hidden" name="expressId" th:field="*{expressId}"/>
 
 						<div class="form-group">
-							<label for="regionName">Full Name</label>
-							<input type="text" required="true" class="form-control" th:field="*{fullName}" id="regionName" />
+							<label for="marketId" class="col-sm-2 control-label">Market</label>
+							<div class="col-sm-10">
+								<select class="form-control" id="marketId" name="marketId" th:field="*{marketId}">
+									<option th:each="market:${markets}" th:value="${market.marketId}" th:text="|${market.marketName}|"></option>
+								</select>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="optionNum" class="col-sm-2 control-label">Option Num</label>
+							<div class="col-sm-10">
+								<input type="number" required="true" class="form-control" th:field="*{optionNum}" id="optionNum" />
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="shortName" class="col-sm-2 control-label">Short Name</label>
+							<div class="col-sm-10">
+								<input type="text" required="true" class="form-control" th:field="*{shortName}" id="shortName" />
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="fullName" class="col-sm-2 control-label">Full Name</label>
+							<div class="col-sm-10">
+							<input type="text" required="true" class="form-control" th:field="*{fullName}" id="fullName" />
+							</div>
 						</div>
 
 

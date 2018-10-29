@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sportradar.sdh.dao.sdp.SdpLeagueDao" >
+  <resultMap id="BaseResultMap" type="com.sportradar.sdh.domain.sdp.League" >
+    <constructor>
+      <idArg column="leagueId" javaType="Long"/>
+      <arg column="dgtLeagueIds" javaType="String"/>
+      <arg column="brLeagueIds" javaType="String"/>
+    </constructor>
+    <result column="leagueName" property="leagueName" jdbcType="VARCHAR" />
+    <result column="priority" property="priority" jdbcType="SMALLINT" />
+    <result column="regionNum" property="regionNum" jdbcType="INTEGER" />
+    <result column="sportId" property="sportId" jdbcType="BIGINT" />
+    <result column="leagueGroupId" property="leagueGroupId" jdbcType="BIGINT" />
+    <result column="updatedTime" property="updatedTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    leagueId, leagueName, priority, regionNum, sportId, leagueGroupId, updatedTime, SUBSTRING_INDEX(SUBSTRING_INDEX(leagueIdXRefs, '|', 2), '|', -1) as dgtLeagueIds, SUBSTRING_INDEX(leagueIdXRefs, '|', 1) as brLeagueIds
+  </sql>
+  <select id="findById" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from League
+    where leagueId = #{leagueId}
+  </select>
+  <select id="findAll" resultMap="BaseResultMap" >
+    SELECT <include refid="Base_Column_List"/>
+    from League
+  </select>
+
+  <select id="findByPage" resultMap="BaseResultMap" >
+    SELECT <include refid="Base_Column_List"/>
+    from League
+  </select>
+  <!--
+  <insert id="insert" parameterType="com.betmatrix.theonex.mybatis.model.League" >
+    insert into League (leagueId, leagueName, priority, 
+      regionNum, sportId, leagueGroupId, 
+      updatedTime)
+    values (#{leagueId,jdbcType=BIGINT}, #{leagueName,jdbcType=VARCHAR}, #{priority,jdbcType=SMALLINT}, 
+      #{regionNum,jdbcType=INTEGER}, #{sportId,jdbcType=BIGINT}, #{leagueGroupId,jdbcType=BIGINT}, 
+      #{updatedTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.betmatrix.theonex.mybatis.model.League" >
+    insert into League
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="leagueId != null" >
+        leagueId,
+      </if>
+      <if test="leagueName != null" >
+        leagueName,
+      </if>
+      <if test="priority != null" >
+        priority,
+      </if>
+      <if test="regionNum != null" >
+        regionNum,
+      </if>
+      <if test="sportId != null" >
+        sportId,
+      </if>
+      <if test="leagueGroupId != null" >
+        leagueGroupId,
+      </if>
+      <if test="updatedTime != null" >
+        updatedTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="leagueId != null" >
+        #{leagueId,jdbcType=BIGINT},
+      </if>
+      <if test="leagueName != null" >
+        #{leagueName,jdbcType=VARCHAR},
+      </if>
+      <if test="priority != null" >
+        #{priority,jdbcType=SMALLINT},
+      </if>
+      <if test="regionNum != null" >
+        #{regionNum,jdbcType=INTEGER},
+      </if>
+      <if test="sportId != null" >
+        #{sportId,jdbcType=BIGINT},
+      </if>
+      <if test="leagueGroupId != null" >
+        #{leagueGroupId,jdbcType=BIGINT},
+      </if>
+      <if test="updatedTime != null" >
+        #{updatedTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.betmatrix.theonex.mybatis.model.League" >
+    update League
+    <set >
+      <if test="leagueName != null" >
+        leagueName = #{leagueName,jdbcType=VARCHAR},
+      </if>
+      <if test="priority != null" >
+        priority = #{priority,jdbcType=SMALLINT},
+      </if>
+      <if test="regionNum != null" >
+        regionNum = #{regionNum,jdbcType=INTEGER},
+      </if>
+      <if test="sportId != null" >
+        sportId = #{sportId,jdbcType=BIGINT},
+      </if>
+      <if test="leagueGroupId != null" >
+        leagueGroupId = #{leagueGroupId,jdbcType=BIGINT},
+      </if>
+      <if test="updatedTime != null" >
+        updatedTime = #{updatedTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where leagueId = #{leagueId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.betmatrix.theonex.mybatis.model.League" >
+    update League
+    set leagueName = #{leagueName,jdbcType=VARCHAR},
+      priority = #{priority,jdbcType=SMALLINT},
+      regionNum = #{regionNum,jdbcType=INTEGER},
+      sportId = #{sportId,jdbcType=BIGINT},
+      leagueGroupId = #{leagueGroupId,jdbcType=BIGINT},
+      updatedTime = #{updatedTime,jdbcType=TIMESTAMP}
+    where leagueId = #{leagueId,jdbcType=BIGINT}
+  </update>
+
+  <insert id="saveOrUpdate" parameterType="com.betmatrix.theonex.mybatis.model.League" >
+    insert into League
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="leagueId != null" >
+        leagueId,
+      </if>
+      <if test="leagueName != null" >
+        leagueName,
+      </if>
+      <if test="priority != null" >
+        priority,
+      </if>
+      <if test="regionNum != null" >
+        regionNum,
+      </if>
+      <if test="sportId != null" >
+        sportId,
+      </if>
+      <if test="leagueGroupId != null" >
+        leagueGroupId,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="leagueId != null" >
+        #{leagueId,jdbcType=BIGINT},
+      </if>
+      <if test="leagueName != null" >
+        #{leagueName,jdbcType=VARCHAR},
+      </if>
+      <if test="priority != null" >
+        #{priority,jdbcType=SMALLINT},
+      </if>
+      <if test="regionNum != null" >
+        #{regionNum,jdbcType=INTEGER},
+      </if>
+      <if test="sportId != null" >
+        #{sportId,jdbcType=BIGINT},
+      </if>
+      <if test="leagueGroupId != null" >
+        #{leagueGroupId,jdbcType=BIGINT},
+      </if>
+    </trim>
+    on duplicate key update
+    <trim suffixOverrides=",">
+      <if test="leagueName != null" >
+        leagueName = values(leagueName),
+      </if>
+      <if test="priority != null" >
+        priority = values(priority),
+      </if>
+      <if test="regionNum != null" >
+        regionNum = values(regionNum),
+      </if>
+      <if test="sportId != null" >
+        sportId = values(sportId),
+      </if>
+      <if test="leagueGroupId != null" >
+        leagueGroupId = values(leagueGroupId),
+      </if>
+    </trim>
+  </insert>
+  -->
+</mapper>

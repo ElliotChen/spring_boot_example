@@ -23,12 +23,15 @@
 				</div>
 				<form data-toggle="validator" class="form-horizontal" role="form" th:object="${marketOption}" th:action="@{/marketOption/savePair}" method="post">
 					<div class="box-body">
+						<h3 th:text="|*{fullName} *{expressId}|"></h3>
 						<input type="hidden" name="expressId" th:field="*{expressId}"/>
 
 						<div class="form-group">
-							<label for="sportName" class="col-sm-2 control-label">Full Name</label>
+							<label for="marketId" class="col-sm-2 control-label">Market</label>
 							<div class="col-sm-10">
-								<input type="text" required="true" class="form-control" th:field="*{fullName}" id="sportName" />
+								<select class="form-control" id="marketId" name="marketId" th:field="*{marketId}">
+									<option th:each="market:${markets}" th:value="${market.marketId}" th:text="|${market.marketName}|"></option>
+								</select>
 							</div>
 						</div>
 

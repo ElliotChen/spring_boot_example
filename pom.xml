@@ -268,5 +268,7 @@
 		<module>06profile</module>
 		<module>07thymeleaf</module>
 		<module>08adminlte</module>
+		<module>09mem</module>
+		<module>10mybatis</module>
 	</modules>
 </project>

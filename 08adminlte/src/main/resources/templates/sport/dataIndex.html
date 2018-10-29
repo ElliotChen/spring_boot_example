@@ -42,14 +42,18 @@
 <!-- Page used Java Script here -->
 <th:block layout:fragment="script">
 	<script language="JavaScript">
+		var table;
 		$(document).ready(function () {
-			var table = $('table#sample').DataTable({
+			table = $('table#sample').DataTable({
 				'ajax': '/sport/findAll',
 				'serverSide': true,
 				columns: [{
 					data: 'sportId'
 				}, {
-					data: 'sportName'
+					data: 'sportName',
+					render: function(data, type, row){
+						return '<div data-toggle="tooltip" data-placement="bottom" title="'+row.langString+'">'+data+'</div>';
+					}
 				}, {
 					data: null,
 					orderable: false,
@@ -60,6 +64,7 @@
 
 				}]
 			});
+			$('table#sample').tooltip({selector: '[data-toggle="tooltip"]'});
 		})
 	</script>
 </th:block>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sportradar.sdh.dao.dgt.DgtSportDao" >
+	<resultMap id="BaseResultMap" type="com.sportradar.sdh.domain.br.Sport" >
+		<constructor>
+			<idArg column="sportId" javaType="Long"/>
+			<arg column="sportIdXRef" jdbcType="VARCHAR" />
+		</constructor>
+
+		<result column="sportName" property="sportName" jdbcType="VARCHAR" />
+		<result column="priority" property="priority" jdbcType="INTEGER" />
+		<result column="updatedTime" property="updatedTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<sql id="Base_Column_List" >
+    sportId, sportName, priority, updatedTime, sportIdXRef
+  </sql>
+	<select id="findById" resultMap="BaseResultMap" >
+		select
+		<include refid="Base_Column_List" />
+		from Sport
+		where sportId = #{sportId}
+	</select>
+	<select id="findAll" resultMap="BaseResultMap">
+		SELECT <include refid="Base_Column_List"/>
+		from Sport
+	</select>
+	<select id="findByPage" resultMap="BaseResultMap" >
+		SELECT <include refid="Base_Column_List"/>
+		from Sport
+	</select>
+
+</mapper>

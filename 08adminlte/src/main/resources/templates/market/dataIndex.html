@@ -49,7 +49,10 @@
 				columns: [{
 					data: 'marketId'
 				}, {
-					data: 'marketName'
+					data: 'marketName',
+					render: function(data, type, row){
+						return '<div data-toggle="tooltip" data-placement="bottom" title="'+row.langString+'">'+data+'</div>';
+					}
 				}, {
 					data: null,
 					orderable: false,
@@ -60,6 +63,7 @@
 
 				}]
 			});
+			$('table#sample').tooltip({selector: '[data-toggle="tooltip"]'});
 		})
 	</script>
 </th:block>

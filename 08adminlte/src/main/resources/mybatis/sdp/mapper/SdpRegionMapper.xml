@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sportradar.sdh.dao.sdp.SdpRegionDao" >
+  <resultMap id="BaseResultMap" type="com.sportradar.sdh.domain.sdp.Region" >
+    <constructor>
+      <idArg column="regionNum" javaType="Integer"/>
+      <arg column="dgtRegionNums" javaType="String"/>
+      <arg column="brRegionNums" javaType="String"/>
+    </constructor>
+    <result column="regionShortName" property="regionShortName" jdbcType="VARCHAR" />
+    <result column="regionFullName" property="regionFullName" jdbcType="VARCHAR" />
+    <result column="alias" property="alias" jdbcType="VARCHAR" />
+    <result column="updatedTime" property="updatedTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    regionNum, regionShortName, regionFullName, alias, updatedTime , SUBSTRING_INDEX(SUBSTRING_INDEX(regionNumXRefs, '|', 2), '|', -1) as dgtRegionNums, SUBSTRING_INDEX(regionNumXRefs, '|', 1) as brRegionNums
+  </sql>
+  <select id="findById" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from Region
+    where regionNum = #{regionNum}
+  </select>
+  <select id="findAll" resultMap="BaseResultMap" >
+    SELECT <include refid="Base_Column_List"/>
+    from Region
+  </select>
+
+  <select id="findByPage" resultMap="BaseResultMap" >
+    SELECT <include refid="Base_Column_List"/>
+    from Region
+  </select>
+  <!--
+  <insert id="insert" parameterType="com.betmatrix.theonex.mybatis.model.Region" >
+    insert into Region (regionNum, regionShortName, regionFullName, 
+      alias, updatedTime)
+    values (#{regionNum,jdbcType=INTEGER}, #{regionShortName,jdbcType=VARCHAR}, #{regionFullName,jdbcType=VARCHAR}, 
+      #{alias,jdbcType=VARCHAR}, #{updatedTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.betmatrix.theonex.mybatis.model.Region" >
+    insert into Region
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="regionNum != null" >
+        regionNum,
+      </if>
+      <if test="regionShortName != null" >
+        regionShortName,
+      </if>
+      <if test="regionFullName != null" >
+        regionFullName,
+      </if>
+      <if test="alias != null" >
+        alias,
+      </if>
+      <if test="updatedTime != null" >
+        updatedTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="regionNum != null" >
+        #{regionNum,jdbcType=INTEGER},
+      </if>
+      <if test="regionShortName != null" >
+        #{regionShortName,jdbcType=VARCHAR},
+      </if>
+      <if test="regionFullName != null" >
+        #{regionFullName,jdbcType=VARCHAR},
+      </if>
+      <if test="alias != null" >
+        #{alias,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedTime != null" >
+        #{updatedTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.betmatrix.theonex.mybatis.model.Region" >
+    update Region
+    <set >
+      <if test="regionShortName != null" >
+        regionShortName = #{regionShortName,jdbcType=VARCHAR},
+      </if>
+      <if test="regionFullName != null" >
+        regionFullName = #{regionFullName,jdbcType=VARCHAR},
+      </if>
+      <if test="alias != null" >
+        alias = #{alias,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedTime != null" >
+        updatedTime = #{updatedTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where regionNum = #{regionNum,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.betmatrix.theonex.mybatis.model.Region" >
+    update Region
+    set regionShortName = #{regionShortName,jdbcType=VARCHAR},
+      regionFullName = #{regionFullName,jdbcType=VARCHAR},
+      alias = #{alias,jdbcType=VARCHAR},
+      updatedTime = #{updatedTime,jdbcType=TIMESTAMP}
+    where regionNum = #{regionNum,jdbcType=INTEGER}
+  </update>
+  -->
+
+  <!-- user sql -->
+  <!--
+  <insert id="saveOrUpdate" parameterType="com.betmatrix.theonex.mybatis.model.Region" >
+    insert into Region
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="regionNum != null" >
+        regionNum,
+      </if>
+      <if test="regionShortName != null" >
+        regionShortName,
+      </if>
+      <if test="regionFullName != null" >
+        regionFullName,
+      </if>
+      <if test="alias != null" >
+        alias,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="regionNum != null" >
+        #{regionNum,jdbcType=INTEGER},
+      </if>
+      <if test="regionShortName != null" >
+        #{regionShortName,jdbcType=VARCHAR},
+      </if>
+      <if test="regionFullName != null" >
+        #{regionFullName,jdbcType=VARCHAR},
+      </if>
+      <if test="alias != null" >
+        #{alias,jdbcType=VARCHAR},
+      </if>
+    </trim>
+    on duplicate key update
+    <trim suffixOverrides=",">
+      <if test="regionShortName != null" >
+        regionShortName = values(regionShortName),
+      </if>
+      <if test="regionFullName != null" >
+        regionFullName = values(regionFullName),
+      </if>
+      <if test="alias != null" >
+        alias = values(alias),
+      </if>
+    </trim>
+  </insert>
+  -->
+</mapper>

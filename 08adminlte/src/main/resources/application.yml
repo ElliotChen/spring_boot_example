@@ -5,46 +5,53 @@ spring:
   thymeleaf:
     cache: false
     prefix: classpath:/templates/
+
+sdp:
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
-    #driver-class-name: com.mysql.cj.jdbc.Driver 192.168.2.26
-    url: jdbc:mysql://127.0.0.1:3306/dbSDP?characterEncoding=UTF-8&useSSL=false&serverTimezone=UTC
+    #driver-class-name: com.mysql.cj.jdbc.Driver
+    jdbc-url: jdbc:mysql://127.0.0.1:3306/dbSDP?characterEncoding=UTF-8&useSSL=false&serverTimezone=UTC
     username: latdbdev
     password: l@tThe0ne
     hikari:
       minimum-idle: 3
       maximum-pool-size: 5
-    platform: mysql
-  jpa:
-    hibernate:
-      ddl-auto: none
-      naming:
-        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
-        #implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
-    properties:
-      hibernate:
-        show_sql: true
-        format_sql: true
+#    platform: mysql
+#  jpa:
+#    hibernate:
+#      ddl-auto: none
+#      naming:
+#        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+
+dgt:
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    #driver-class-name: com.mysql.cj.jdbc.Driver
+    jdbc-url: jdbc:mysql://127.0.0.1:3306/dbTheOneX?characterEncoding=UTF-8&useSSL=false&serverTimezone=UTC
+    username: latdbdev
+    password: l@tThe0ne
+    hikari:
+      minimum-idle: 3
+      maximum-pool-size: 5
 br:
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/dbBR?characterEncoding=UTF-8&useSSL=false&serverTimezone=UTC
+    #driver-class-name: com.mysql.cj.jdbc.Driver
+    jdbc-url: jdbc:mysql://127.0.0.1:3306/dbBR?characterEncoding=UTF-8&useSSL=false&serverTimezone=UTC
     username: latdbdev
     password: l@tThe0ne
-    hibernate:
-      dialect: org.hibernate.dialect.MySQL5Dialect
     hikari:
       minimum-idle: 3
       maximum-pool-size: 5
-    platform: mysql
-  jpa:
-    hibernate:
-      ddl-auto: none
-      naming:
-        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+
 logging:
   level:
     org:
       hibernate:
         type: trace
+
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql
