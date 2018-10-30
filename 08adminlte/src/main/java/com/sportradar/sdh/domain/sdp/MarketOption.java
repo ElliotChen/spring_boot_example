@@ -10,9 +10,11 @@ import com.sportradar.sdh.domain.common.BaseEntity;
 import com.sportradar.sdh.domain.common.BaseMarketOption;
 import com.sportradar.sdh.domain.common.IdCompositable;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 
 @Data
+@NoArgsConstructor
 public class MarketOption extends BaseMarketOption {
 
 	private List<com.sportradar.sdh.domain.dgt.MarketOption> dgtMarketOptionXRefs = new ArrayList<>();

@@ -14,4 +14,16 @@ public interface SdpRegionDao {
 	List<Region> findAll();
 
 	Page<Region> findByPage();
+
+	List<Region> findAllWithLanguage();
+
+	List<Region> findByIdWithLanguage(@Param("regionNum") Integer regionNum);
+
+	List<Region> findByIdWithAllLanguage(@Param("regionNum") Integer regionNum);
+
+	Region findByIdAndLanguageCodeWithLanguage(@Param("regionNum") Integer regionNum, @Param("languageCode") Integer languageCode);
+
+	void insertI18N(Region sport);
+
+	void updateI18N(Region sport);
 }

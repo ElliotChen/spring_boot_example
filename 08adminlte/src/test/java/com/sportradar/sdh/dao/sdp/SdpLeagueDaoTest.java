@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.List;
+
 import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
@@ -23,5 +25,27 @@ public class SdpLeagueDaoTest {
 		Page<League> page = this.sdpLeagueDao.findByPage();
 
 		System.out.println(page.getResult().size());
+	}
+
+	@Test
+	public void testFindWithLanguage() {
+		List<League> objects = this.sdpLeagueDao.findAllWithLanguage();
+
+		for (League obj: objects) {
+			String value = String.valueOf(obj.getCompositedId() + " " + obj.getLeagueName() + " " + obj.getLanguage().getLanguageCode() +" "+ obj.getLanguage().getLanguageName());
+			System.out.println(value);
+		}
+
+	}
+
+	@Test
+	public void testFindWithAllLanguage() {
+		List<League> objects = this.sdpLeagueDao.findByIdWithAllLanguage(1L);
+
+		for (League obj: objects) {
+			String value = String.valueOf(obj.getCompositedId() + " " + obj.getLeagueName() + " " + obj.getLanguage().getLanguageCode() +" "+ obj.getLanguage().getLanguageName());
+			System.out.println(value);
+		}
+
 	}
 }

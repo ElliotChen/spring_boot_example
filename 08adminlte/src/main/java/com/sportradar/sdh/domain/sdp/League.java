@@ -28,7 +28,8 @@ public class League extends BaseLeague {
 	}
 
 	public League(Long leagueId, String dgtLeagueIds, String brLeagueIds) {
-		this.setSportId(leagueId);
+		super();
+		this.leagueId = leagueId;
 
 		this.initDgtXRefs(dgtLeagueIds);
 		this.initBrXRefs(brLeagueIds);

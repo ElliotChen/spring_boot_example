@@ -21,32 +21,24 @@
 						<a href="/region/i18nIndex/" type="button" class="btn btn-box-tool"><i class="fa fa-list-ul"></i></a>
 					</div>
 				</div>
-				<form data-toggle="validator" class="form-horizontal" th:object="${region}" th:action="@{/region/saveI18n}" method="post">
-					<div class="box-body">
-						<input type="hidden" name="regionNum" th:field="*{regionNum}"/>
-						<h3 th:text="*{regionFullName}"></h3>
-
-						<div class="form-group" th:each="lc:*{languages}" th:if="${#lists.contains(usedCodes, lc.languageCode)}">
-							<label th:for="${lc.languageCode}" th:text="${lc.languageCode}" class="col-sm-2 control-label">DGT</label>
-							<div class="col-sm-10">
-								<input th:id="${lc.languageCode}" class="form-control" type="text" name="langName" th:value="${lc.sportName}"/>
-							</div>
+				<h3 th:text="|${region.regionNum} ${region.regionFullName}|"></h3>
+				<div class="box-body">
+					<form data-toggle="validator" class="form-horizontal" th:each="rg:${regions}" action="#" method="post">
+						<input type="hidden" name="regionNum" th:value="${rg.regionNum}">
+						<input type="hidden" name="language.languageCode" th:value="${rg.language.languageCode}">
+						<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+						<label th:text="${rg.language.languageName}" class="col-sm-2 control-label"></label>
+						<div class="col-sm-8">
+							<input class="form-control" type="text" name="regionFullName" th:value="${rg.regionFullName}" required maxlength="40"/>
 						</div>
-
-						<div class="form-group" th:each="lc:${languageCodes}" th:if="${!#lists.contains(usedCodes, lc.languageCode)}">
-							<label th:for="${lc.languageCode}" th:text="|${lc.languageCode} ${lc.languageName}|" class="col-sm-2  control-label">DGT</label>
-							<div class="col-sm-10">
-								<input th:id="${lc.languageCode}" class="form-control" type="text" name="langName"/>
-							</div>
+						<div class="col-sm-2">
+							<button type="button" class="btn btn-primary">Save</button>
 						</div>
-
-
-					</div>
-					<div class="box-footer">
-						<button type="submit" class="btn btn-primary">Save</button>
-						<a href="/region/i18nIndex/" class="btn btn-primary">Cancel</a>
-					</div>
-				</form>
+					</form>
+				</div>
+				<div class="box-footer">
+					<a href="/region/i18nIndex/" class="btn btn-primary">返回</a>
+				</div>
 				<!-- /.box-body -->
 			</div>
 			<!-- /.box -->
@@ -59,7 +51,26 @@
 <th:block layout:fragment="script">
 	<script language="JavaScript">
 		$(document).ready(function () {
+			$(".btn").click(function(){
+				var form = $(this).parents('form:first');
 
+				//do validation
+				form.validate();
+				if (!form.valid()) {
+					return;
+				}
+
+				$.post( "/region/saveI18n", form.serialize(), function( data ){
+					$.notify({
+						// options
+						message: data.message
+					},{
+						// settings
+						type: 'success',
+						delay: 1000
+					})
+				} );
+			});
 		})
 	</script>
 </th:block>

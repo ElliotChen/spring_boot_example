@@ -1,7 +1,9 @@
 package com.sportradar.sdh.ctrl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sportradar.sdh.dto.system.ApiException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -16,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 
 @ControllerAdvice
 @Slf4j
@@ -47,13 +50,18 @@ public class GeneralCtrlAdvice {
 	public void handleControllerException(HttpServletRequest request, HttpServletResponse response, Throwable ex) throws IOException {
 		log.error("handleControllerException,url:{}",request.getRequestURI(),ex);
 
+
 		String ajax = request.getHeader("X-Requested-With");
 
 		if (StringUtils.isEmpty(ajax)) {
 			response.sendRedirect("/error");
 		} else {
 			ObjectMapper om = new ObjectMapper();
-			String json = "";
+			ApiException exception = new ApiException();
+			exception.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+			exception.setMessage(ex.getLocalizedMessage());
+			exception.setErrors(Arrays.asList(ex.getMessage()));
+			String json = om.writeValueAsString(exception);
 			response.setCharacterEncoding(StandardCharsets.UTF_8.name());
 			response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
 			response.getWriter().write(json);

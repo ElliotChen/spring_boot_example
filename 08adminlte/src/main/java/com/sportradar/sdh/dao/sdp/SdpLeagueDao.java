@@ -16,4 +16,16 @@ public interface SdpLeagueDao {
 	List<League> findAll();
 
 	Page<League> findByPage();
+
+	List<League> findAllWithLanguage();
+
+	List<League> findByIdWithLanguage(@Param("leagueId") Long leagueId);
+
+	List<League> findByIdWithAllLanguage(@Param("leagueId") Long leagueId);
+
+	League findByIdAndLanguageCodeWithLanguage(@Param("leagueId") Long leagueId, @Param("languageCode") Integer languageCode);
+
+	void insertI18N(League sport);
+
+	void updateI18N(League sport);
 }

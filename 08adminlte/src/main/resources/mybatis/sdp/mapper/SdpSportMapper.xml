@@ -10,7 +10,10 @@
 
 		<result column="sportName" property="sportName" jdbcType="VARCHAR"/>
 		<result column="priority" property="priority" jdbcType="INTEGER"/>
+
+		<result column="createdTime" property="createdTime" jdbcType="TIMESTAMP"/>
 		<result column="updatedTime" property="updatedTime" jdbcType="TIMESTAMP"/>
+
 		<result column="languageCode" property="language.languageCode"/>
 		<result column="languageName" property="language.languageName"/>
 		<!--

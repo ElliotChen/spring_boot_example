@@ -8,9 +8,11 @@ import com.sportradar.sdh.dto.dts.DataTablesInput;
 import com.sportradar.sdh.dto.dts.DataTablesOutput;
 import com.sportradar.sdh.dto.sdp.SportDto;
 import com.sportradar.sdh.dto.sdp.Translation;
+import com.sportradar.sdh.dto.system.ApiResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -113,11 +115,15 @@ public class SportCtrl {
 
 	@PostMapping("/saveI18n")
 	@ResponseBody
-	public String saveI18n(SportDto sport,Model model) {
+	public ApiResult saveI18n(SportDto sport,Model model) {
 		log.error("Find Sport [{}] - [{}]",sport.getSportId(), sport.getLanguage().getLanguageCode());
 		this.saveDbI18N(sport);
 		model.addAttribute("successFlash", "Success!");
-		return "sport/i18nIndex";
+
+		ApiResult apiResult = new ApiResult();
+		apiResult.setStatus(HttpStatus.OK);
+		apiResult.setMessage("Save Success!");
+		return apiResult;
 	}
 
 	/*

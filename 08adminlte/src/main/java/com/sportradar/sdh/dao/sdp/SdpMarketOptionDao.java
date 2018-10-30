@@ -17,4 +17,16 @@ public interface SdpMarketOptionDao {
 	List<MarketOption> findAll();
 
 	Page<MarketOption> findByPage();
+
+	List<MarketOption> findAllWithLanguage();
+
+	List<MarketOption> findByIdWithLanguage(@Param("marketId") Long marketId, @Param("optionNum") Integer optionNum);
+
+	List<MarketOption> findByIdWithAllLanguage(@Param("marketId") Long marketId, @Param("optionNum") Integer optionNum);
+
+	MarketOption findByIdAndLanguageCodeWithLanguage(@Param("marketId") Long marketId, @Param("optionNum") Integer optionNum, @Param("languageCode") Integer languageCode);
+
+	void insertI18N(MarketOption marketOption);
+
+	void updateI18N(MarketOption marketOption);
 }

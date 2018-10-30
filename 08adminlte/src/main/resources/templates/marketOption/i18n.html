@@ -18,35 +18,32 @@
 				<div class="box-header with-border">
 					<h3 class="box-title">Market I18N Content</h3>
 					<div class="box-tools pull-right">
-						<a href="/market/i18nIndex/" type="button" class="btn btn-box-tool"><i class="fa fa-list-ul"></i></a>
+						<a href="/marketOption/i18nIndex/" type="button" class="btn btn-box-tool"><i class="fa fa-list-ul"></i></a>
 					</div>
 				</div>
-				<form data-toggle="validator" class="form-horizontal" th:object="${marketOption}" th:action="@{/marketOption/saveI18n}" method="post">
-					<div class="box-body">
-						<input type="hidden" name="expressId" th:field="*{expressId}"/>
-						<h3 th:text="*{fullName}"></h3>
-
-						<div class="form-group" th:each="lc:*{languages}" th:if="${#lists.contains(usedCodes, lc.languageCode)}">
-							<label th:for="${lc.languageCode}" th:text="${lc.languageCode}" class="col-sm-2 control-label">DGT</label>
-							<div class="col-sm-10">
-								<input th:id="${lc.languageCode}" class="form-control" type="text" name="langName" th:value="${lc.sportName}"/>
+				<h3 th:text="|${marketOption.marketId} ${marketOption.optionNum} ${marketOption.fullName}|"></h3>
+				<div class="box-body">
+					<div th:each="mk:${marketOptions}">
+						<form data-toggle="validator" class="form-horizontal"  action="#" method="post">
+							<input type="hidden" name="marketId" th:value="${mk.marketId}">
+							<input type="hidden" name="optionNum" th:value="${mk.optionNum}">
+							<input type="hidden" name="language.languageCode" th:value="${mk.language.languageCode}">
+							<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+							<label th:text="${mk.language.languageName}" class="col-sm-2 control-label"></label>
+							<div class="col-sm-8">
+								Short:<input class="form-control" type="text" name="shortName" th:value="${mk.shortName}" required maxlength="40"/>
+								Full:<input class="form-control" type="text" name="fullName" th:value="${mk.fullName}" required maxlength="40"/>
 							</div>
-						</div>
-
-						<div class="form-group" th:each="lc:${languageCodes}" th:if="${!#lists.contains(usedCodes, lc.languageCode)}">
-							<label th:for="${lc.languageCode}" th:text="|${lc.languageCode} ${lc.languageName}|" class="col-sm-2  control-label">DGT</label>
-							<div class="col-sm-10">
-								<input th:id="${lc.languageCode}" class="form-control" type="text" name="langName"/>
+							<div class="col-sm-2">
+								<button type="button" class="btn btn-primary">Save</button>
 							</div>
-						</div>
-
-
+						</form>
 					</div>
-					<div class="box-footer">
-						<button type="submit" class="btn btn-primary">Save</button>
-						<a href="/marketOption/i18nIndex/" class="btn btn-primary">Cancel</a>
-					</div>
-				</form>
+
+				</div>
+				<div class="box-footer">
+					<a href="/marketOption/i18nIndex/" class="btn btn-primary">返回</a>
+				</div>
 				<!-- /.box-body -->
 			</div>
 			<!-- /.box -->
@@ -59,7 +56,26 @@
 <th:block layout:fragment="script">
 	<script language="JavaScript">
 		$(document).ready(function () {
+			$(".btn").click(function(){
+				var form = $(this).parents('form:first');
 
+				//do validation
+				form.validate();
+				if (!form.valid()) {
+					return;
+				}
+
+				$.post( "/marketOption/saveI18n", form.serialize(), function( data ){
+					$.notify({
+						// options
+						message: data.message
+					},{
+						// settings
+						type: 'success',
+						delay: 1000
+					})
+				} );
+			});
 		})
 	</script>
 </th:block>

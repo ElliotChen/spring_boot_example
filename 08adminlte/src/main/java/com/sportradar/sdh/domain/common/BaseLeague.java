@@ -15,6 +15,7 @@ public abstract class BaseLeague extends BaseEntity {
     protected Long sportId;
     protected Long leagueGroupId;
 
+    protected Date createdTime;
     protected Date updatedTime;
 
     protected String leagueIdXRefs;

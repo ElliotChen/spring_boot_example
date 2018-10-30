@@ -8,12 +8,39 @@
       <arg column="brMarketIds" javaType="String"/>
     </constructor>
     <result column="marketName" property="marketName" jdbcType="VARCHAR" />
+
+    <result column="createdTime" property="createdTime" jdbcType="TIMESTAMP" />
     <result column="updatedTime" property="updatedTime" jdbcType="TIMESTAMP" />
     <result column="eventTypeId" property="eventTypeId" jdbcType="INTEGER" />
+
+    <result column="languageCode" property="language.languageCode"/>
+    <result column="languageName" property="language.languageName"/>
   </resultMap>
+
+  <resultMap id="languageResult" type="com.sportradar.sdh.domain.common.Language">
+    <result property="languageCode" column="languageCode" jdbcType="INTEGER"/>
+    <result property="languageName" column="languageName" jdbcType="VARCHAR"/>
+  </resultMap>
+
   <sql id="Base_Column_List" >
-    marketId, marketName, updatedTime, eventTypeId, SUBSTRING_INDEX(SUBSTRING_INDEX(marketIdXRefs, '|', 2), '|', -1) as brMarketIds, SUBSTRING_INDEX(marketIdXRefs, '|', 1) as dgtMarketIds
+    marketId, marketName, createdTime, updatedTime, eventTypeId,
+    SUBSTRING_INDEX(marketIdXRefs, '|', 1) as dgtMarketIds,
+    SUBSTRING_INDEX(SUBSTRING_INDEX(marketIdXRefs, '|', 2), '|', -1) as brMarketIds
   </sql>
+
+  <sql id="Language_Column_List">
+    m.marketId, IFNULL(mi.marketName, m.marketName) AS marketName, m.createdTime, m.updatedTime, m.eventTypeId,
+    SUBSTRING_INDEX(m.marketIdXRefs, '|', 1) as dgtMarketIds,
+    SUBSTRING_INDEX(SUBSTRING_INDEX(m.marketIdXRefs, '|', 2), '|', -1) as brMarketIds,
+    IFNULL(mi.languageCode, 1) AS languageCode, IFNULL(l.languageName, 'English') AS languageName
+	</sql>
+
+  <sql id="Language_Table_Join">
+		FROM Market m
+		LEFT JOIN Market_I18N mi ON m.marketId = mi.marketId
+		LEFT JOIN Language l  ON mi.languageCode = l.languageCode
+	</sql>
+
   <select id="findById" resultMap="BaseResultMap" >
     select
     <include refid="Base_Column_List" />
@@ -29,6 +56,53 @@
     SELECT <include refid="Base_Column_List"/>
     from Market
   </select>
+
+  <!--回传所有已设定语系翻译值，仅包含i18N里有储存的 -->
+  <select id="findAllWithLanguage" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Language_Column_List"/>
+    <include refid="Language_Table_Join"/>
+  </select>
+
+  <!--回传某一指定marketId的所有已设定语系翻译值，仅包含i18N里有储存的 -->
+  <select id="findByIdWithLanguage" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Language_Column_List"/>
+    <include refid="Language_Table_Join"/>
+    WHERE m.marketId = #{marketId}
+  </select>
+
+  <!--回传某一指定marketId的指定语系翻译值，仅包含i18N里有储存的 -->
+  <select id="findByIdAndLanguageCodeWithLanguage" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Language_Column_List"/>
+    <include refid="Language_Table_Join"/>
+    WHERE m.marketId = #{marketId} AND mi.languageCode = #{languageCode}
+  </select>
+
+  <!--回传某一指定marketId的所有语系翻译值，包含i18N里没有储存的 -->
+  <select id="findByIdWithAllLanguage" resultMap="BaseResultMap">
+		SELECT allLang.marketId, IFNULL(mi.marketName, allLang.marketName) AS marketName, allLang.createdTime, allLang.updatedTime, allLang.eventTypeId,
+		allLang.dgtMarketIds, allLang.brMarketIds, allLang.languageCode, allLang.languageName
+		FROM
+			(SELECT m.marketId, m.marketName, m.createdTime, m.updatedTime, m.eventTypeId,
+    SUBSTRING_INDEX(m.marketIdXRefs, '|', 1) as dgtMarketIds,
+    SUBSTRING_INDEX(SUBSTRING_INDEX(m.marketIdXRefs, '|', 2), '|', -1) as brMarketIds,
+    	l.languageCode, l.languageName
+			  FROM Market m, Language l WHERE m.marketId = #{marketId}) allLang
+		LEFT JOIN Market_I18N mi ON allLang.marketId = mi.marketId AND allLang.languageCode = mi.languageCode
+	</select>
+
+  <insert id="insertI18N" parameterType="com.sportradar.sdh.domain.sdp.Market">
+		INSERT INTO Market_I18N (marketId, languageCode, marketName)
+		VALUES (#{marketId}, #{language.languageCode}, #{marketName})
+	</insert>
+
+  <update id="updateI18N" parameterType="com.sportradar.sdh.domain.sdp.Market">
+		UPDATE Market_I18N
+		SET marketName = #{marketName}
+		WHERE  marketId=#{marketId} AND languageCode=#{language.languageCode}
+	</update>
   <!--
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 

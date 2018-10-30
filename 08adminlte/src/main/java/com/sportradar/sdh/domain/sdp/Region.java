@@ -28,7 +28,8 @@ public class Region extends BaseRegion {
 	}
 
 	public Region(Integer regionNum, String dgtRegionNums, String brRegionNums) {
-		this.setRegionNum(regionNum);
+		super();
+		this.regionNum = regionNum;
 
 		this.initDgtXRefs(dgtRegionNums);
 		this.initBrXRefs(brRegionNums);

@@ -28,7 +28,8 @@ public class Market extends BaseMarket {
 	}
 
 	public Market(Long marketId, String dgtSportMarketIds, String brMarketIds) {
-		this.setMarketId(marketId);
+		super();
+		this.marketId = marketId;
 
 		this.initDgtXRefs(dgtSportMarketIds);
 		this.initBrXRefs(brMarketIds);

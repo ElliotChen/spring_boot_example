@@ -1,167 +1,241 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sportradar.sdh.dao.sdp.SdpMarketOptionDao">
-  <resultMap id="BaseResultMap" type="com.sportradar.sdh.domain.sdp.MarketOption">
-    <constructor>
-      <idArg column="marketId" javaType="Long"/>
-      <idArg column="optionNum" javaType="Integer"/>
-      <arg column="dgtMarketOptionIds" javaType="String"/>
-      <arg column="brMarketOptionIds" javaType="String"/>
-    </constructor>
+	<resultMap id="BaseResultMap" type="com.sportradar.sdh.domain.sdp.MarketOption">
+		<constructor>
+			<idArg column="marketId" javaType="Long"/>
+			<idArg column="optionNum" javaType="Integer"/>
+			<arg column="dgtMarketOptionIds" javaType="String"/>
+			<arg column="brMarketOptionIds" javaType="String"/>
+		</constructor>
 
-    <result column="shortName" jdbcType="VARCHAR" property="shortName" />
-    <result column="updatedTime" jdbcType="TIMESTAMP" property="updatedTime" />
-    <result column="fullName" jdbcType="VARCHAR" property="fullName" />
-  </resultMap>
-  <sql id="Base_Column_List">
-    marketId, optionNum, shortName, updatedTime, fullName, SUBSTRING_INDEX(marketOptionIdXRefs, '|', 1) as dgtMarketOptionIds , SUBSTRING_INDEX(SUBSTRING_INDEX(marketOptionIdXRefs, '|', 2), '|', -1) as brMarketOptionIds
+		<result column="shortName" jdbcType="VARCHAR" property="shortName"/>
+		<result column="updatedTime" jdbcType="TIMESTAMP" property="updatedTime"/>
+		<result column="fullName" jdbcType="VARCHAR" property="fullName"/>
+
+		<result column="languageCode" property="language.languageCode"/>
+		<result column="languageName" property="language.languageName"/>
+	</resultMap>
+
+	<resultMap id="languageResult" type="com.sportradar.sdh.domain.common.Language">
+		<result property="languageCode" column="languageCode" jdbcType="INTEGER"/>
+		<result property="languageName" column="languageName" jdbcType="VARCHAR"/>
+	</resultMap>
+
+	<sql id="Base_Column_List">
+    	marketId, optionNum, shortName, fullName, updatedTime,
+    	SUBSTRING_INDEX(marketOptionIdXRefs, '|', 1) as dgtMarketOptionIds,
+    	SUBSTRING_INDEX(SUBSTRING_INDEX(marketOptionIdXRefs, '|', 2), '|', -1) as brMarketOptionIds
   </sql>
-  <select id="findById" resultMap="BaseResultMap" >
-    select
-    <include refid="Base_Column_List" />
-    from MarketOption
-    where marketId = #{marketId} and optionNum = #{optionNum}
-  </select>
-  <select id="findAll" resultMap="BaseResultMap" >
-    SELECT <include refid="Base_Column_List"/>
-    from MarketOption
-  </select>
 
-  <select id="findByPage" resultMap="BaseResultMap" >
-    SELECT <include refid="Base_Column_List"/>
-    from MarketOption
-  </select>
-  <!--
-  <select id="selectByPrimaryKey" parameterType="map" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List" />
-    from MarketOption
-    where marketId = #{marketId,jdbcType=BIGINT}
-    and optionNum = #{optionNum,jdbcType=INTEGER}
-  </select>
+	<sql id="Language_Column_List">
+    	m.marketId, m.optionNum, IFNULL(mi.shortName,m.shortName) as shortName, IFNULL(mi.fullName,m.fullName) as fullName, m.updatedTime,
+    	SUBSTRING_INDEX(m.marketOptionIdXRefs, '|', 1) as dgtMarketOptionIds,
+    	SUBSTRING_INDEX(SUBSTRING_INDEX(m.marketOptionIdXRefs, '|', 2), '|', -1) as brMarketOptionIds,
+    	IFNULL(mi.languageCode, 1) AS languageCode, IFNULL(l.languageName, 'English') AS languageName
+	</sql>
 
-  <select id="queryMarketOptions" parameterType="map" resultType="map">
-    SELECT marketId,optionNum FROM `MarketOption` where  marketId = #{marketId,jdbcType=BIGINT}
-  </select>
+	<sql id="Language_Table_Join">
+		FROM MarketOption m
+		LEFT JOIN MarketOption_I18N mi ON m.marketId = mi.marketId AND m.optionNum = mi.optionNum
+		LEFT JOIN Language l  ON mi.languageCode = l.languageCode
+	</sql>
 
-  <select id="queryMarketOptionI18N" resultType="java.util.Map">
-    select 1 languageCode, shortName nameColumn from MarketOption where marketId = #{marketId,jdbcType=BIGINT} and optionNum = #{optionNum,jdbcType=INTEGER}
-    UNION
-    select languageCode,shortName nameColumn from MarketOption_I18N where marketId = #{marketId,jdbcType=BIGINT} and optionNum = #{optionNum,jdbcType=INTEGER}
-  </select>
+	<select id="findById" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List"/>
+		from MarketOption
+		where marketId = #{marketId} AND optionNum = #{optionNum}
+	</select>
+	<select id="findAll" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List"/>
+		from MarketOption
+	</select>
 
-  <insert id="insert" parameterType="com.betmatrix.theonex.dao.model.MarketOption">
-    insert into MarketOption (marketId, optionNum, shortName,
-    updatedTime, fullName)
-    values (#{marketId,jdbcType=BIGINT}, #{optionNum,jdbcType=INTEGER}, #{shortName,jdbcType=VARCHAR},
-    #{updatedTime,jdbcType=TIMESTAMP}, #{fullName,jdbcType=VARCHAR})
-  </insert>
-  <insert id="insertSelective" parameterType="com.betmatrix.theonex.dao.model.MarketOption">
-    insert into MarketOption
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="marketId != null">
-        marketId,
-      </if>
-      <if test="optionNum != null">
-        optionNum,
-      </if>
-      <if test="shortName != null">
-        shortName,
-      </if>
-      <if test="updatedTime != null">
-        updatedTime,
-      </if>
-      <if test="fullName != null">
-        fullName,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="marketId != null">
-        #{marketId,jdbcType=BIGINT},
-      </if>
-      <if test="optionNum != null">
-        #{optionNum,jdbcType=INTEGER},
-      </if>
-      <if test="shortName != null">
-        #{shortName,jdbcType=VARCHAR},
-      </if>
-      <if test="updatedTime != null">
-        #{updatedTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="fullName != null">
-        #{fullName,jdbcType=VARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <insert id="saveOrUpdated" parameterType="com.betmatrix.theonex.dao.model.MarketOption">
-    insert into MarketOption
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="marketId != null">
-        marketId,
-      </if>
-      <if test="optionNum != null">
-        optionNum,
-      </if>
-      <if test="shortName != null">
-        shortName,
-      </if>
-      <if test="updatedTime != null">
-        updatedTime,
-      </if>
-      <if test="fullName != null">
-        fullName,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="marketId != null">
-        #{marketId,jdbcType=BIGINT},
-      </if>
-      <if test="optionNum != null">
-        #{optionNum,jdbcType=INTEGER},
-      </if>
-      <if test="shortName != null">
-        #{shortName,jdbcType=VARCHAR},
-      </if>
-      <if test="updatedTime != null">
-        #{updatedTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="fullName != null">
-        #{fullName,jdbcType=VARCHAR},
-      </if>
-    </trim>
-    on duplicate key UPDATE
-    <trim suffixOverrides = ",">
-      <if test="shortName != null" >
-        shortName = VALUES(shortName),
-      </if>
-      <if test="fullName != null" >
-        fullName = VALUES(fullName),
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.betmatrix.theonex.dao.model.MarketOption">
-    update MarketOption
-    <set>
-      <if test="shortName != null">
-        shortName = #{shortName,jdbcType=VARCHAR},
-      </if>
-      <if test="updatedTime != null">
-        updatedTime = #{updatedTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="fullName != null">
-        fullName = #{fullName,jdbcType=VARCHAR},
-      </if>
-    </set>
-    where marketId = #{marketId,jdbcType=BIGINT}
-    and optionNum = #{optionNum,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.betmatrix.theonex.dao.model.MarketOption">
-    update MarketOption
-    set shortName = #{shortName,jdbcType=VARCHAR},
-      updatedTime = #{updatedTime,jdbcType=TIMESTAMP},
-      fullName = #{fullName,jdbcType=VARCHAR}
-    where marketId = #{marketId,jdbcType=BIGINT}
-      and optionNum = #{optionNum,jdbcType=INTEGER}
-  </update>
-  -->
+	<select id="findByPage" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List"/>
+		from MarketOption
+	</select>
+
+	<!--回传所有已设定语系翻译值，仅包含i18N里有储存的 -->
+	<select id="findAllWithLanguage" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Language_Column_List"/>
+		<include refid="Language_Table_Join"/>
+	</select>
+
+	<!--回传某一指定marketId的所有已设定语系翻译值，仅包含i18N里有储存的 -->
+	<select id="findByIdWithLanguage" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Language_Column_List"/>
+		<include refid="Language_Table_Join"/>
+		WHERE m.marketId = #{marketId} AND m.optionNum = #{optionNum}
+	</select>
+
+	<!--回传某一指定marketId的指定语系翻译值，仅包含i18N里有储存的 -->
+	<select id="findByIdAndLanguageCodeWithLanguage" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Language_Column_List"/>
+		<include refid="Language_Table_Join"/>
+		WHERE m.marketId = #{marketId} AND m.optionNum = #{optionNum} AND mi.languageCode = #{languageCode}
+	</select>
+
+	<!--回传某一指定marketId的所有语系翻译值，包含i18N里没有储存的 -->
+	<select id="findByIdWithAllLanguage" resultMap="BaseResultMap">
+		SELECT allLang.marketId, allLang.optionNum, IFNULL(mi.shortName,allLang.shortName) as shortName, IFNULL(mi.fullName,allLang.fullName) as fullName, allLang.updatedTime,
+    	allLang.dgtMarketOptionIds, allLang.brMarketOptionIds, allLang.languageCode, allLang.languageName
+		FROM
+			(SELECT m.marketId, m.optionNum, m.shortName, m.fullName, m.updatedTime,
+    	SUBSTRING_INDEX(m.marketOptionIdXRefs, '|', 1) as dgtMarketOptionIds,
+    	SUBSTRING_INDEX(SUBSTRING_INDEX(m.marketOptionIdXRefs, '|', 2), '|', -1) as brMarketOptionIds,
+    	l.languageCode, l.languageName
+			  FROM MarketOption m, Language l WHERE m.marketId = #{marketId} AND m.optionNum = #{optionNum}) allLang
+		LEFT JOIN MarketOption_I18N mi ON allLang.marketId = mi.marketId AND allLang.optionNum = mi.optionNum AND allLang.languageCode = mi.languageCode
+	</select>
+
+	<insert id="insertI18N" parameterType="com.sportradar.sdh.domain.sdp.MarketOption">
+		INSERT INTO MarketOption_I18N (marketId, optionNum, languageCode, shortName, fullName)
+		VALUES (#{marketId}, #{optionNum}, #{language.languageCode}, #{shortName}, #{fullName})
+	</insert>
+
+	<update id="updateI18N" parameterType="com.sportradar.sdh.domain.sdp.MarketOption">
+		UPDATE MarketOption_I18N
+		SET shortName = #{shortName}, fullName = #{fullName}
+		WHERE  marketId=#{marketId} AND optionNum = #{optionNum} AND languageCode=#{language.languageCode}
+	</update>
+	<!--
+	<select id="selectByPrimaryKey" parameterType="map" resultMap="BaseResultMap">
+	  select
+	  <include refid="Base_Column_List" />
+	  from MarketOption
+	  where marketId = #{marketId,jdbcType=BIGINT}
+	  and optionNum = #{optionNum,jdbcType=INTEGER}
+	</select>
+
+	<select id="queryMarketOptions" parameterType="map" resultType="map">
+	  SELECT marketId,optionNum FROM `MarketOption` where  marketId = #{marketId,jdbcType=BIGINT}
+	</select>
+
+	<select id="queryMarketOptionI18N" resultType="java.util.Map">
+	  select 1 languageCode, shortName nameColumn from MarketOption where marketId = #{marketId,jdbcType=BIGINT} and optionNum = #{optionNum,jdbcType=INTEGER}
+	  UNION
+	  select languageCode,shortName nameColumn from MarketOption_I18N where marketId = #{marketId,jdbcType=BIGINT} and optionNum = #{optionNum,jdbcType=INTEGER}
+	</select>
+
+	<insert id="insert" parameterType="com.betmatrix.theonex.dao.model.MarketOption">
+	  insert into MarketOption (marketId, optionNum, shortName,
+	  updatedTime, fullName)
+	  values (#{marketId,jdbcType=BIGINT}, #{optionNum,jdbcType=INTEGER}, #{shortName,jdbcType=VARCHAR},
+	  #{updatedTime,jdbcType=TIMESTAMP}, #{fullName,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="com.betmatrix.theonex.dao.model.MarketOption">
+	  insert into MarketOption
+	  <trim prefix="(" suffix=")" suffixOverrides=",">
+		<if test="marketId != null">
+		  marketId,
+		</if>
+		<if test="optionNum != null">
+		  optionNum,
+		</if>
+		<if test="shortName != null">
+		  shortName,
+		</if>
+		<if test="updatedTime != null">
+		  updatedTime,
+		</if>
+		<if test="fullName != null">
+		  fullName,
+		</if>
+	  </trim>
+	  <trim prefix="values (" suffix=")" suffixOverrides=",">
+		<if test="marketId != null">
+		  #{marketId,jdbcType=BIGINT},
+		</if>
+		<if test="optionNum != null">
+		  #{optionNum,jdbcType=INTEGER},
+		</if>
+		<if test="shortName != null">
+		  #{shortName,jdbcType=VARCHAR},
+		</if>
+		<if test="updatedTime != null">
+		  #{updatedTime,jdbcType=TIMESTAMP},
+		</if>
+		<if test="fullName != null">
+		  #{fullName,jdbcType=VARCHAR},
+		</if>
+	  </trim>
+	</insert>
+	<insert id="saveOrUpdated" parameterType="com.betmatrix.theonex.dao.model.MarketOption">
+	  insert into MarketOption
+	  <trim prefix="(" suffix=")" suffixOverrides=",">
+		<if test="marketId != null">
+		  marketId,
+		</if>
+		<if test="optionNum != null">
+		  optionNum,
+		</if>
+		<if test="shortName != null">
+		  shortName,
+		</if>
+		<if test="updatedTime != null">
+		  updatedTime,
+		</if>
+		<if test="fullName != null">
+		  fullName,
+		</if>
+	  </trim>
+	  <trim prefix="values (" suffix=")" suffixOverrides=",">
+		<if test="marketId != null">
+		  #{marketId,jdbcType=BIGINT},
+		</if>
+		<if test="optionNum != null">
+		  #{optionNum,jdbcType=INTEGER},
+		</if>
+		<if test="shortName != null">
+		  #{shortName,jdbcType=VARCHAR},
+		</if>
+		<if test="updatedTime != null">
+		  #{updatedTime,jdbcType=TIMESTAMP},
+		</if>
+		<if test="fullName != null">
+		  #{fullName,jdbcType=VARCHAR},
+		</if>
+	  </trim>
+	  on duplicate key UPDATE
+	  <trim suffixOverrides = ",">
+		<if test="shortName != null" >
+		  shortName = VALUES(shortName),
+		</if>
+		<if test="fullName != null" >
+		  fullName = VALUES(fullName),
+		</if>
+	  </trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.betmatrix.theonex.dao.model.MarketOption">
+	  update MarketOption
+	  <set>
+		<if test="shortName != null">
+		  shortName = #{shortName,jdbcType=VARCHAR},
+		</if>
+		<if test="updatedTime != null">
+		  updatedTime = #{updatedTime,jdbcType=TIMESTAMP},
+		</if>
+		<if test="fullName != null">
+		  fullName = #{fullName,jdbcType=VARCHAR},
+		</if>
+	  </set>
+	  where marketId = #{marketId,jdbcType=BIGINT}
+	  and optionNum = #{optionNum,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.betmatrix.theonex.dao.model.MarketOption">
+	  update MarketOption
+	  set shortName = #{shortName,jdbcType=VARCHAR},
+		updatedTime = #{updatedTime,jdbcType=TIMESTAMP},
+		fullName = #{fullName,jdbcType=VARCHAR}
+	  where marketId = #{marketId,jdbcType=BIGINT}
+		and optionNum = #{optionNum,jdbcType=INTEGER}
+	</update>
+	-->
 </mapper>

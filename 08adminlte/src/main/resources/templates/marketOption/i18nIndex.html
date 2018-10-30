@@ -24,6 +24,7 @@
 						<tr>
 							<th>Market Id</th>
 							<th>Option Num</th>
+							<th>Short Name</th>
 							<th>Full Name</th>
 							<th>Language</th>
 							<th>function</th>
@@ -53,6 +54,8 @@
 				}, {
 					data: 'optionNum'
 				}, {
+					data: 'shortName'
+				},{
 					data: 'fullName'
 				},{
 					data: 'langString',
@@ -63,7 +66,7 @@
 					orderable: false,
 					searchable: false,
 					render: function(data, type, row){
-						return '<a href="/marketOption/i18n/'+data.expressId+'" class="btn btn-primary">修改</a>';
+						return '<a href="/marketOption/i18n/'+data.marketId+'/'+data.optionNum+'" class="btn btn-primary">修改</a>';
 					}
 
 				}]
