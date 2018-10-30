@@ -28,7 +28,7 @@ public class Market extends BaseMarket {
 	public static Market ofRefCompositeId(String compositeKey, Long refMarketId) {
 		Market market = null;
 
-		if (StringUtils.isEmpty(compositeKey) || "-1 -1".equals(compositeKey)) {
+		if (StringUtils.isEmpty(compositeKey) || compositeKey.startsWith("-1")) {
 			return market;
 		}
 
@@ -41,5 +41,10 @@ public class Market extends BaseMarket {
 		market.setMarketRef(new com.sportradar.sdh.domain.sdp.Market(refMarketId));
 
 		return market;
+	}
+
+	@Override
+	public String getCompositedId() {
+		return String.valueOf(this.marketId + " " + marketTypeId);
 	}
 }

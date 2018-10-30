@@ -32,4 +32,8 @@ public class RegionSport extends BaseRegionSport {
 
 		return regionSport;
 	}
+
+	public String getCompositedId() {
+		return String.valueOf(this.regionNum)+" "+String.valueOf(this.sportId);
+	}
 }

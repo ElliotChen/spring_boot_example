@@ -1,6 +1,7 @@
 package com.sportradar.sdh.domain.sdp;
 
 import com.sportradar.sdh.domain.common.BaseLeague;
+import com.sportradar.sdh.domain.common.IdCompositable;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +30,15 @@ public class League extends BaseLeague {
 	public League(Long leagueId, String dgtLeagueIds, String brLeagueIds) {
 		this.setSportId(leagueId);
 
+		this.initDgtXRefs(dgtLeagueIds);
+		this.initBrXRefs(brLeagueIds);
+
+		referLeagueXRefs.clear();
+		referLeagueXRefs.addAll(this.dgtLeagueXRefs);
+		referLeagueXRefs.addAll(this.brLeagueXRefs);
+	}
+
+	public void initDgtXRefs(String dgtLeagueIds) {
 		String[] refSportIds = org.apache.commons.lang3.StringUtils.split(dgtLeagueIds, ',');
 		dgtLeagueXRefs.clear();
 		if (null != refSportIds) {
@@ -38,20 +48,30 @@ public class League extends BaseLeague {
 				}
 			}
 		}
+	}
 
-
-		refSportIds = org.apache.commons.lang3.StringUtils.split(brLeagueIds, ',');
+	public void initBrXRefs(String brLeagueIds) {
+		String[] refSportIds = org.apache.commons.lang3.StringUtils.split(brLeagueIds, ',');
 		brLeagueXRefs.clear();
 		if (null != refSportIds) {
 			for (String id : refSportIds) {
 				if (StringUtils.isNumeric(id) && !"-1".equals(id)) {
-					brLeagueXRefs.add(new com.sportradar.sdh.domain.br.League(Long.parseLong(id)));
+					brLeagueXRefs.add(new com.sportradar.sdh.domain.br.League(Long.parseLong(id), leagueId));
 				}
 			}
 		}
+	}
 
-		referLeagueXRefs.clear();
-		referLeagueXRefs.addAll(this.dgtLeagueXRefs);
-		referLeagueXRefs.addAll(this.brLeagueXRefs);
+	@Override
+	public String getCompositedId() {
+		return String.valueOf(this.leagueId);
+	}
+
+	public String getDgtIdXRefs() {
+		return IdCompositable.joinCompositedId(this.dgtLeagueXRefs);
+	}
+
+	public String getBrIdXRefs() {
+		return IdCompositable.joinCompositedId(this.brLeagueXRefs);
 	}
 }

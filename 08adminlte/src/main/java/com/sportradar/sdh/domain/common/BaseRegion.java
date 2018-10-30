@@ -12,11 +12,11 @@ import java.util.Date;
 @Data
 public abstract class BaseRegion extends BaseEntity {
 
-	private Integer regionNum;
-	private String regionShortName;
-	private String regionFullName;
-	private String alias;
+	protected Integer regionNum;
+	protected String regionShortName;
+	protected String regionFullName;
+	protected String alias;
 
-	private Date updatedTime;
+	protected Date updatedTime;
 
 }

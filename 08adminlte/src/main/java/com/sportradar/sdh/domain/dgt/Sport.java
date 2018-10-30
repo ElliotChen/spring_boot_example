@@ -15,7 +15,7 @@ public class Sport extends BaseSport {
 	}
 
 	public Sport(Long sportId, String sportIdRef) {
-		this.setSportId(sportId);
+		this.sportId = sportId;
 
 		if (!"-1".equals(sportIdRef)) {
 
@@ -24,9 +24,13 @@ public class Sport extends BaseSport {
 	}
 
 	public Sport(Long sportId, Long sportIdRef) {
-		this.setSportId(sportId);
+		this.sportId = sportId;
 
 		this.sportRef = new com.sportradar.sdh.domain.sdp.Sport(sportIdRef);
 
+	}
+
+	public String getCompositedId() {
+		return String.valueOf(this.sportId);
 	}
 }

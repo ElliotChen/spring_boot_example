@@ -32,4 +32,8 @@ public class Sport extends BaseSport {
 		this.sportRef = new com.sportradar.sdh.domain.sdp.Sport(sportIdRef);
 
 	}
+
+	public String getCompositedId() {
+		return String.valueOf(this.sportId);
+	}
 }

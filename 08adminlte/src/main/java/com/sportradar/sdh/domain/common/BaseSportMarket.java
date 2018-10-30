@@ -5,17 +5,17 @@ import lombok.Data;
 import java.io.Serializable;
 
 @Data
-public abstract class BaseSportMarket implements Serializable {
+public abstract class BaseSportMarket extends BaseEntity {
 
-    private Long sportId;
-    private Integer eventPartId;
-    private Long marketId;
+    protected Long sportId;
+    protected Integer eventPartId;
+    protected Long marketId;
 
-    private Integer marketTypeId;
+    protected Integer marketTypeId;
 
-    private String sportMarketName;
+    protected String sportMarketName;
 
-    private Integer priority;
+    protected Integer priority;
 
 
 }

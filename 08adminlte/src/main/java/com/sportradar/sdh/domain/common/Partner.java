@@ -8,10 +8,9 @@ import javax.persistence.Id;
 @Data
 @NoArgsConstructor
 public class Partner {
-	@Id
-	private Integer partnerId;
+	protected Integer partnerId;
 
-	private String partnerName;
+	protected String partnerName;
 
 	public Partner(Integer partnerId, String partnerName) {
 		this.partnerId = partnerId;

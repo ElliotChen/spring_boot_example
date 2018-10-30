@@ -1,6 +1,7 @@
 package com.sportradar.sdh.domain.sdp;
 
 import com.sportradar.sdh.domain.common.BaseSport;
+import com.sportradar.sdh.domain.common.IdCompositable;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,98 +26,54 @@ public class Sport extends BaseSport {
 	}
 
 	public Sport(Long sportId, String dgtSportIds, String brSportIds) {
-		this.setSportId(sportId);
+		super();
 
-		String[] refSportIds = org.apache.commons.lang3.StringUtils.split(dgtSportIds, ',');
-		dgtSportXRefs.clear();
-		if (null != refSportIds) {
-			for (String id : refSportIds) {
-				if (StringUtils.isNumeric(id) && !"-1".equals(id)) {
-					dgtSportXRefs.add(new com.sportradar.sdh.domain.dgt.Sport(Long.parseLong(id), sportId));
-				}
-			}
-		}
+		this.sportId = sportId;
 
+		this.initDgtXRefs(dgtSportIds);
 
-		refSportIds = org.apache.commons.lang3.StringUtils.split(brSportIds, ',');
-		brSportXRefs.clear();
-		if (null != refSportIds) {
-			for (String id : refSportIds) {
-				if (StringUtils.isNumeric(id) && !"-1".equals(id)) {
-					brSportXRefs.add(new com.sportradar.sdh.domain.br.Sport(Long.parseLong(id)));
-				}
-			}
-		}
+		this.initBrXRefs(brSportIds);
 
 		referSportXRefs.clear();
 		referSportXRefs.addAll(this.dgtSportXRefs);
 		referSportXRefs.addAll(this.brSportXRefs);
 	}
 
-	/*
-	@PostLoad
-	public void splitSportIdXRefs() {
-		String tmpSportIdXRefs = this.getSportIdXRefs();
-
-		if (StringUtils.isEmpty(tmpSportIdXRefs)) {
-			return;
-		}
-
-		if (!tmpSportIdXRefs.contains("|")) {
-			return;
-		}
-
-		String[] refs = tmpSportIdXRefs.split("\\|");
-
-		if (refs.length != 2) {
-			log.warn("Incorrect Size for sportIdXRefs[{}], please check SDH Sport id[{}]", tmpSportIdXRefs, this.getSportId());
-		}
-
-		this.dgtSportIdXRefs = refs[0];
-		this.brSportIdXRefs = refs[1];
-
-	}
-
-
-	public String getLangString() {
-		StringBuilder sb = new StringBuilder();
-		sb.append("[");
-
-		//Make sure Fetch executing
-		List<SportLanguage> langs = this.getLanguages();
-
-		if (null != langs && !langs.isEmpty()) {
-			Iterator<SportLanguage> it = langs.iterator();
-
-			while(it.hasNext()) {
-				SportLanguage sl = it.next();
-				sb.append(sl.getLanguageCode());
-				sb.append(":");
-				sb.append(sl.getSportName());
-				if (it.hasNext()) {
-					sb.append(",");
+	public void initDgtXRefs(String dgtXRefIds) {
+		String[] xrefIds = StringUtils.split(dgtXRefIds, ',');
+		dgtSportXRefs.clear();
+		if (null != xrefIds) {
+			for (String id : xrefIds) {
+				if (StringUtils.isNumeric(id) && !"-1".equals(id)) {
+					dgtSportXRefs.add(new com.sportradar.sdh.domain.dgt.Sport(Long.parseLong(id), sportId));
 				}
 			}
 		}
+	}
 
-		sb.append("]");
-
-		return sb.toString();
+	public void initBrXRefs(String brXRefIds) {
+		String[] xrefIds = StringUtils.split(brXRefIds, ',');
+		brSportXRefs.clear();
+		if (null != xrefIds) {
+			for (String id : xrefIds) {
+				if (StringUtils.isNumeric(id) && !"-1".equals(id)) {
+					brSportXRefs.add(new com.sportradar.sdh.domain.br.Sport(Long.parseLong(id), sportId));
+				}
+			}
+		}
 	}
 
 	@Override
-	public String getExpressId() {
-		return this.getSportId().toString();
+	public String getCompositedId() {
+		return String.valueOf(this.sportId);
 	}
 
-	@Override
-	public String getIdXRefs() {
-		return this.getSportIdXRefs();
+	public String getDgtIdXRefs() {
+		return IdCompositable.joinCompositedId(this.dgtSportXRefs);
 	}
 
-	@Override
-	public void setMergedIdXRefs(String mergedIdXRefs) {
-		this.setSportIdXRefs(mergedIdXRefs);
+	public String getBrIdXRefs() {
+		return IdCompositable.joinCompositedId(this.brSportXRefs);
 	}
-	*/
+
 }

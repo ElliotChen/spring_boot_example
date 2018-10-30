@@ -48,4 +48,9 @@ public class SportMarket extends BaseSportMarket {
 
         return sportMarket;
     }
+
+    @Override
+    public String getCompositedId() {
+        return String.valueOf(this.sportId + " " + this.marketId + " " + this.eventPartId + " " + this.periodNum);
+    }
 }

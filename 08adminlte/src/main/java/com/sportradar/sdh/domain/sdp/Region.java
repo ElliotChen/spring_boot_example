@@ -2,9 +2,11 @@ package com.sportradar.sdh.domain.sdp;
 
 import com.sportradar.sdh.domain.common.BaseRegion;
 import com.sportradar.sdh.domain.common.BaseRegionSport;
+import com.sportradar.sdh.domain.common.IdCompositable;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +30,15 @@ public class Region extends BaseRegion {
 	public Region(Integer regionNum, String dgtRegionNums, String brRegionNums) {
 		this.setRegionNum(regionNum);
 
+		this.initDgtXRefs(dgtRegionNums);
+		this.initBrXRefs(brRegionNums);
+
+		referRegionXRefs.clear();
+		referRegionXRefs.addAll(this.dgtRegionXRefs);
+		referRegionXRefs.addAll(this.brRegionXRefs);
+	}
+
+	public void initDgtXRefs(String dgtRegionNums) {
 		String[] refRegionIds = org.apache.commons.lang3.StringUtils.split(dgtRegionNums, ',');
 		dgtRegionXRefs.clear();
 		if (null != refRegionIds) {
@@ -38,9 +49,10 @@ public class Region extends BaseRegion {
 				}
 			}
 		}
+	}
 
-
-		refRegionIds = org.apache.commons.lang3.StringUtils.split(brRegionNums, ',');
+	public void initBrXRefs(String brRegionNums) {
+		String[] refRegionIds = org.apache.commons.lang3.StringUtils.split(brRegionNums, ',');
 		brRegionXRefs.clear();
 		if (null != refRegionIds) {
 			for (String id : refRegionIds) {
@@ -50,9 +62,18 @@ public class Region extends BaseRegion {
 				}
 			}
 		}
+	}
 
-		referRegionXRefs.clear();
-		referRegionXRefs.addAll(this.dgtRegionXRefs);
-		referRegionXRefs.addAll(this.brRegionXRefs);
+	@Override
+	public String getCompositedId() {
+		return String.valueOf(this.regionNum);
+	}
+
+	public String getDgtIdXRefs() {
+		return IdCompositable.joinCompositedId(this.dgtRegionXRefs);
+	}
+
+	public String getBrIdXRefs() {
+		return IdCompositable.joinCompositedId(this.brRegionXRefs);
 	}
 }

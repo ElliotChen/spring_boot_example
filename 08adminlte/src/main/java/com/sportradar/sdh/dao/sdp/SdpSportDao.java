@@ -14,4 +14,16 @@ public interface SdpSportDao {
 	List<Sport> findAll();
 
 	Page<Sport> findByPage();
+
+	List<Sport> findAllWithLanguage();
+
+	List<Sport> findByIdWithLanguage(@Param("sportId") Long sportId);
+
+	List<Sport> findByIdWithAllLanguage(@Param("sportId") Long sportId);
+
+	Sport findByIdAndLanguageCodeWithLanguage(@Param("sportId") Long sportId, @Param("languageCode") Integer languageCode);
+
+	void insertI18N(Sport sport);
+
+	void updateI18N(Sport sport);
 }

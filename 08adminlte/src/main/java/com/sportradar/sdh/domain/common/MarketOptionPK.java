@@ -24,7 +24,7 @@ public class MarketOptionPK implements Serializable {
 		this.optionNum = Integer.valueOf(strings[1]);
 
 	}
-	private Long marketId;
+	protected Long marketId;
 
-	private Integer optionNum;
+	protected Integer optionNum;
 }

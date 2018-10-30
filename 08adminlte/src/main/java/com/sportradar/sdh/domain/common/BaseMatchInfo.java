@@ -18,18 +18,18 @@ import java.util.Date;
 @Data
 public abstract class BaseMatchInfo {
 
-    private Long matchId;
-    private Boolean isInLive;
-    private Long leagueId;
-    private String matchTitle;
-    private Date matchTime;
-    private Long sportId;
-    private Integer priority;
-    private Boolean isActive;
-    private String currentScore;
-    private Integer status;
-    private Date updatedTime;
+    protected Long matchId;
+    protected Boolean isInLive;
+    protected Long leagueId;
+    protected String matchTitle;
+    protected Date matchTime;
+    protected Long sportId;
+    protected Integer priority;
+    protected Boolean isActive;
+    protected String currentScore;
+    protected Integer status;
+    protected Date updatedTime;
 
-    private String matchIdXRefs;
+    protected String matchIdXRefs;
 
 }

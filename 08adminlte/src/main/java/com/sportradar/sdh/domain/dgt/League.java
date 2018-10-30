@@ -31,4 +31,9 @@ public class League extends BaseLeague {
 		this.leagueRef = new com.sportradar.sdh.domain.sdp.League(leagueIdRef);
 
 	}
+
+	@Override
+	public String getCompositedId() {
+		return String.valueOf(this.leagueId);
+	}
 }

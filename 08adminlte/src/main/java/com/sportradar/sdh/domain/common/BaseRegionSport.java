@@ -5,12 +5,12 @@ import lombok.Data;
 import java.util.Date;
 
 @Data
-public abstract class BaseRegionSport {
-	private Integer regionNum;
+public abstract class BaseRegionSport extends BaseEntity {
+	protected Integer regionNum;
 
-	private Long sportId;
+	protected Long sportId;
 
-	private Integer regionSportXRef;
+	protected Integer regionSportXRef;
 
-	private Date updatedTime;
+	protected Date updatedTime;
 }

@@ -1,10 +1,17 @@
 package com.sportradar.sdh.ctrl;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.sportradar.sdh.dao.sdp.SdpLanguageDao;
 import com.sportradar.sdh.dao.sdp.SdpLeagueDao;
+import com.sportradar.sdh.domain.sdp.League;
+import com.sportradar.sdh.dto.dts.DataTablesInput;
+import com.sportradar.sdh.dto.dts.DataTablesOutput;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/league/*")
@@ -15,6 +22,37 @@ public class LeagueCtrl {
 
 	private SdpLanguageDao sdpLanguageDao;
 
+	@GetMapping("/")
+	public String index() {
+		return prefix+"/pairIndex";
+	}
+
+	@GetMapping("/i18nIndex")
+	public String i18nIndex() {
+		return prefix+"/i18nIndex";
+	}
+
+	@GetMapping("/dataIndex")
+	public String dataIndex() {
+		return prefix+"/dataIndex";
+	}
+
+	@GetMapping("/findAll")
+	@ResponseBody
+	public DataTablesOutput<League> findAll(@Valid DataTablesInput input) {
+		//DataTablesOutput<MarketOption> ds = this.sdhMarketOptionDao.findAll(input);
+
+		PageHelper.startPage((input.getStart() / input.getLength()) +1 , input.getLength());
+
+		Page<League> page = this.sdpLeagueDao.findByPage();
+		DataTablesOutput<League> ds = new DataTablesOutput<League>();
+		ds.setData(page.getResult());
+		ds.setDraw(input.getDraw());
+		ds.setRecordsFiltered(page.getTotal());
+		ds.setRecordsTotal(page.getTotal());
+
+		return  ds;
+	}
 	/*
 	@GetMapping("/findAll")
 	@ResponseBody

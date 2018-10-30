@@ -2,26 +2,19 @@ package com.sportradar.sdh.domain.common;
 
 import lombok.Data;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
-
 @Data
 public abstract class BaseCompetitor {
-	@Id
-	@GeneratedValue(strategy= GenerationType.IDENTITY)
-	private Long competitorId;
+	protected Long competitorId;
 
-	private String competitorFullName;
+	protected String competitorFullName;
 
-	private String competitorShortName;
+	protected String competitorShortName;
 
-	private String alias;
+	protected String alias;
 
-	private Integer regionNum;
+	protected Integer regionNum;
 
-	private Long sportId;
+	protected Long sportId;
 
-	private String competitorIdXRef;
+	protected String competitorIdXRef;
 }

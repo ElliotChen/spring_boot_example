@@ -1,23 +1,18 @@
 package com.sportradar.sdh.domain.common;
 
 import lombok.Data;
-import org.springframework.data.annotation.LastModifiedDate;
-
-import javax.persistence.Id;
-import javax.persistence.IdClass;
-import javax.persistence.MappedSuperclass;
 import java.util.Date;
 
 @Data
-public abstract class BaseMarketOption extends BaseReferenceModel {
+public abstract class BaseMarketOption extends BaseEntity {
 
-	private Long marketId;
+	protected Long marketId;
 
-	private Integer optionNum;
+	protected Integer optionNum;
 
-	private String shortName;
+	protected String shortName;
 
-	private String fullName;
+	protected String fullName;
 
-	private Date updatedTime;
+	protected Date updatedTime;
 }

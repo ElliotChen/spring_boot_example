@@ -7,16 +7,16 @@ import lombok.Data;
 @Data
 public abstract class BaseMarket extends BaseEntity {
 
-    private Long marketId;
-    private String marketName;
+    protected Long marketId;
+    protected String marketName;
 
 
-    private Integer priority;
+    protected Integer priority;
 
-    private Date createdTime;
-    private Date updatedTime;
+    protected Date createdTime;
+    protected Date updatedTime;
 
-    private String eventTypeId;
+    protected String eventTypeId;
 
-    private String marketIdXRefs;
+    protected String marketIdXRefs;
 }

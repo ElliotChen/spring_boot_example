@@ -1,38 +1,109 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.sportradar.sdh.dao.sdp.SdpSportDao" >
-	<resultMap id="BaseResultMap" type="com.sportradar.sdh.domain.sdp.Sport" >
+<mapper namespace="com.sportradar.sdh.dao.sdp.SdpSportDao">
+	<resultMap id="BaseResultMap" type="com.sportradar.sdh.domain.sdp.Sport">
 		<constructor>
 			<idArg column="sportId" javaType="Long"/>
 			<arg column="dgtSportIds" javaType="String"/>
 			<arg column="brSportIds" javaType="String"/>
 		</constructor>
 
-		<result column="sportName" property="sportName" jdbcType="VARCHAR" />
-		<result column="priority" property="priority" jdbcType="INTEGER" />
-		<result column="updatedTime" property="updatedTime" jdbcType="TIMESTAMP" />
+		<result column="sportName" property="sportName" jdbcType="VARCHAR"/>
+		<result column="priority" property="priority" jdbcType="INTEGER"/>
+		<result column="updatedTime" property="updatedTime" jdbcType="TIMESTAMP"/>
+		<result column="languageCode" property="language.languageCode"/>
+		<result column="languageName" property="language.languageName"/>
 		<!--
-		<result column="dgtSportIds" property="dgtSportXRefs" jdbcType="VARCHAR" javaType="java.util.List" typeHandler="tw.elliot.ms.mybatis.typehandler.DgtSportListHandler"/>
-		<result column="brSportIds" property="brSportXRefs" jdbcType="VARCHAR" javaType="java.util.List" typeHandler="tw.elliot.ms.mybatis.typehandler.BrSportListHandler"/>
+		<result column="dgtSportIds" property="dgtSportXRefs" jdbcType="VARCHAR" javaType="java.util.List" typeHandler="typehandler.DgtSportListHandler"/>
+		<result column="brSportIds" property="brSportXRefs" jdbcType="VARCHAR" javaType="java.util.List" typeHandler="typehandler.BrSportListHandler"/>
 		-->
 	</resultMap>
-	<sql id="Base_Column_List" >
-    sportId, sportName, priority, updatedTime, SUBSTRING_INDEX(SUBSTRING_INDEX(sportIdXRefs, '|', 2), '|', -1) as dgtSportIds, SUBSTRING_INDEX(sportIdXRefs, '|', 1) as brSportIds
-  </sql>
-	<select id="findById" resultMap="BaseResultMap" >
+
+	<resultMap id="languageResult" type="com.sportradar.sdh.domain.common.Language">
+		<result property="languageCode" column="languageCode" jdbcType="INTEGER"/>
+		<result property="languageName" column="languageName" jdbcType="VARCHAR"/>
+	</resultMap>
+
+	<sql id="Base_Column_List">
+    	sportId, sportName, priority, updatedTime,
+    	SUBSTRING_INDEX(SUBSTRING_INDEX(sportIdXRefs, '|', 2), '|', -1) as brSportIds,
+    	SUBSTRING_INDEX(sportIdXRefs, '|', 1) as dgtSportIds
+	</sql>
+
+	<sql id="Language_Column_List">
+    	s.sportId, IFNULL(si.sportName,s.sportName) AS sportName, s.priority,
+    	s.updatedTime, SUBSTRING_INDEX(SUBSTRING_INDEX(s.sportIdXRefs, '|', 2), '|', -1) as brSportIds,
+    	SUBSTRING_INDEX(s.sportIdXRefs, '|', 1) as dgtSportIds,
+    	IFNULL(si.languageCode, 1) AS languageCode, IFNULL(l.languageName, 'English') AS languageName
+	</sql>
+
+	<sql id="Language_Table_Join">
+		FROM Sport s
+		LEFT JOIN Sport_I18N si ON s.sportId = si.sportId
+		LEFT JOIN Language l  ON si.languageCode = l.languageCode
+	</sql>
+
+	<select id="findById" resultMap="BaseResultMap">
 		select
-		<include refid="Base_Column_List" />
+		<include refid="Base_Column_List"/>
 		from Sport
 		where sportId = #{sportId}
 	</select>
-	<select id="findAll" resultMap="BaseResultMap" >
-		SELECT <include refid="Base_Column_List"/>
+	<select id="findAll" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List"/>
 		from Sport
 	</select>
 
-	<select id="findByPage" resultMap="BaseResultMap" >
-		SELECT <include refid="Base_Column_List"/>
+	<select id="findByPage" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List"/>
 		from Sport
 	</select>
 
+	<!--回传所有已设定语系翻译值，仅包含i18N里有储存的 -->
+	<select id="findAllWithLanguage" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Language_Column_List"/>
+		<include refid="Language_Table_Join"/>
+	</select>
+
+	<!--回传某一指定sportId的所有已设定语系翻译值，仅包含i18N里有储存的 -->
+	<select id="findByIdWithLanguage" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Language_Column_List"/>
+		<include refid="Language_Table_Join"/>
+		WHERE s.sportId = #{sportId}
+	</select>
+
+	<!--回传某一指定sportId的指定语系翻译值，仅包含i18N里有储存的 -->
+	<select id="findByIdAndLanguageCodeWithLanguage" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Language_Column_List"/>
+		<include refid="Language_Table_Join"/>
+		WHERE s.sportId = #{sportId} AND si.languageCode = #{languageCode}
+	</select>
+
+	<!--回传某一指定sportId的所有语系翻译值，包含i18N里没有储存的 -->
+	<select id="findByIdWithAllLanguage" resultMap="BaseResultMap">
+		SELECT allLang.sportId, IFNULL(si.sportName,allLang.sportName) AS sportName,allLang.priority, allLang.updatedTime, allLang.brSportIds, allLang.dgtSportIds, allLang.languageCode, allLang.languageName
+		FROM
+			(SELECT s.sportId, s.sportName, s.priority, s.updatedTime,
+				SUBSTRING_INDEX(SUBSTRING_INDEX(s.sportIdXRefs, '|', 2), '|', -1) as brSportIds,
+				SUBSTRING_INDEX(s.sportIdXRefs, '|', 1) as dgtSportIds,
+				l.languageCode, l.languageName
+			  FROM Sport s, Language l WHERE s.sportId = #{sportId}) allLang
+		LEFT JOIN Sport_I18N si ON allLang.sportId = si.sportId AND allLang.languageCode = si.languageCode
+	</select>
+
+	<insert id="insertI18N" parameterType="com.sportradar.sdh.domain.sdp.Sport">
+		INSERT INTO Sport_I18N (sportId, languageCode, sportName, updatedTime)
+		VALUES (#{sportId}, #{language.languageCode}, #{sportName}, #{updatedTime})
+	</insert>
+
+	<update id="updateI18N" parameterType="com.sportradar.sdh.domain.sdp.Sport">
+		UPDATE Sport_I18N
+		SET sportName = #{sportName}, updatedTime = #{updatedTime}
+		WHERE  sportId=#{sportId} AND languageCode=#{language.languageCode}
+	</update>
 </mapper>

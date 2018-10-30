@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sportradar.sdh.dao.sdp.SdpLanguageDao" >
+    <resultMap id="BaseResultMap" type="com.sportradar.sdh.domain.common.Language" >
+        <constructor>
+            <idArg column="languageCode" javaType="Integer"/>
+            <arg column="languageName" javaType="String"/>
+        </constructor>
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+		languageCode, languageName
+	</sql>
+	<select id="findById" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from Language
+		where languageCode = #{languageCode}
+	</select>
+	<select id="findAll" resultMap="BaseResultMap" >
+		SELECT <include refid="Base_Column_List"/>
+		from Language
+	</select>
+
+	<select id="findByPage" resultMap="BaseResultMap" >
+		SELECT <include refid="Base_Column_List"/>
+		from Language
+	</select>
+
+</mapper>

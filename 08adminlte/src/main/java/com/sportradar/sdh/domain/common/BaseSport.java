@@ -10,11 +10,11 @@ import java.util.Date;
 @Data
 public abstract class BaseSport extends BaseEntity {
 
-	private Long sportId;
-	private String sportName;
-	private Integer priority;
+	protected Long sportId;
+	protected String sportName;
+	protected Integer priority;
 
-	private Date createdTime;
-	private Date updatedTime;
+	protected Date createdTime;
+	protected Date updatedTime;
 
 }

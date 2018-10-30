@@ -27,4 +27,8 @@ public class Region extends BaseRegion {
 		this.region = new com.sportradar.sdh.domain.sdp.Region(regionNumRef);
 
 	}
+
+	public String getCompositedId() {
+		return String.valueOf(this.regionNum);
+	}
 }

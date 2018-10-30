@@ -13,7 +13,7 @@
     <result column="updatedTime" property="updatedTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    regionNum, regionShortName, regionFullName, alias, updatedTime , SUBSTRING_INDEX(SUBSTRING_INDEX(regionNumXRefs, '|', 2), '|', -1) as dgtRegionNums, SUBSTRING_INDEX(regionNumXRefs, '|', 1) as brRegionNums
+    regionNum, regionShortName, regionFullName, alias, updatedTime, SUBSTRING_INDEX(SUBSTRING_INDEX(regionNumXRefs, '|', 2), '|', -1) as brRegionNums, SUBSTRING_INDEX(regionNumXRefs, '|', 1) as dgtRegionNums
   </sql>
   <select id="findById" resultMap="BaseResultMap">
     select 

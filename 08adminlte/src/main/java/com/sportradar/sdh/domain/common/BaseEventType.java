@@ -8,10 +8,9 @@ import lombok.Data;
 @Data
 public abstract class BaseEventType {
 
-    @Id
-    private Integer eventTypeId;
+    protected Integer eventTypeId;
 
-    private String eventTypeName;
+    protected String eventTypeName;
 
-    private String eventTypeIdXRefs;
+    protected String eventTypeIdXRefs;
 }

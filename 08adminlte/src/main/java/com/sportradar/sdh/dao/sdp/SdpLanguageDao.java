@@ -1,9 +1,15 @@
 package com.sportradar.sdh.dao.sdp;
 
-import com.sportradar.sdh.domain.sdp.Language;
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Repository;
+import com.github.pagehelper.Page;
+import com.sportradar.sdh.domain.common.Language;
+import org.apache.ibatis.annotations.Param;
 
-@Repository
+import java.util.List;
+
 public interface SdpLanguageDao {
+	Language findById(@Param("languageCode") Integer languageCode);
+
+	List<Language> findAll();
+
+	Page<Language> findByPage();
 }

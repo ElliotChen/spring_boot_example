@@ -1,35 +1,64 @@
 package com.sportradar.sdh.ctrl;
 
-import com.google.common.collect.Lists;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.sportradar.sdh.dao.sdp.SdpLanguageDao;
-import com.sportradar.sdh.dao.sdp.SdhMarketDao;
-import com.sportradar.sdh.dao.sdp.SdhMarketOptionDao;
-import com.sportradar.sdh.domain.common.MarketOptionPK;
-import com.sportradar.sdh.domain.sdp.*;
+import com.sportradar.sdh.dao.sdp.SdpMarketDao;
+import com.sportradar.sdh.dao.sdp.SdpMarketOptionDao;
+import com.sportradar.sdh.domain.sdp.MarketOption;
+import com.sportradar.sdh.domain.sdp.Sport;
+import com.sportradar.sdh.dto.dts.DataTablesInput;
+import com.sportradar.sdh.dto.dts.DataTablesOutput;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
-import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/marketOption/*")
 public class MarketOptionCtrl {
 	private static final String prefix = "marketOption";
 	@Autowired
-	private SdhMarketOptionDao sdhMarketOptionDao;
+	private SdpMarketOptionDao sdhMarketOptionDao;
 
 	@Autowired
 	private SdpLanguageDao sdhLanguageDao;
 
 	@Autowired
-	private SdhMarketDao sdhMarketDao;
+	private SdpMarketDao sdhMarketDao;
+
+	@GetMapping("/")
+	public String index() {
+		return prefix+"/pairIndex";
+	}
+
+	@GetMapping("/i18nIndex")
+	public String i18nIndex() {
+		return prefix+"/i18nIndex";
+	}
+
+	@GetMapping("/dataIndex")
+	public String dataIndex() {
+		return prefix+"/dataIndex";
+	}
+
+	@GetMapping("/findAll")
+	@ResponseBody
+	public DataTablesOutput<MarketOption> findAll(@Valid DataTablesInput input) {
+		//DataTablesOutput<MarketOption> ds = this.sdhMarketOptionDao.findAll(input);
+
+		PageHelper.startPage((input.getStart() / input.getLength()) +1 , input.getLength());
+
+		Page<MarketOption> page = this.sdhMarketOptionDao.findByPage();
+		DataTablesOutput<MarketOption> ds = new DataTablesOutput<MarketOption>();
+		ds.setData(page.getResult());
+		ds.setDraw(input.getDraw());
+		ds.setRecordsFiltered(page.getTotal());
+		ds.setRecordsTotal(page.getTotal());
+
+		return  ds;
+	}
 
 	/*
 	@GetMapping("/findAll")

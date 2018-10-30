@@ -9,10 +9,9 @@ import javax.persistence.Id;
 @NoArgsConstructor
 public class Language {
 
-	@Id
-	private Integer languageCode;
+	protected Integer languageCode;
 
-	private String languageName;
+	protected String languageName;
 
 	public Language(Integer languageCode, String languageName) {
 		this.languageCode = languageCode;

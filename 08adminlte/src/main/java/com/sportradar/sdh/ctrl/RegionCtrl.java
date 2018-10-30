@@ -21,6 +21,21 @@ public class RegionCtrl {
 
 	private SdpLanguageDao sdhLanguageDao;
 
+	@GetMapping("/")
+	public String index() {
+		return prefix+"/pairIndex";
+	}
+
+	@GetMapping("/i18nIndex")
+	public String i18nIndex() {
+		return prefix+"/i18nIndex";
+	}
+
+	@GetMapping("/dataIndex")
+	public String dataIndex() {
+		return prefix+"/dataIndex";
+	}
+
 	@GetMapping("/findAll")
 	@ResponseBody
 	public DataTablesOutput<Region> findAll(@Valid com.sportradar.sdh.dto.dts.DataTablesInput input) {
@@ -37,18 +52,16 @@ public class RegionCtrl {
 		return  ds;
 	}
 	/*
-	@GetMapping("/findAll")
+
+
+
+
+@GetMapping("/findAll")
 	@ResponseBody
 	public DataTablesOutput<Region> findAll(@Valid DataTablesInput input) {
 		DataTablesOutput<Region> ds = this.sdpRegionDao.findAll(input);
 		return  ds;
 	}
-
-	@GetMapping("/")
-	public String index() {
-		return prefix+"/pairIndex";
-	}
-
 	@GetMapping("/pair/{id}")
 	public String pair(@PathVariable Integer id, Model model) {
 		this.findById(id, model);
@@ -74,10 +87,7 @@ public class RegionCtrl {
 		return prefix+"/dataIndex";
 	}
 
-	@GetMapping("/i18nIndex")
-	public String i18nIndex() {
-		return prefix+"/i18nIndex";
-	}
+
 
 	@GetMapping("/i18n/{id}")
 	public String i18n(@PathVariable Integer id, Model model) {
@@ -91,10 +101,7 @@ public class RegionCtrl {
 		return prefix+"/i18n";
 	}
 
-	@GetMapping("/dataIndex")
-	public String dataIndex() {
-		return prefix+"/dataIndex";
-	}
+
 
 	@GetMapping("/data/{id}")
 	public String data(@PathVariable Integer id, Model model) {

@@ -13,9 +13,9 @@ import javax.persistence.Transient;
 @Slf4j
 public abstract class BaseReferenceModel {
 
-	private String brIdXRefs;
+	protected String brIdXRefs;
 
-	private String dgtIdXRefs;
+	protected String dgtIdXRefs;
 
 	public abstract String getExpressId();
 

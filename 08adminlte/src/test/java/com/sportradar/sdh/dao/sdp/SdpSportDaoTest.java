@@ -5,6 +5,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.sportradar.sdh.domain.sdp.Sport;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,4 +53,28 @@ public class SdpSportDaoTest {
 		Sport sport = sports.getResult().get(0);
 		System.out.println(sport.getSportId());
 	}
+
+	@Test
+	public void testFindWithLanguage() {
+		List<Sport> sports = this.sdpSportDao.findAllWithLanguage();
+
+		for (Sport sport: sports) {
+			String value = String.valueOf(sport.getCompositedId() + " " + sport.getSportName() + " " + sport.getLanguage().getLanguageCode() +" "+ sport.getLanguage().getLanguageName());
+			System.out.println(value);
+		}
+
+	}
+
+	@Test
+	public void testFindWithAllLanguage() {
+		List<Sport> sports = this.sdpSportDao.findByIdWithAllLanguage(2L);
+
+		for (Sport sport: sports) {
+			String value = String.valueOf(sport.getCompositedId() + " " + sport.getSportName() + " " + sport.getLanguage().getLanguageCode() +" "+ sport.getLanguage().getLanguageName());
+			System.out.println(value);
+		}
+
+	}
+
+
 }

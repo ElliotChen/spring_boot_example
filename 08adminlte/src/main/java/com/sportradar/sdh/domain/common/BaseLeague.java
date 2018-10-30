@@ -8,14 +8,14 @@ import lombok.Data;
 @Data
 public abstract class BaseLeague extends BaseEntity {
 
-    private Long leagueId;
-    private String leagueName;
-    private Integer priority;
-    private Integer regionNum;
-    private Long sportId;
-    private Long leagueGroupId;
+    protected Long leagueId;
+    protected String leagueName;
+    protected Integer priority;
+    protected Integer regionNum;
+    protected Long sportId;
+    protected Long leagueGroupId;
 
-    private Date updatedTime;
+    protected Date updatedTime;
 
-    private String leagueIdXRefs;
+    protected String leagueIdXRefs;
 }

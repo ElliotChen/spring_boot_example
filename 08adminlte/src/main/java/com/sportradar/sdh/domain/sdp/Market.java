@@ -2,6 +2,7 @@ package com.sportradar.sdh.domain.sdp;
 
 import com.sportradar.sdh.domain.common.BaseMarket;
 import com.sportradar.sdh.domain.common.BaseSport;
+import com.sportradar.sdh.domain.common.IdCompositable;
 import com.sportradar.sdh.domain.dgt.SportMarket;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,9 +17,9 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 public class Market extends BaseMarket {
-	private List<com.sportradar.sdh.domain.dgt.SportMarket> dgtMarketXRefs;
+	private List<com.sportradar.sdh.domain.dgt.SportMarket> dgtMarketXRefs = new ArrayList<>();
 
-	private List<com.sportradar.sdh.domain.br.Market> brMarketXRefs;
+	private List<com.sportradar.sdh.domain.br.Market> brMarketXRefs = new ArrayList<>();
 
 	private List<BaseMarket> referMarketXRefs = new ArrayList<>();
 
@@ -26,21 +27,34 @@ public class Market extends BaseMarket {
 		this(marketId, "", "");
 	}
 
-	public Market(Long marketId, String dgtSportIds, String brSportIds) {
+	public Market(Long marketId, String dgtSportMarketIds, String brMarketIds) {
 		this.setMarketId(marketId);
 
-		String[] refSportIds = org.apache.commons.lang3.StringUtils.split(dgtSportIds, ',');
+		this.initDgtXRefs(dgtSportMarketIds);
+		this.initBrXRefs(brMarketIds);
+
+		/*
+		referSportXRefs.clear();
+		referSportXRefs.addAll(this.dgtMarketXRefs);
+		referSportXRefs.addAll(this.brMarketXRefs);
+		*/
+	}
+
+	public void initDgtXRefs(String dgtSportMarketIds) {
+		String[] refSportIds = StringUtils.split(dgtSportMarketIds, ',');
 		dgtMarketXRefs.clear();
 		if (null != refSportIds) {
 			for (String id : refSportIds) {
-				SportMarket sportMarket = SportMarket.ofRefCompositeId(id, marketId);
+				com.sportradar.sdh.domain.dgt.SportMarket sportMarket = com.sportradar.sdh.domain.dgt.SportMarket.ofRefCompositeId(id, marketId);
 				if (null != sportMarket) {
 					dgtMarketXRefs.add(sportMarket);
 				}
 			}
 		}
+	}
 
-		refSportIds = StringUtils.split(brSportIds, ',');
+	public void initBrXRefs(String brMarketIds) {
+		String[] refSportIds = StringUtils.split(brMarketIds, ',');
 		dgtMarketXRefs.clear();
 		if (null != refSportIds) {
 			for (String id : refSportIds) {
@@ -50,11 +64,18 @@ public class Market extends BaseMarket {
 				}
 			}
 		}
+	}
 
-		/*
-		referSportXRefs.clear();
-		referSportXRefs.addAll(this.dgtMarketXRefs);
-		referSportXRefs.addAll(this.brMarketXRefs);
-		*/
+	@Override
+	public String getCompositedId() {
+		return String.valueOf(this.marketId);
+	}
+
+	public String getDgtIdXRefs() {
+		return IdCompositable.joinCompositedId(this.dgtMarketXRefs);
+	}
+
+	public String getBrIdXRefs() {
+		return IdCompositable.joinCompositedId(this.brMarketXRefs);
 	}
 }
