@@ -18,26 +18,35 @@
 				<div class="box-header">
 					<h3 class="box-title">Region Data Content</h3>
 					<div class="box-tools pull-right">
-						<a href="/region/dataIndex/" type="button" class="btn btn-box-tool"><i class="fa fa-list-ul"></i></a>
+						<a href="/region/data" type="button" class="btn btn-box-tool"><i class="fa fa-list-ul"></i></a>
 					</div>
 				</div>
-				<form data-toggle="validator" role="form" th:object="${region}" th:action="@{/region/saveData}" method="post">
-					<div class="box-body">
-						<input type="hidden" name="regionNum" th:field="*{regionNum}"/>
 
+				<form data-toggle="validator" id="regionDataForm" role="form" th:object="${region}" th:action="@{/region/data/save}" method="post">
+					<div class="box-body">
+						<input type="hidden" th:field="*{regionNum}"/>
 						<div class="form-group">
-							<label for="regionName">Region Name</label>
-							<input type="text" required="true" class="form-control" th:field="*{regionFullName}" id="regionName" />
+							<label for="regionFullName">Region Full Name</label>
+							<input type="text" required maxlength="40"  class="form-control" th:field="*{regionFullName}" id="regionFullName" />
 						</div>
 
+						<div class="form-group">
+							<label for="regionShortName">Region Short Name</label>
+							<input type="text" required maxlength="9" class="form-control" th:field="*{regionShortName}" id="regionShortName" />
+						</div>
 
-
-					</div>
+						<div class="form-group">
+							<label for="alias">Alias</label>
+							<input type="text" required maxlength="30" class="form-control" th:field="*{alias}" id="alias" />
+						</div>
+				</div>
 					<div class="box-footer">
 						<button type="submit" class="btn btn-primary">Save</button>
-						<a href="/region/dataIndex/" class="btn btn-primary">Cancel</a>
+						<a href="/region/data" class="btn btn-primary">Cancel</a>
 					</div>
 				</form>
+
+
 				<!-- /.box-body -->
 			</div>
 			<!-- /.box -->
@@ -50,7 +59,7 @@
 <th:block layout:fragment="script">
 	<script language="JavaScript">
 		$(document).ready(function () {
-
+			$("#regionDataForm").validate();
 		})
 	</script>
 </th:block>

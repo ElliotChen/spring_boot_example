@@ -24,6 +24,7 @@
 						<tr>
 							<th>Market Id</th>
 							<th>Option Num</th>
+							<th>Short Name</th>
 							<th>Full Name</th>
 							<th>function</th>
 						</tr>
@@ -52,6 +53,8 @@
 				}, {
 					data: 'optionNum'
 				}, {
+					data: 'shortName'
+				},{
 					data: 'fullName',
 					render: function(data, type, row){
 						return '<div data-toggle="tooltip" data-placement="bottom" title="'+row.langString+'">'+data+'</div>';
@@ -61,7 +64,7 @@
 					orderable: false,
 					searchable: false,
 					render: function(data, type, row){
-						return '<a href="/marketOption/data/'+data.expressId+'" class="btn btn-primary">修改</a>';
+						return '<a href="/marketOption/data/'+data.marketId+'/'+data.optionNum+'" class="btn btn-primary">修改</a>';
 					}
 
 				}]

@@ -52,6 +52,17 @@
 		from Sport
 		where sportId = #{sportId}
 	</select>
+
+	<select id="countById" resultType="java.lang.Integer">
+		select COUNT(*)
+		from Sport
+		where sportId = #{sportId}
+	</select>
+
+	<select id="findNextId" resultType="java.lang.Long">
+		SELECT MAX(sportId)+1 FROM Sport;
+	</select>
+
 	<select id="findAll" resultMap="BaseResultMap">
 		SELECT
 		<include refid="Base_Column_List"/>
@@ -108,5 +119,16 @@
 		UPDATE Sport_I18N
 		SET sportName = #{sportName}, updatedTime = #{updatedTime}
 		WHERE  sportId=#{sportId} AND languageCode=#{language.languageCode}
+	</update>
+
+	<insert id="insertData" parameterType="com.sportradar.sdh.domain.sdp.Sport">
+		INSERT INTO Sport (sportId, sportName, priority, createdTime, updatedTime)
+		VALUES (#{sportId}, #{sportName}, #{priority}, #{createdTime}, #{updatedTime})
+	</insert>
+
+	<update id="updateData" parameterType="com.sportradar.sdh.domain.sdp.Sport">
+		UPDATE Sport
+		SET sportName = #{sportName}, priority = #{priority}, updatedTime = #{updatedTime}
+		WHERE  sportId=#{sportId}
 	</update>
 </mapper>

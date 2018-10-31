@@ -15,7 +15,7 @@ public class Translation {
 
 	@Override
 	public String toString() {
-		return "("+languageCode+")["+languageName+"]: "+translationValue;
+		return "["+languageName+"]: "+translationValue;
 	}
 
 	public static String transToLangString(List<Translation> translations) {

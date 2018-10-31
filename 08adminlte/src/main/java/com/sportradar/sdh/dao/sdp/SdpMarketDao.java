@@ -11,6 +11,10 @@ import java.util.List;
 public interface SdpMarketDao {
 	Market findById(@Param("marketId") Long marketId);
 
+	Integer countById(@Param("marketId") Long marketId);
+
+	Long findNextId();
+
 	List<Market> findAll();
 
 	Page<Market> findByPage();
@@ -26,4 +30,8 @@ public interface SdpMarketDao {
 	void insertI18N(Market market);
 
 	void updateI18N(Market market);
+
+	void insertData(Market market);
+
+	void updateData(Market market);
 }

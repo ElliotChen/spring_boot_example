@@ -17,6 +17,7 @@ public abstract class BaseRegion extends BaseEntity {
 	protected String regionFullName;
 	protected String alias;
 
+	protected Date createdTime;
 	protected Date updatedTime;
 
 }

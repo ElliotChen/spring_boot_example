@@ -18,18 +18,21 @@
 				<div class="box-header">
 					<h3 class="box-title">Sport Data Content</h3>
 					<div class="box-tools pull-right">
-						<a href="/sport/dataIndex/" type="button" class="btn btn-box-tool"><i class="fa fa-list-ul"></i></a>
+						<a href="/sport/data" type="button" class="btn btn-box-tool"><i class="fa fa-list-ul"></i></a>
 					</div>
 				</div>
-				<form data-toggle="validator" role="form" th:object="${sport}" th:action="@{/sport/saveData}" method="post">
+				<form data-toggle="validator" id="sportDataForm" role="form" th:object="${sport}" th:action="@{/sport/data/save}" method="post">
 					<div class="box-body">
-						<input type="hidden" name="sportId" th:field="*{sportId}"/>
+						<input type="hidden" th:field="*{sportId}"/>
 
 						<div class="form-group">
-							<label for="sportName" class="col-sm-2 control-label">Sport Name</label>
-							<div class="col-sm-10">
-							<input type="text" required="true" class="form-control" th:field="*{sportName}" id="sportName" />
-							</div>
+							<label for="sportName">Sport Name</label>
+							<input type="text" required maxlength="32" class="form-control" th:field="*{sportName}" id="sportName" />
+						</div>
+
+						<div class="form-group">
+							<label for="priority">Priority</label>
+							<input type="number" required class="form-control" th:field="*{priority}" id="priority" />
 						</div>
 
 
@@ -37,7 +40,7 @@
 					</div>
 					<div class="box-footer">
 						<button type="submit" class="btn btn-primary">Save</button>
-						<a href="/sport/dataIndex/" class="btn btn-primary">Cancel</a>
+						<a href="/sport/data" class="btn btn-primary">Cancel</a>
 					</div>
 				</form>
 				<!-- /.box-body -->
@@ -52,7 +55,7 @@
 <th:block layout:fragment="script">
 	<script language="JavaScript">
 		$(document).ready(function () {
-
+			$("#sportDataForm").validate();
 		})
 	</script>
 </th:block>

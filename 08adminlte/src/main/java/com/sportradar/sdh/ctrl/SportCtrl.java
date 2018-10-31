@@ -80,17 +80,33 @@ public class SportCtrl {
 		}
 	}
 
-	@GetMapping("/")
+	private void saveDbData(SportDto sport) {
+		Integer count = this.sdpSportDao.countById(sport.getSportId());
+
+		Date now = new Date();
+
+		if (count == 0) {
+			sport.setSportId(this.sdpSportDao.findNextId());
+			sport.setCreatedTime(now);
+			sport.setUpdatedTime(now);
+			this.sdpSportDao.insertData(sport);
+		} else {
+			sport.setUpdatedTime(now);
+			this.sdpSportDao.updateData(sport);
+		}
+	}
+
+	@GetMapping("/pair")
 	public String index() {
 		return "sport/pairIndex";
 	}
 
-	@GetMapping("/i18nIndex")
+	@GetMapping("/i18n")
 	public String i18nIndex() {
 		return "sport/i18nIndex";
 	}
 
-	@GetMapping("/dataIndex")
+	@GetMapping("/data")
 	public String dataIndex() {
 		return "sport/dataIndex";
 	}
@@ -113,10 +129,10 @@ public class SportCtrl {
 		return "sport/i18n";
 	}
 
-	@PostMapping("/saveI18n")
+	@PostMapping("/i18n/save")
 	@ResponseBody
 	public ApiResult saveI18n(SportDto sport,Model model) {
-		log.error("Find Sport [{}] - [{}]",sport.getSportId(), sport.getLanguage().getLanguageCode());
+		log.info("Find Sport [{}] - [{}]",sport.getSportId(), sport.getLanguage().getLanguageCode());
 		this.saveDbI18N(sport);
 		model.addAttribute("successFlash", "Success!");
 
@@ -124,6 +140,28 @@ public class SportCtrl {
 		apiResult.setStatus(HttpStatus.OK);
 		apiResult.setMessage("Save Success!");
 		return apiResult;
+	}
+
+	@GetMapping("/data/{id}")
+	public String data(@PathVariable Long id, Model model) {
+
+		Sport sport = this.sdpSportDao.findById(id);
+		if (null == sport) {
+			sport = new Sport();
+		}
+
+		model.addAttribute("sport", sport);
+
+		return "sport/data";
+	}
+
+	@PostMapping("/data/save")
+	public String saveData(SportDto sport, Model model) {
+		log.info("Find save target : Sport [{}] - Name[{}],Priority[{}]",sport.getSportId(), sport.getSportName(), sport.getPriority());
+
+		this.saveDbData(sport);
+		model.addAttribute("successFlash", "Success!");
+		return "sport/dataIndex";
 	}
 
 	/*

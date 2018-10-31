@@ -18,24 +18,50 @@
 				<div class="box-header">
 					<h3 class="box-title">League Data Content</h3>
 					<div class="box-tools pull-right">
-						<a href="/league/dataIndex/" type="button" class="btn btn-box-tool"><i class="fa fa-list-ul"></i></a>
+						<a href="/league/data" type="button" class="btn btn-box-tool"><i class="fa fa-list-ul"></i></a>
 					</div>
 				</div>
-				<form data-toggle="validator" role="form" th:object="${league}" th:action="@{/league/saveData}" method="post">
+				<form data-toggle="validator" id="leagueDataForm" role="form" th:object="${league}" th:action="@{/league/data/save}" method="post">
 					<div class="box-body">
 						<input type="hidden" name="leagueId" th:field="*{leagueId}"/>
 
 						<div class="form-group">
-							<label for="regionName">League Name</label>
-							<input type="text" required="true" class="form-control" th:field="*{leagueName}" id="regionName" />
+							<label for="leagueName">League Name</label>
+							<input type="text" required class="form-control" th:field="*{leagueName}" id="leagueName" />
 						</div>
 
+						<div class="form-group">
+							<label for="priority">Priority</label>
+							<input type="number" required class="form-control" th:field="*{priority}" id="priority" />
+						</div>
 
+						<div class="form-group">
+							<label for="leagueGroupId">League Group</label>
+							<select class="form-control" required id="leagueGroupId" th:field="*{leagueGroupId}">
+								<option th:each="lg : ${leagueGroups}" th:value="${lg.leagueGroupId}" th:text="|${lg.leagueGroupId}, ${lg.leagueGroupName}|"></option>
+							</select>
+						</div>
+
+						<div class="form-group">
+							<label for="sportId">Sport</label>
+							<select class="form-control" id="sportId" th:field="*{sportId}">
+								<option value="">----</option>
+								<option th:each="sp : ${sports}" th:value="${sp.sportId}" th:text="|${sp.sportId}, ${sp.sportName}|"></option>
+							</select>
+						</div>
+
+						<div class="form-group">
+							<label for="regionNum">Region</label>
+							<select class="form-control" id="regionNum" th:field="*{regionNum}">
+								<option value="">----</option>
+								<option th:each="rg : ${regions}" th:value="${rg.regionNum}" th:text="|${rg.regionNum}, ${rg.regionFullName}|"></option>
+							</select>
+						</div>
 
 					</div>
 					<div class="box-footer">
 						<button type="submit" class="btn btn-primary">Save</button>
-						<a href="/league/dataIndex/" class="btn btn-primary">Cancel</a>
+						<a href="/league/data" class="btn btn-primary">Cancel</a>
 					</div>
 				</form>
 				<!-- /.box-body -->
@@ -50,8 +76,46 @@
 <th:block layout:fragment="script">
 	<script language="JavaScript">
 		$(document).ready(function () {
+			$("#leagueDataForm").validate();
 
+			$("#sportId").change(
+				function () {
+					$.ajax({
+							url: "/ajax/findRegionsBySport/" + $("#sportId").val(),
+							type: 'GET',
+							data: {},
+							dataType:"json",
+							success: function(data){
+								var selectedValue = $("#regionNum").val();
+								if (data.length > 0) {
+									$("#regionNum").html("");
+								} else {
+									$("#regionNum").html("<option value=''>---</option>");
+								}
+
+								$.each(data, function (index, item) {
+									appendOptionTo($("#regionNum"), item, selectedValue);
+								});
+
+							},
+							error: function() {
+								$("#regionNum").html("<option value=''>---</option>");
+							}
+						}
+
+					)
+				}
+			);
 		})
+
+
+		function appendOptionTo($obj, item, selectedValue) {
+			var $opt = $("<option>").text(item.regionNum +', '+item.regionFullName).val(item.regionNum);
+			if (item.regionNum == selectedValue) {
+				$opt.attr("selected", "selected");
+			}
+			$opt.appendTo($obj);
+		}
 	</script>
 </th:block>
 

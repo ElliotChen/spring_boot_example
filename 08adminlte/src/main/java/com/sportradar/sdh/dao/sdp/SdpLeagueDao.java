@@ -13,6 +13,10 @@ import java.util.List;
 public interface SdpLeagueDao {
 	League findById(@Param("leagueId") Long leagueId);
 
+	Integer countById(@Param("leagueId") Long leagueId);
+
+	Long findNextId();
+
 	List<League> findAll();
 
 	Page<League> findByPage();
@@ -28,4 +32,8 @@ public interface SdpLeagueDao {
 	void insertI18N(League sport);
 
 	void updateI18N(League sport);
+
+	void insertData(League sport);
+
+	void updateData(League sport);
 }

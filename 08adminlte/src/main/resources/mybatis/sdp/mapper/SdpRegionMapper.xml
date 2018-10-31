@@ -10,6 +10,7 @@
 		<result column="regionShortName" property="regionShortName" jdbcType="VARCHAR"/>
 		<result column="regionFullName" property="regionFullName" jdbcType="VARCHAR"/>
 		<result column="alias" property="alias" jdbcType="VARCHAR"/>
+		<result column="createdTime" property="createdTime" jdbcType="TIMESTAMP"/>
 		<result column="updatedTime" property="updatedTime" jdbcType="TIMESTAMP"/>
 
 		<result column="languageCode" property="language.languageCode"/>
@@ -22,13 +23,13 @@
 	</resultMap>
 
 	<sql id="Base_Column_List">
-    regionNum, regionShortName, regionFullName, alias, updatedTime,
+    regionNum, regionShortName, regionFullName, alias, createdTime, updatedTime,
     SUBSTRING_INDEX(regionNumXRefs, '|', 1) as dgtRegionNums,
     SUBSTRING_INDEX(SUBSTRING_INDEX(regionNumXRefs, '|', 2), '|', -1) as brRegionNums
   </sql>
 
 	<sql id="Language_Column_List">
-    r.regionNum, r.regionShortName, IFNULL(ri.regionName,r.regionFullName) AS regionFullName, r.alias, r.updatedTime,
+    r.regionNum, r.regionShortName, IFNULL(ri.regionName,r.regionFullName) AS regionFullName, r.alias, r.createdTime, r.updatedTime,
     SUBSTRING_INDEX(r.regionNumXRefs, '|', 1) as dgtRegionNums,
     SUBSTRING_INDEX(SUBSTRING_INDEX(r.regionNumXRefs, '|', 2), '|', -1) as brRegionNums,
     IFNULL(ri.languageCode, 1) AS languageCode, IFNULL(l.languageName, 'English') AS languageName
@@ -46,6 +47,17 @@
 		from Region
 		where regionNum = #{regionNum}
 	</select>
+
+	<select id="countById" resultType="java.lang.Integer">
+		select COUNT(*)
+		from Region
+		where regionNum = #{regionNum}
+	</select>
+
+	<select id="findNextId" resultType="java.lang.Integer">
+		SELECT MAX(regionNum)+1 FROM Region;
+	</select>
+
 	<select id="findAll" resultMap="BaseResultMap">
 		SELECT
 		<include refid="Base_Column_List"/>
@@ -83,11 +95,11 @@
 
 	<!--回传某一指定regionNum的所有语系翻译值，包含i18N里没有储存的 -->
 	<select id="findByIdWithAllLanguage" resultMap="BaseResultMap">
-		SELECT allLang.regionNum, allLang.regionShortName, IFNULL(ri.regionName, allLang.regionFullName) AS regionFullName, allLang.alias, allLang.updatedTime,
+		SELECT allLang.regionNum, allLang.regionShortName, IFNULL(ri.regionName, allLang.regionFullName) AS regionFullName, allLang.alias, allLang.createdTime, allLang.updatedTime,
     			allLang.dgtRegionNums, allLang.brRegionNums,
 				allLang.languageCode, allLang.languageName
 		FROM
-			(SELECT r.regionNum, r.regionShortName, r.regionFullName, r.alias, r.updatedTime,
+			(SELECT r.regionNum, r.regionShortName, r.regionFullName, r.alias, r.createdTime, r.updatedTime,
     			SUBSTRING_INDEX(r.regionNumXRefs, '|', 1) as dgtRegionNums,
     			SUBSTRING_INDEX(SUBSTRING_INDEX(r.regionNumXRefs, '|', 2), '|', -1) as brRegionNums,
 				l.languageCode, l.languageName
@@ -105,6 +117,26 @@
 		SET regionName = #{regionFullName}, updatedTime = #{updatedTime}
 		WHERE  regionNum=#{regionNum} AND languageCode=#{language.languageCode}
 	</update>
+
+	<insert id="insertData" parameterType="com.sportradar.sdh.domain.sdp.Region" >
+	  insert into Region (regionNum, regionShortName, regionFullName, alias, createdTime, updatedTime)
+	  values (#{regionNum}, #{regionShortName}, #{regionFullName}, #{alias}, #{createdTime}, #{updatedTime})
+	</insert>
+
+	<update id="updateData" parameterType="com.sportradar.sdh.domain.sdp.Region" >
+	  update Region
+	  set regionShortName = #{regionShortName}, regionFullName = #{regionFullName}, alias = #{alias}, updatedTime = #{updatedTime}
+	  where regionNum = #{regionNum}
+	</update>
+
+	<!-- Mapping Table is RegionSport -->
+	<select id="findBySportId" resultMap="BaseResultMap">
+		SELECT r.regionNum, r.regionShortName, r.regionFullName, r.alias, r.createdTime, r.updatedTime,
+			SUBSTRING_INDEX(r.regionNumXRefs, '|', 1) as dgtRegionNums,
+    		SUBSTRING_INDEX(SUBSTRING_INDEX(r.regionNumXRefs, '|', 2), '|', -1) as brRegionNums
+			FROM Region as r INNER JOIN RegionSport as rs
+			ON r.regionNum = rs.regionNum AND rs.sportId = #{sportId};
+	</select>
 	<!--
 	<insert id="insert" parameterType="com.betmatrix.theonex.mybatis.model.Region" >
 	  insert into Region (regionNum, regionShortName, regionFullName,

@@ -33,17 +33,17 @@ public class RegionCtrl {
 
 	private SdpLanguageDao sdhLanguageDao;
 
-	@GetMapping("/")
+	@GetMapping("/pair")
 	public String index() {
 		return prefix+"/pairIndex";
 	}
 
-	@GetMapping("/i18nIndex")
+	@GetMapping("/i18n")
 	public String i18nIndex() {
 		return prefix+"/i18nIndex";
 	}
 
-	@GetMapping("/dataIndex")
+	@GetMapping("/data")
 	public String dataIndex() {
 		return prefix+"/dataIndex";
 	}
@@ -77,7 +77,7 @@ public class RegionCtrl {
 		return prefix+"/i18n";
 	}
 
-	@PostMapping("/saveI18n")
+	@PostMapping("/i18n/save")
 	@ResponseBody
 	public ApiResult saveI18n(RegionDto region, Model model) {
 		log.error("Find Region [{}] - [{}]",region.getRegionNum(), region.getLanguage().getLanguageCode());
@@ -89,6 +89,30 @@ public class RegionCtrl {
 		apiResult.setMessage("Save Success!");
 		return apiResult;
 	}
+
+
+	@GetMapping("/data/{id}")
+	public String data(@PathVariable Integer id, Model model) {
+		Region region = this.sdpRegionDao.findById(id);
+
+		if (null == region) {
+			region = new Region();
+		}
+
+		model.addAttribute("region", region);
+		return prefix+"/data";
+	}
+
+
+	@PostMapping("/data/save")
+	public String saveData(RegionDto region, Model model) {
+
+		this.saveDbData(region);
+
+		model.addAttribute("successFlash", "Success!");
+		return prefix+"/dataIndex";
+	}
+
 
 	private List<RegionDto> coverDto(List<Region> regions) {
 		List<RegionDto> result = new ArrayList<>();
@@ -121,6 +145,19 @@ public class RegionCtrl {
 		}
 	}
 
+	private void saveDbData(RegionDto region) {
+		Integer count = this.sdpRegionDao.countById(region.getRegionNum());
+		Date now = new Date();
+		if (count == 0) {
+			region.setRegionNum(this.sdpRegionDao.findNextId());
+			region.setCreatedTime(now);
+			region.setUpdatedTime(now);
+			this.sdpRegionDao.insertData(region);
+		} else {
+			region.setUpdatedTime(now);
+			this.sdpRegionDao.updateData(region);
+		}
+	}
 
 
 	/*

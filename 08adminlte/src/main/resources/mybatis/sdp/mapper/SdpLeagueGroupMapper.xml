@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sportradar.sdh.dao.sdp.SdpLeagueGroupDao">
+  <resultMap id="BaseResultMap" type="com.sportradar.sdh.domain.sdp.LeagueGroup">
+    <id column="leagueGroupId" jdbcType="BIGINT" property="leagueGroupId" />
+    <result column="sportId" jdbcType="BIGINT" property="sportId" />
+    <result column="leagueGroupName" jdbcType="VARCHAR" property="leagueGroupName" />
+    <result column="updatedTime" jdbcType="TIMESTAMP" property="updatedTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    leagueGroupId, sportId, leagueGroupName, updatedTime
+  </sql>
+  <select id="findById" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM LeagueGroup
+    WHERE leagueGroupId = #{leagueGroupId}
+  </select>
+
+  <select id="findAll" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM LeagueGroup
+  </select>
+
+  <!--
+  <insert id="insert" parameterType="com.betmatrix.theonex.mybatis.model.LeagueGroup">
+    insert into LeagueGroup (leagueGroupId, sportId, leagueGroupName, 
+      updatedTime)
+    values (#{leagueGroupId,jdbcType=BIGINT}, #{sportId,jdbcType=BIGINT}, #{leagueGroupName,jdbcType=VARCHAR}, 
+      #{updatedTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.betmatrix.theonex.mybatis.model.LeagueGroup">
+    insert into LeagueGroup
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="leagueGroupId != null">
+        leagueGroupId,
+      </if>
+      <if test="sportId != null">
+        sportId,
+      </if>
+      <if test="leagueGroupName != null">
+        leagueGroupName,
+      </if>
+      <if test="updatedTime != null">
+        updatedTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="leagueGroupId != null">
+        #{leagueGroupId,jdbcType=BIGINT},
+      </if>
+      <if test="sportId != null">
+        #{sportId,jdbcType=BIGINT},
+      </if>
+      <if test="leagueGroupName != null">
+        #{leagueGroupName,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedTime != null">
+        #{updatedTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.betmatrix.theonex.mybatis.model.LeagueGroup">
+    update LeagueGroup
+    <set>
+      <if test="sportId != null">
+        sportId = #{sportId,jdbcType=BIGINT},
+      </if>
+      <if test="leagueGroupName != null">
+        leagueGroupName = #{leagueGroupName,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedTime != null">
+        updatedTime = #{updatedTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where leagueGroupId = #{leagueGroupId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.betmatrix.theonex.mybatis.model.LeagueGroup">
+    update LeagueGroup
+    set sportId = #{sportId,jdbcType=BIGINT},
+      leagueGroupName = #{leagueGroupName,jdbcType=VARCHAR},
+      updatedTime = #{updatedTime,jdbcType=TIMESTAMP}
+    where leagueGroupId = #{leagueGroupId,jdbcType=BIGINT}
+  </update>
+
+
+  <select id="queryLeagueGroupIdsBySportId" parameterType="java.lang.Long" resultType="java.lang.Long">
+    select leagueGroupId from LeagueGroup
+    where sportId = #{sportId,jdbcType=BIGINT}
+  </select>
+  -->
+</mapper>

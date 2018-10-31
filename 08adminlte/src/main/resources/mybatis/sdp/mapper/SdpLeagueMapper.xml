@@ -50,6 +50,17 @@
 		from League
 		where leagueId = #{leagueId}
 	</select>
+
+	<select id="countById" resultType="java.lang.Integer">
+		select COUNT(*)
+		from League
+		where leagueId = #{leagueId}
+	</select>
+
+	<select id="findNextId" resultType="java.lang.Long">
+		SELECT MAX(leagueId)+1 FROM League;
+	</select>
+
 	<select id="findAll" resultMap="BaseResultMap">
 		SELECT
 		<include refid="Base_Column_List"/>
@@ -107,6 +118,17 @@
 		UPDATE League_I18N
 		SET leagueName = #{leagueName}, updatedTime = #{updatedTime}
 		WHERE  leagueId=#{leagueId} AND languageCode=#{language.languageCode}
+	</update>
+
+	<insert id="insertData" parameterType="com.sportradar.sdh.domain.sdp.League" >
+	  insert into League (leagueId, leagueName, priority, regionNum, sportId, leagueGroupId, createdTime, updatedTime)
+	  values (#{leagueId}, #{leagueName}, #{priority}, #{regionNum}, #{sportId}, #{leagueGroupId}, #{createdTime}, #{updatedTime})
+	</insert>
+
+	<update id="updateData" parameterType="com.sportradar.sdh.domain.sdp.League" >
+	  update League
+	  set leagueName = #{leagueName}, priority = #{priority}, regionNum = #{regionNum}, sportId = #{sportId}, leagueGroupId = #{leagueGroupId}, updatedTime = #{updatedTime}
+	  where leagueId = #{leagueId}
 	</update>
 	<!--
 	<insert id="insert" parameterType="com.betmatrix.theonex.mybatis.model.League" >

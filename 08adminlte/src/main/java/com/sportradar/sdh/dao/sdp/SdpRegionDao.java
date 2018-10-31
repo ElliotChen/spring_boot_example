@@ -11,6 +11,10 @@ import java.util.List;
 public interface SdpRegionDao {
 	Region findById(@Param("regionNum") Integer regionNum);
 
+	Integer countById(@Param("regionNum") Integer regionNum);
+
+	Integer findNextId();
+
 	List<Region> findAll();
 
 	Page<Region> findByPage();
@@ -23,7 +27,14 @@ public interface SdpRegionDao {
 
 	Region findByIdAndLanguageCodeWithLanguage(@Param("regionNum") Integer regionNum, @Param("languageCode") Integer languageCode);
 
-	void insertI18N(Region sport);
+	void insertI18N(Region region);
 
-	void updateI18N(Region sport);
+	void updateI18N(Region region);
+
+	void insertData(Region region);
+
+	void updateData(Region region);
+
+
+	List<Region> findBySportId(Long sportId);
 }

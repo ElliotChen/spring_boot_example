@@ -2,13 +2,13 @@ package com.sportradar.sdh.ctrl;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.sportradar.sdh.dao.sdp.SdpLanguageDao;
-import com.sportradar.sdh.dao.sdp.SdpLeagueDao;
+import com.sportradar.sdh.dao.sdp.*;
 import com.sportradar.sdh.domain.sdp.League;
 import com.sportradar.sdh.domain.sdp.Region;
 import com.sportradar.sdh.dto.dts.DataTablesInput;
 import com.sportradar.sdh.dto.dts.DataTablesOutput;
 import com.sportradar.sdh.dto.sdp.LeagueDto;
+import com.sportradar.sdh.dto.sdp.RegionDto;
 import com.sportradar.sdh.dto.sdp.SportDto;
 import com.sportradar.sdh.dto.sdp.Translation;
 import com.sportradar.sdh.dto.system.ApiResult;
@@ -33,19 +33,29 @@ public class LeagueCtrl {
 	@Autowired
 	private SdpLeagueDao sdpLeagueDao;
 
+	@Autowired
+	private SdpLeagueGroupDao sdpLeagueGroupDao;
+
+	@Autowired
+	private SdpRegionDao sdpRegionDao;
+
+	@Autowired
+	private SdpSportDao sdpSportDao;
+
+
 	private SdpLanguageDao sdpLanguageDao;
 
-	@GetMapping("/")
+	@GetMapping("/pair")
 	public String index() {
 		return prefix+"/pairIndex";
 	}
 
-	@GetMapping("/i18nIndex")
+	@GetMapping("/i18n")
 	public String i18nIndex() {
 		return prefix+"/i18nIndex";
 	}
 
-	@GetMapping("/dataIndex")
+	@GetMapping("/data")
 	public String dataIndex() {
 		return prefix+"/dataIndex";
 	}
@@ -98,6 +108,21 @@ public class LeagueCtrl {
 		}
 	}
 
+	private void saveDbData(LeagueDto league) {
+		Integer count = this.sdpLeagueDao.countById(league.getLeagueId());
+		Date now = new Date();
+
+		if (count == 0) {
+			league.setLeagueId(this.sdpLeagueDao.findNextId());
+			league.setCreatedTime(now);
+			league.setUpdatedTime(now);
+			this.sdpLeagueDao.insertData(league);
+		} else {
+			league.setUpdatedTime(now);
+			this.sdpLeagueDao.updateData(league);
+		}
+	}
+
 	@GetMapping("/pair/{id}")
 	public String pair(@PathVariable Long id, Model model) {
 		League sport = this.sdpLeagueDao.findById(id);
@@ -108,18 +133,18 @@ public class LeagueCtrl {
 	@GetMapping("/i18n/{id}")
 	public String i18n(@PathVariable Long id, Model model) {
 
-		League sport = this.sdpLeagueDao.findById(id);
-		List<League> sports = this.sdpLeagueDao.findByIdWithAllLanguage(id);
+		League league = this.sdpLeagueDao.findById(id);
+		List<League> leagues = this.sdpLeagueDao.findByIdWithAllLanguage(id);
 
-		model.addAttribute("league", sport);
-		model.addAttribute("leagues", sports);
+		model.addAttribute("league", league);
+		model.addAttribute("leagues", leagues);
 		return prefix+"/i18n";
 	}
 
-	@PostMapping("/saveI18n")
+	@PostMapping("/i18n/save")
 	@ResponseBody
 	public ApiResult saveI18n(LeagueDto league, Model model) {
-		log.error("Find League [{}] - [{}]",league.getLeagueId(), league.getLanguage().getLanguageCode());
+		log.info("Find League [{}] - [{}]",league.getLeagueId(), league.getLanguage().getLanguageCode());
 		this.saveDbI18N(league);
 		model.addAttribute("successFlash", "Success!");
 
@@ -127,6 +152,42 @@ public class LeagueCtrl {
 		apiResult.setStatus(HttpStatus.OK);
 		apiResult.setMessage("Save Success!");
 		return apiResult;
+	}
+
+	@GetMapping("/data/{id}")
+	public String data(@PathVariable Long id, Model model) {
+		League league = this.sdpLeagueDao.findById(id);
+
+		if (null == league) {
+			league = new League();
+		}
+
+		model.addAttribute("league", league);
+
+		/* 因RegionSport是由 Sport 与 Region连动，所以第一次时仅找出
+		* 全部的Sport，单一的Region，之后再根据选取的Sport找出可用的Region.
+		* */
+
+		List<Region> regions = new ArrayList<>();
+		if (null != league.getRegionNum()) {
+			Region region = this.sdpRegionDao.findById(league.getRegionNum());
+			if (null != region) {
+				regions.add(region);
+			}
+		}
+
+		model.addAttribute("leagueGroups", this.sdpLeagueGroupDao.findAll());
+		model.addAttribute("sports", this.sdpSportDao.findAll());
+		model.addAttribute("regions", regions);
+
+		return prefix+"/data";
+	}
+	
+	@PostMapping("/data/save")
+	public String saveData(LeagueDto league,Model model) {
+		this.saveDbData(league);
+		model.addAttribute("successFlash", "Success!");
+		return prefix+"/dataIndex";
 	}
 	/*
 	@GetMapping("/findAll")

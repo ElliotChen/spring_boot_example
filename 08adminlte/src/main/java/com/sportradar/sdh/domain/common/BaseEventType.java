@@ -6,7 +6,7 @@ import javax.persistence.MappedSuperclass;
 import lombok.Data;
 
 @Data
-public abstract class BaseEventType {
+public abstract class BaseEventType extends BaseEntity {
 
     protected Integer eventTypeId;
 

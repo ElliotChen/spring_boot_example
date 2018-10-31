@@ -18,7 +18,7 @@
 				<div class="box-header with-border">
 					<h3 class="box-title">League I18N Content</h3>
 					<div class="box-tools pull-right">
-						<a href="/league/i18nIndex/" type="button" class="btn btn-box-tool"><i class="fa fa-list-ul"></i></a>
+						<a href="/league/i18n" type="button" class="btn btn-box-tool"><i class="fa fa-list-ul"></i></a>
 					</div>
 				</div>
 				<h3 th:text="|${league.leagueId} ${league.leagueName}|"></h3>
@@ -37,7 +37,7 @@
 					</form>
 				</div>
 				<div class="box-footer">
-					<a href="/league/i18nIndex/" class="btn btn-primary">返回</a>
+					<a href="/league/i18n" class="btn btn-primary">返回</a>
 				</div>
 				<!-- /.box-body -->
 			</div>
@@ -60,7 +60,7 @@
 					return;
 				}
 
-				$.post( "/league/saveI18n", form.serialize(), function( data ){
+				$.post( "/league/i18n/save", form.serialize(), function( data ){
 					$.notify({
 						// options
 						message: data.message
