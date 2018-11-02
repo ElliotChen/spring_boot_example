@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sportradar.sdh.dao.dgt.DgtRegionDao">
+	<resultMap id="BaseResultMap" type="com.sportradar.sdh.domain.dgt.Region">
+		<id column="regionNum" property="regionNum" />
+		<result column="regionShortName" property="regionShortName" jdbcType="VARCHAR"/>
+		<result column="regionFullName" property="regionFullName" jdbcType="VARCHAR"/>
+		<result column="alias" property="alias" jdbcType="VARCHAR"/>
+		<result column="createdTime" property="createdTime" jdbcType="TIMESTAMP"/>
+		<result column="updatedTime" property="updatedTime" jdbcType="TIMESTAMP"/>
+
+		<result column="languageCode" property="language.languageCode"/>
+		<result column="languageName" property="language.languageName"/>
+	</resultMap>
+
+	<sql id="Base_Column_List">
+    regionNum, regionShortName, regionFullName, alias, createdTime, updatedTime,
+    CONCAT(regionNum, '|', regionNumXRefs) as regionNumXRefs
+  </sql>
+
+	<select id="findById" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List"/>
+		from Region
+		where regionNum = #{regionNum}
+	</select>
+
+	<select id="findAll" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List"/>
+		from Region
+	</select>
+
+	<select id="findByPage" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List"/>
+		from Region
+	</select>
+
+	<!-- Mapping Table is RegionSport -->
+	<select id="findBySportId" resultMap="BaseResultMap">
+		SELECT r.regionNum, r.regionShortName, r.regionFullName, r.alias, r.createdTime, r.updatedTime
+			FROM Region as r INNER JOIN RegionSport as rs
+			ON r.regionNum = rs.regionNum AND rs.sportId = #{sportId};
+	</select>
+</mapper>

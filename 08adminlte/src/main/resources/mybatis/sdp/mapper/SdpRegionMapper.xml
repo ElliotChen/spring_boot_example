@@ -2,11 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.sportradar.sdh.dao.sdp.SdpRegionDao">
 	<resultMap id="BaseResultMap" type="com.sportradar.sdh.domain.sdp.Region">
+		<!--
 		<constructor>
 			<idArg column="regionNum" javaType="Integer"/>
 			<arg column="dgtRegionNums" javaType="String"/>
 			<arg column="brRegionNums" javaType="String"/>
 		</constructor>
+		-->
+		<id column="regionNum" property="regionNum" />
 		<result column="regionShortName" property="regionShortName" jdbcType="VARCHAR"/>
 		<result column="regionFullName" property="regionFullName" jdbcType="VARCHAR"/>
 		<result column="alias" property="alias" jdbcType="VARCHAR"/>
@@ -15,6 +18,8 @@
 
 		<result column="languageCode" property="language.languageCode"/>
 		<result column="languageName" property="language.languageName"/>
+
+		<result column="regionNumXRefs" property="regionXRefs" jdbcType="VARCHAR" javaType="java.util.List" typeHandler="com.sportradar.sdh.dao.sdp.handler.RegionsHandler"></result>
 	</resultMap>
 
 	<resultMap id="languageResult" type="com.sportradar.sdh.domain.common.Language">
@@ -22,6 +27,18 @@
 		<result property="languageName" column="languageName" jdbcType="VARCHAR"/>
 	</resultMap>
 
+	<sql id="Base_Column_List">
+    regionNum, regionShortName, regionFullName, alias, createdTime, updatedTime,
+    CONCAT(regionNum, '|', regionNumXRefs) as regionNumXRefs
+  </sql>
+
+	<sql id="Language_Column_List">
+    r.regionNum, r.regionShortName, IFNULL(ri.regionName,r.regionFullName) AS regionFullName, r.alias, r.createdTime, r.updatedTime,
+    CONCAT(r.regionNum, '|', r.regionNumXRefs) as regionNumXRefs,
+    IFNULL(ri.languageCode, 1) AS languageCode, IFNULL(l.languageName, 'English') AS languageName
+	</sql>
+
+	<!--
 	<sql id="Base_Column_List">
     regionNum, regionShortName, regionFullName, alias, createdTime, updatedTime,
     SUBSTRING_INDEX(regionNumXRefs, '|', 1) as dgtRegionNums,
@@ -34,6 +51,7 @@
     SUBSTRING_INDEX(SUBSTRING_INDEX(r.regionNumXRefs, '|', 2), '|', -1) as brRegionNums,
     IFNULL(ri.languageCode, 1) AS languageCode, IFNULL(l.languageName, 'English') AS languageName
 	</sql>
+	-->
 
 	<sql id="Language_Table_Join">
 		FROM Region r
@@ -96,6 +114,18 @@
 	<!--回传某一指定regionNum的所有语系翻译值，包含i18N里没有储存的 -->
 	<select id="findByIdWithAllLanguage" resultMap="BaseResultMap">
 		SELECT allLang.regionNum, allLang.regionShortName, IFNULL(ri.regionName, allLang.regionFullName) AS regionFullName, allLang.alias, allLang.createdTime, allLang.updatedTime,
+    			allLang.regionNumXRefs,
+				allLang.languageCode, allLang.languageName
+		FROM
+			(SELECT r.regionNum, r.regionShortName, r.regionFullName, r.alias, r.createdTime, r.updatedTime,
+    			CONCAT(r.regionNum, '|', r.regionNumXRefs) as regionNumXRefs,
+				l.languageCode, l.languageName
+			  FROM Region r, Language l WHERE r.regionNum = #{regionNum}) allLang
+		LEFT JOIN Region_I18N ri ON allLang.regionNum = ri.regionNum AND allLang.languageCode = ri.languageCode
+	</select>
+	<!--
+	<select id="findByIdWithAllLanguage" resultMap="BaseResultMap">
+		SELECT allLang.regionNum, allLang.regionShortName, IFNULL(ri.regionName, allLang.regionFullName) AS regionFullName, allLang.alias, allLang.createdTime, allLang.updatedTime,
     			allLang.dgtRegionNums, allLang.brRegionNums,
 				allLang.languageCode, allLang.languageName
 		FROM
@@ -106,6 +136,7 @@
 			  FROM Region r, Language l WHERE r.regionNum = #{regionNum}) allLang
 		LEFT JOIN Region_I18N ri ON allLang.regionNum = ri.regionNum AND allLang.languageCode = ri.languageCode
 	</select>
+	-->
 
 	<insert id="insertI18N" parameterType="com.sportradar.sdh.domain.sdp.Region">
 		INSERT INTO Region_I18N (regionNum, languageCode, regionName, updatedTime)
@@ -129,11 +160,15 @@
 	  where regionNum = #{regionNum}
 	</update>
 
+	<update id="updatePair" parameterType="com.sportradar.sdh.domain.sdp.Region" >
+	  update Region
+	  set regionNumXRefs = #{regionNumXRefs}
+	  where regionNum = #{regionNum}
+	</update>
 	<!-- Mapping Table is RegionSport -->
 	<select id="findBySportId" resultMap="BaseResultMap">
 		SELECT r.regionNum, r.regionShortName, r.regionFullName, r.alias, r.createdTime, r.updatedTime,
-			SUBSTRING_INDEX(r.regionNumXRefs, '|', 1) as dgtRegionNums,
-    		SUBSTRING_INDEX(SUBSTRING_INDEX(r.regionNumXRefs, '|', 2), '|', -1) as brRegionNums
+			CONCAT(r.regionNum, '|', r.regionNumXRefs) as regionNumXRefs
 			FROM Region as r INNER JOIN RegionSport as rs
 			ON r.regionNum = rs.regionNum AND rs.sportId = #{sportId};
 	</select>

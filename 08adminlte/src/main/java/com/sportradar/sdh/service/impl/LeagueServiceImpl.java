@@ -8,6 +8,8 @@ import com.sportradar.sdh.dao.sdp.SdpLeagueDao;
 import com.sportradar.sdh.dao.sdp.SdpLeagueGroupDao;
 import com.sportradar.sdh.dao.sdp.SdpRegionDao;
 import com.sportradar.sdh.dao.sdp.SdpSportDao;
+import com.sportradar.sdh.domain.common.BaseLeague;
+import com.sportradar.sdh.domain.common.SourceTypeEnum;
 import com.sportradar.sdh.domain.sdp.League;
 import com.sportradar.sdh.dto.dts.DataTablesInput;
 import com.sportradar.sdh.dto.dts.DataTablesOutput;
@@ -49,7 +51,7 @@ public class LeagueServiceImpl implements LeagueService {
 
 	@Override
 	public LeagueDto findById(Long leagueId) {
-		return this.convertDto(this.findById(leagueId));
+		return this.convertDto(this.sdpLeagueDao.findById(leagueId));
 	}
 
 	@Override
@@ -140,6 +142,14 @@ public class LeagueServiceImpl implements LeagueService {
 			translation.setTranslationValue(translatedRegion.getLeagueName());
 
 			sd.getTranslations().add(translation);
+		}
+
+		for (BaseLeague baseLeague: league.getLeagueXRefs()) {
+			if (SourceTypeEnum.DGT == baseLeague.getSourceType()) {
+				sd.setDgtLeague((com.sportradar.sdh.domain.dgt.League) baseLeague);
+			} else if (SourceTypeEnum.BR == baseLeague.getSourceType()) {
+				sd.setBrLeague((com.sportradar.sdh.domain.br.League) baseLeague);
+			}
 		}
 		return sd;
 	}

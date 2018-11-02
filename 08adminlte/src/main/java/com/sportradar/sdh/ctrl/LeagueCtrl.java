@@ -40,6 +40,7 @@ public class LeagueCtrl {
 
 	@Autowired
 	private LeagueGroupService leagueGroupService;
+
 	@GetMapping("/findByPage")
 	@ResponseBody
 	public DataTablesOutput<LeagueDto> findByPage(@Valid DataTablesInput input) {
@@ -58,19 +59,23 @@ public class LeagueCtrl {
 
 	@GetMapping("/pair/{id}")
 	public String pair(@PathVariable Long id, Model model) {
-		League sport = this.leagueService.findById(id);
-		model.addAttribute("league", sport);
+		League league = this.leagueService.findById(id);
+		model.addAttribute("league", league);
+
+		model.addAttribute("dgtLeagues", this.leagueService.findAllDgtLeagues());
+		model.addAttribute("brLeagues", this.leagueService.findAllBrLeagues());
+
 		return prefix+"/pair";
 	}
 
 	@PostMapping("/pair/save")
 	public String savePair(LeagueDto league, Model model) {
-		log.info("Find save target : Sport [{}] - DGT[{}],BR[{}]",league.getSportId(),
-				league.getDgtLeague().getSportId(), league.getBrLeague().getSportId());
+		log.info("Find save target : Sport [{}] - DGT[{}],BR[{}]",league.getLeagueId(),
+				league.getDgtLeague().getLeagueId(), league.getBrLeague().getLeagueId());
 
 		this.leagueService.savePair(league);
 		model.addAttribute("successFlash", "Success!");
-		return "sport/pairIndex";
+		return prefix+"/pairIndex";
 	}
 
 	/*********************************/
@@ -151,114 +156,4 @@ public class LeagueCtrl {
 		model.addAttribute("successFlash", "Success!");
 		return prefix+"/dataIndex";
 	}
-
-
-
-
-
-
-
-
-
-	/*
-	@GetMapping("/findAll")
-	@ResponseBody
-	public DataTablesOutput<League> findAll(@Valid DataTablesInput input) {
-		DataTablesOutput<League> ds = this.sdpLeagueDao.findAll(input);
-		return  ds;
-	}
-
-	@GetMapping("/")
-	public String index() {
-		return prefix+"/pairIndex";
-	}
-
-	@GetMapping("/pair/{id}")
-	public String pair(@PathVariable Long id, Model model) {
-		this.findById(id, model);
-
-		return prefix+"/pair";
-	}
-
-	@PostMapping("/savePair")
-	public String savePair(Model model) {
-		model.addAttribute("successFlash", "Success!");
-		return prefix+"/pairIndex";
-	}
-
-	@PostMapping("/saveI18n")
-	public String saveI18n(Model model) {
-		model.addAttribute("successFlash", "Success!");
-		return prefix+"/i18nIndex";
-	}
-
-	@PostMapping("/saveData")
-	public String saveData(Model model) {
-		model.addAttribute("successFlash", "Success!");
-		return prefix+"/dataIndex";
-	}
-
-	@GetMapping("/i18nIndex")
-	public String i18nIndex() {
-		return prefix+"/i18nIndex";
-	}
-
-	@GetMapping("/i18n/{id}")
-	public String i18n(@PathVariable Long id, Model model) {
-
-		League league = this.findById(id, model);
-
-		this.addLanguages(model);
-
-		this.addUsedLanguageCodes(league, model);
-
-		return prefix+"/i18n";
-	}
-
-	@GetMapping("/dataIndex")
-	public String dataIndex() {
-		return prefix+"/dataIndex";
-	}
-
-	@GetMapping("/data/{id}")
-	public String data(@PathVariable Long id, Model model) {
-		this.findById(id, model);
-
-		return prefix+"/data";
-	}
-
-
-	private League findById(Long id, Model model) {
-		Optional<League> optionalRegion = this.sdpLeagueDao.findById(id);
-		League league = new League();
-		if (optionalRegion.isPresent()) {
-			league = optionalRegion.get();
-		}
-
-		model.addAttribute("league", league);
-
-		return league;
-	}
-
-	private void addLanguages(Model model) {
-		List<Language> languageCodes = new ArrayList<>();
-		languageCodes.add(new Language(1,"English"));
-		languageCodes.add(new Language(512,"中文"));
-
-		model.addAttribute("languageCodes", languageCodes);
-	}
-
-	private void addUsedLanguageCodes(League league, Model model) {
-		List<Integer> usedCodes = new ArrayList<>();
-		if (null != league.getLanguages()) {
-			for (LeagueLanguage rl : league.getLanguages()) {
-				usedCodes.add(rl.getLanguageCode());
-			}
-		}
-
-		model.addAttribute("usedCodes", usedCodes);
-	}
-
-
-*/
 }

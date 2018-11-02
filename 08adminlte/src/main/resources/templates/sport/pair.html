@@ -27,14 +27,14 @@
 
 						<div class="form-group">
 							<label for="dgtSport.sportId">DGT</label>
-							<select class="form-control" id="dgtSport.sportId" th:field="*{dgtSport.sportId}">
+							<select class="form-control select2" id="dgtSport.sportId" th:field="*{dgtSport.sportId}">
 								<option th:each="ds : ${dgtSports}" th:value="${ds.sportId}" th:text="|${ds.sportId}, ${ds.sportName}|"></option>
 							</select>
 						</div>
 
 						<div class="form-group">
 							<label for="brSport.sportId">BR</label>
-							<select class="form-control" id="dgtSport.sportId" th:field="*{brSport.sportId}">
+							<select class="form-control select2" id="brSport.sportId" th:field="*{brSport.sportId}">
 								<option th:each="bs : ${brSports}" th:value="${bs.sportId}" th:text="|${bs.sportId}, ${bs.sportName}|"></option>
 							</select>
 						</div>
@@ -58,7 +58,7 @@
 <th:block layout:fragment="script">
 	<script language="JavaScript">
 		$(document).ready(function () {
-
+			$('.select2').select2();
 		})
 	</script>
 </th:block>

@@ -13,4 +13,16 @@ public class RegionDto extends Region {
 	public String getLangString() {
 		return  Translation.transToLangString(this.translations);
 	}
+
+	private com.sportradar.sdh.domain.dgt.Region dgtRegion;
+
+	private com.sportradar.sdh.domain.br.Region brRegion;
+
+	public String getDgtIdXRefs() {
+		return dgtRegion !=null ? dgtRegion.getCompositedId() : "";
+	}
+
+	public String getBrIdXRefs() {
+		return brRegion != null ? brRegion.getCompositedId() : "";
+	}
 }

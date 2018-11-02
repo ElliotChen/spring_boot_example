@@ -3,6 +3,7 @@ package com.sportradar.sdh.domain.sdp;
 import com.sportradar.sdh.domain.common.BaseRegion;
 import com.sportradar.sdh.domain.common.BaseRegionSport;
 import com.sportradar.sdh.domain.common.IdCompositable;
+import com.sportradar.sdh.domain.common.SourceTypeEnum;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,16 +17,25 @@ import java.util.List;
 @NoArgsConstructor
 public class Region extends BaseRegion {
 
+	private List<BaseRegionSport> regionXRefs = new ArrayList<>();
+
+	public Region(Integer regionNum) {
+		this.regionNum = regionNum;
+	}
+
+	@Override
+	public String getCompositedId() {
+		return String.valueOf(this.regionNum);
+	}
+
+	@Override
+	public SourceTypeEnum getSourceType() {
+		return SourceTypeEnum.SDP;
+	}
+	/*
 	private List<com.sportradar.sdh.domain.dgt.RegionSport> dgtRegionXRefs = new ArrayList<>();;
 
 	private List<com.sportradar.sdh.domain.br.RegionSport> brRegionXRefs = new ArrayList<>();;
-
-
-	private List<BaseRegionSport> referRegionXRefs = new ArrayList<>();
-
-	public Region(Integer regionNum) {
-		this(regionNum, "", "");
-	}
 
 	public Region(Integer regionNum, String dgtRegionNums, String brRegionNums) {
 		super();
@@ -65,11 +75,6 @@ public class Region extends BaseRegion {
 		}
 	}
 
-	@Override
-	public String getCompositedId() {
-		return String.valueOf(this.regionNum);
-	}
-
 	public String getDgtIdXRefs() {
 		return IdCompositable.joinCompositedId(this.dgtRegionXRefs);
 	}
@@ -77,4 +82,5 @@ public class Region extends BaseRegion {
 	public String getBrIdXRefs() {
 		return IdCompositable.joinCompositedId(this.brRegionXRefs);
 	}
+	*/
 }

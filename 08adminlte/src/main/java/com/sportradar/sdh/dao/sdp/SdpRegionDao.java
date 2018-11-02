@@ -35,6 +35,7 @@ public interface SdpRegionDao {
 
 	void updateData(Region region);
 
+	void updatePair(@Param("regionNum") Integer regionNum, @Param("regionNumXRefs") String regionNumXRefs);
 
 	List<Region> findBySportId(Long sportId);
 }
