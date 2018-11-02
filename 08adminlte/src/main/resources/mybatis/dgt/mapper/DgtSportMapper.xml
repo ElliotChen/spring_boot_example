@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.sportradar.sdh.dao.dgt.DgtSportDao" >
-	<resultMap id="BaseResultMap" type="com.sportradar.sdh.domain.sdp.Sport" >
+	<resultMap id="BaseResultMap" type="com.sportradar.sdh.domain.dgt.Sport" >
+		<!--
 		<constructor>
 			<idArg column="sportId" javaType="Long"/>
 			<arg column="sportIdXRef" jdbcType="VARCHAR" />
 		</constructor>
-
+		-->
+		<id column="sportId" property="sportId" />
 		<result column="sportName" property="sportName" jdbcType="VARCHAR" />
 		<result column="priority" property="priority" jdbcType="INTEGER" />
 		<result column="updatedTime" property="updatedTime" jdbcType="TIMESTAMP" />
+		<result column="sportIdXRef" property="sportRef.sportId"/>
 	</resultMap>
 	<sql id="Base_Column_List" >
     sportId, sportName, priority, updatedTime, sportIdXRef

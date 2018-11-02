@@ -19,4 +19,15 @@ public abstract class BaseLeague extends BaseEntity {
     protected Date updatedTime;
 
     protected String leagueIdXRefs;
+
+    @Override
+    public String getCompositedId() {
+        return String.valueOf(this.leagueId);
+    }
+
+    @Override
+    public void setCompositedId(String compositedId) {
+        this.leagueId = Long.parseLong(compositedId);
+    }
+
 }

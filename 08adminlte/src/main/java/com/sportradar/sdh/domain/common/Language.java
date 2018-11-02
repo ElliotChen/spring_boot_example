@@ -3,7 +3,6 @@ package com.sportradar.sdh.domain.common;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Id;
 
 @Data
 @NoArgsConstructor

@@ -47,6 +47,19 @@
 		from MarketOption
 		where marketId = #{marketId} AND optionNum = #{optionNum}
 	</select>
+
+	<select id="countById" resultType="java.lang.Integer">
+		select COUNT(*)
+		from MarketOption
+		where marketId = #{marketId} AND optionNum = #{optionNum}
+	</select>
+
+	<select id="findNextOptionNum" resultType="java.lang.Integer">
+		SELECT MAX(optionNum)+1
+		FROM MarketOption
+		WHERE marketId = #{marketId}
+	</select>
+
 	<select id="findAll" resultMap="BaseResultMap">
 		SELECT
 		<include refid="Base_Column_List"/>
@@ -104,6 +117,17 @@
 		UPDATE MarketOption_I18N
 		SET shortName = #{shortName}, fullName = #{fullName}
 		WHERE  marketId=#{marketId} AND optionNum = #{optionNum} AND languageCode=#{language.languageCode}
+	</update>
+
+	<insert id="insertData" parameterType="com.sportradar.sdh.domain.sdp.MarketOption" >
+	  insert into MarketOption (marketId, optionNum, shortName, fullName, updatedTime)
+	  values (#{marketId}, #{optionNum}, #{shortName}, #{fullName}, #{updatedTime})
+	</insert>
+
+	<update id="updateData" parameterType="com.sportradar.sdh.domain.sdp.MarketOption" >
+	  update MarketOption
+	  set shortName = #{shortName}, fullName = #{fullName}, updatedTime = #{updatedTime}
+	  where marketId = #{marketId} AND optionNum = #{optionNum}
 	</update>
 	<!--
 	<select id="selectByPrimaryKey" parameterType="map" resultMap="BaseResultMap">

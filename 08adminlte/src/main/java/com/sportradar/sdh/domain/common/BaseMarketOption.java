@@ -8,7 +8,7 @@ public abstract class BaseMarketOption extends BaseEntity {
 
 	protected Long marketId;
 
-	protected Integer optionNum;
+	protected Integer optionNum = -1;
 
 	protected String shortName;
 

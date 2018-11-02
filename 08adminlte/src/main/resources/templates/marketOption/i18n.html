@@ -18,7 +18,7 @@
 				<div class="box-header with-border">
 					<h3 class="box-title">Market I18N Content</h3>
 					<div class="box-tools pull-right">
-						<a href="/marketOption/i18nIndex/" type="button" class="btn btn-box-tool"><i class="fa fa-list-ul"></i></a>
+						<a href="/marketOption/i18n" type="button" class="btn btn-box-tool"><i class="fa fa-list-ul"></i></a>
 					</div>
 				</div>
 				<h3 th:text="|${marketOption.marketId} ${marketOption.optionNum} ${marketOption.fullName}|"></h3>
@@ -41,7 +41,7 @@
 
 				</div>
 				<div class="box-footer">
-					<a href="/marketOption/i18nIndex/" class="btn btn-primary">返回</a>
+					<a href="/marketOption/i18n" class="btn btn-primary">返回</a>
 				</div>
 				<!-- /.box-body -->
 			</div>
@@ -64,7 +64,7 @@
 					return;
 				}
 
-				$.post( "/marketOption/saveI18n", form.serialize(), function( data ){
+				$.post( "/marketOption/i18n/save", form.serialize(), function( data ){
 					$.notify({
 						// options
 						message: data.message

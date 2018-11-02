@@ -1,12 +1,8 @@
 package com.sportradar.sdh.domain.sdp;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
-import javax.persistence.*;
-
-import com.sportradar.sdh.domain.common.BaseEntity;
 import com.sportradar.sdh.domain.common.BaseMarketOption;
 import com.sportradar.sdh.domain.common.IdCompositable;
 import lombok.Data;

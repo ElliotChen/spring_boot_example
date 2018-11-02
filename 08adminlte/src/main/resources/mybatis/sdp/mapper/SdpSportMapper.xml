@@ -2,12 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.sportradar.sdh.dao.sdp.SdpSportDao">
 	<resultMap id="BaseResultMap" type="com.sportradar.sdh.domain.sdp.Sport">
+		<!--
 		<constructor>
 			<idArg column="sportId" javaType="Long"/>
 			<arg column="dgtSportIds" javaType="String"/>
 			<arg column="brSportIds" javaType="String"/>
 		</constructor>
-
+		-->
+		<id column="sportId" property="sportId" />
 		<result column="sportName" property="sportName" jdbcType="VARCHAR"/>
 		<result column="priority" property="priority" jdbcType="INTEGER"/>
 
@@ -16,6 +18,8 @@
 
 		<result column="languageCode" property="language.languageCode"/>
 		<result column="languageName" property="language.languageName"/>
+
+		<result column="sportIdXRefs" property="sportXRefs" jdbcType="VARCHAR" javaType="java.util.List" typeHandler="com.sportradar.sdh.dao.sdp.handler.SportsHandler"></result>
 		<!--
 		<result column="dgtSportIds" property="dgtSportXRefs" jdbcType="VARCHAR" javaType="java.util.List" typeHandler="typehandler.DgtSportListHandler"/>
 		<result column="brSportIds" property="brSportXRefs" jdbcType="VARCHAR" javaType="java.util.List" typeHandler="typehandler.BrSportListHandler"/>
@@ -28,6 +32,15 @@
 	</resultMap>
 
 	<sql id="Base_Column_List">
+    	sportId, sportName, priority, updatedTime, CONCAT(sportId, '|', sportIdXRefs) as sportIdXRefs
+	</sql>
+
+	<sql id="Language_Column_List">
+    	s.sportId, IFNULL(si.sportName,s.sportName) AS sportName, s.priority, CONCAT(s.sportId, '|', s.sportIdXRefs) as sportIdXRefs,
+    	IFNULL(si.languageCode, 1) AS languageCode, IFNULL(l.languageName, 'English') AS languageName
+	</sql>
+	<!--
+	<sql id="Base_Column_List">
     	sportId, sportName, priority, updatedTime,
     	SUBSTRING_INDEX(SUBSTRING_INDEX(sportIdXRefs, '|', 2), '|', -1) as brSportIds,
     	SUBSTRING_INDEX(sportIdXRefs, '|', 1) as dgtSportIds
@@ -39,6 +52,7 @@
     	SUBSTRING_INDEX(s.sportIdXRefs, '|', 1) as dgtSportIds,
     	IFNULL(si.languageCode, 1) AS languageCode, IFNULL(l.languageName, 'English') AS languageName
 	</sql>
+	-->
 
 	<sql id="Language_Table_Join">
 		FROM Sport s
@@ -100,6 +114,17 @@
 
 	<!--回传某一指定sportId的所有语系翻译值，包含i18N里没有储存的 -->
 	<select id="findByIdWithAllLanguage" resultMap="BaseResultMap">
+		SELECT allLang.sportId, IFNULL(si.sportName,allLang.sportName) AS sportName,
+			allLang.priority, allLang.updatedTime, CONCAT(allLang.sportId, '|', allLang.sportIdXRefs) as sportIdXRefs,
+			allLang.languageCode, allLang.languageName
+		FROM
+			(SELECT s.sportId, s.sportName, s.priority, s.updatedTime, s.sportIdXRefs,
+				l.languageCode, l.languageName
+			  FROM Sport s, Language l WHERE s.sportId = #{sportId}) allLang
+		LEFT JOIN Sport_I18N si ON allLang.sportId = si.sportId AND allLang.languageCode = si.languageCode
+	</select>
+	<!--
+	<select id="findByIdWithAllLanguage" resultMap="BaseResultMap">
 		SELECT allLang.sportId, IFNULL(si.sportName,allLang.sportName) AS sportName,allLang.priority, allLang.updatedTime, allLang.brSportIds, allLang.dgtSportIds, allLang.languageCode, allLang.languageName
 		FROM
 			(SELECT s.sportId, s.sportName, s.priority, s.updatedTime,
@@ -109,6 +134,7 @@
 			  FROM Sport s, Language l WHERE s.sportId = #{sportId}) allLang
 		LEFT JOIN Sport_I18N si ON allLang.sportId = si.sportId AND allLang.languageCode = si.languageCode
 	</select>
+	-->
 
 	<insert id="insertI18N" parameterType="com.sportradar.sdh.domain.sdp.Sport">
 		INSERT INTO Sport_I18N (sportId, languageCode, sportName, updatedTime)
@@ -129,6 +155,12 @@
 	<update id="updateData" parameterType="com.sportradar.sdh.domain.sdp.Sport">
 		UPDATE Sport
 		SET sportName = #{sportName}, priority = #{priority}, updatedTime = #{updatedTime}
+		WHERE  sportId=#{sportId}
+	</update>
+
+	<update id="updatePair">
+		UPDATE Sport
+		SET sportIdXRefs = #{sportIdXRefs}
 		WHERE  sportId=#{sportId}
 	</update>
 </mapper>

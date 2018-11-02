@@ -3,7 +3,7 @@ package com.sportradar.sdh.domain.dgt;
 import com.sportradar.sdh.domain.common.BaseRegionSport;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.apache.commons.lang3.StringUtils;
+import org.springframework.util.StringUtils;
 import com.sportradar.sdh.domain.sdp.Region;
 
 @Data
@@ -20,7 +20,7 @@ public class RegionSport extends BaseRegionSport {
 	public static RegionSport ofRefCompositeId(String compositeKey, Integer refRegionNum) {
 		RegionSport regionSport = null;
 
-		if (StringUtils.isEmpty(compositeKey) || "-1 -1".equals(compositeKey)) {
+		if (StringUtils.isEmpty(compositeKey)) { //  || "-1 -1".equals(compositeKey)) {
 			return regionSport;
 		}
 

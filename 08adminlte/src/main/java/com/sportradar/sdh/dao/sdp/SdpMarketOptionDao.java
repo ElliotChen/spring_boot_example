@@ -6,13 +6,15 @@ import com.sportradar.sdh.domain.sdp.Market;
 import com.sportradar.sdh.domain.sdp.MarketOption;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.data.jpa.datatables.repository.DataTablesRepository;
-
 import java.util.List;
 
 @Mapper
 public interface SdpMarketOptionDao {
 	MarketOption findById(@Param("marketId") Long marketId, @Param("optionNum") Integer optionNum);
+
+	Integer countById(@Param("marketId") Long marketId, @Param("optionNum") Integer optionNum);
+
+	Integer findNextOptionNum(@Param("marketId") Long marketId);
 
 	List<MarketOption> findAll();
 
@@ -29,4 +31,8 @@ public interface SdpMarketOptionDao {
 	void insertI18N(MarketOption marketOption);
 
 	void updateI18N(MarketOption marketOption);
+
+	void insertData(MarketOption marketOption);
+
+	void updateData(MarketOption marketOption);
 }

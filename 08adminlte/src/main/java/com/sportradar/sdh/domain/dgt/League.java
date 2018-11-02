@@ -1,6 +1,7 @@
 package com.sportradar.sdh.domain.dgt;
 
 import com.sportradar.sdh.domain.common.BaseLeague;
+import com.sportradar.sdh.domain.common.SourceTypeEnum;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -35,5 +36,10 @@ public class League extends BaseLeague {
 	@Override
 	public String getCompositedId() {
 		return String.valueOf(this.leagueId);
+	}
+
+	@Override
+	public SourceTypeEnum getSourceType() {
+		return SourceTypeEnum.DGT;
 	}
 }

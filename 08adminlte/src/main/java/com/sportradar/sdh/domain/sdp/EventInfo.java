@@ -2,12 +2,7 @@ package com.sportradar.sdh.domain.sdp;
 
 import java.util.Date;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
 import lombok.Data;
-import org.springframework.data.annotation.LastModifiedDate;
 
 @Data
 public class EventInfo {

@@ -5,10 +5,7 @@ import com.sportradar.sdh.domain.sdp.Market;
 import com.sportradar.sdh.domain.sdp.Region;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.apache.commons.lang3.StringUtils;
-
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import org.springframework.util.StringUtils;
 
 @Data
 @NoArgsConstructor
@@ -31,7 +28,7 @@ public class SportMarket extends BaseSportMarket {
     public static SportMarket ofRefCompositeId(String compositeKey, Long refMarketId) {
         SportMarket sportMarket = null;
 
-        if (StringUtils.isEmpty(compositeKey) || "-1 -1 -1 -1".equals(compositeKey)) {
+        if (StringUtils.isEmpty(compositeKey)) { //  || "-1 -1 -1 -1".equals(compositeKey)) {
             return sportMarket;
         }
 

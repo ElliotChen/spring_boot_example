@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.util.StringUtils;
 
-import javax.persistence.Id;
 import java.io.Serializable;
 
 @Data

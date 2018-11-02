@@ -3,6 +3,7 @@ package com.sportradar.sdh.dao.sdp;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.sportradar.sdh.domain.common.BaseSport;
 import com.sportradar.sdh.domain.sdp.Sport;
 import org.junit.Assert;
 import org.junit.Ignore;
@@ -30,6 +31,11 @@ public class SdpSportDaoTest {
 		Sport sport = this.sdpSportDao.findById(53L);
 		System.out.println(sport.getSportName());
 
+		List<BaseSport> sportXRefs = sport.getSportXRefs();
+		for (BaseSport baseSport: sportXRefs) {
+			System.out.println(baseSport.getCompositedId());
+		}
+		/*
 		System.out.println("DgtSport -- ");
 		for (com.sportradar.sdh.domain.dgt.Sport sp : sport.getDgtSportXRefs()) {
 			System.out.println(sp.getSportId());
@@ -39,6 +45,7 @@ public class SdpSportDaoTest {
 		for (com.sportradar.sdh.domain.br.Sport sp : sport.getBrSportXRefs()) {
 			System.out.println(sp.getSportId());
 		}
+		*/
 
 		List<Sport> sports = this.sdpSportDao.findAll();
 		System.out.println(sports.size());

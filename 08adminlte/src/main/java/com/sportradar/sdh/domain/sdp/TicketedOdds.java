@@ -7,10 +7,6 @@ package com.sportradar.sdh.domain.sdp;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
 import lombok.Data;
 
 @Data

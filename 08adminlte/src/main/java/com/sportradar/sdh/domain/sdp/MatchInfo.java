@@ -4,7 +4,6 @@ import com.sportradar.sdh.domain.common.BaseMatchInfo;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
-import javax.persistence.*;
 import java.util.List;
 
 @Slf4j

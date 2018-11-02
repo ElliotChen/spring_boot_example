@@ -8,7 +8,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 
-import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -35,9 +34,9 @@ public class Market extends BaseMarket {
 		this.initBrXRefs(brMarketIds);
 
 		/*
-		referSportXRefs.clear();
-		referSportXRefs.addAll(this.dgtMarketXRefs);
-		referSportXRefs.addAll(this.brMarketXRefs);
+		sportXRefs.clear();
+		sportXRefs.addAll(this.dgtMarketXRefs);
+		sportXRefs.addAll(this.brMarketXRefs);
 		*/
 	}
 

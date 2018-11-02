@@ -1,10 +1,6 @@
 package com.sportradar.sdh.domain.common;
 
 import lombok.Data;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-
-import javax.persistence.*;
 import java.util.Date;
 
 @Data
@@ -16,5 +12,15 @@ public abstract class BaseSport extends BaseEntity {
 
 	protected Date createdTime;
 	protected Date updatedTime;
+
+	@Override
+	public String getCompositedId() {
+		return String.valueOf(this.sportId);
+	}
+
+	@Override
+	public void setCompositedId(String compositedId) {
+		this.sportId = Long.parseLong(compositedId);
+	}
 
 }

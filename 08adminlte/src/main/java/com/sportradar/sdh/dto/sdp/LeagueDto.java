@@ -13,4 +13,16 @@ public class LeagueDto extends League {
 	public String getLangString() {
 		return  Translation.transToLangString(this.translations);
 	}
+
+	private com.sportradar.sdh.domain.dgt.League dgtLeague;
+
+	private com.sportradar.sdh.domain.br.League brLeague;
+
+	public String getDgtIdXRefs() {
+		return dgtLeague !=null ? dgtLeague.getCompositedId() : "";
+	}
+
+	public String getBrIdXRefs() {
+		return brLeague != null ? brLeague.getCompositedId() : "";
+	}
 }

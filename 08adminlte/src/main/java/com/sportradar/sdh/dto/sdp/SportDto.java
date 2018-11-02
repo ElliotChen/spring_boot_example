@@ -1,5 +1,6 @@
 package com.sportradar.sdh.dto.sdp;
 
+import com.sportradar.sdh.domain.common.BaseSport;
 import com.sportradar.sdh.domain.sdp.Sport;
 import lombok.Data;
 
@@ -14,4 +15,17 @@ public class SportDto extends Sport implements Serializable {
 	public String getLangString() {
 		return  Translation.transToLangString(this.translations);
 	}
+
+	private com.sportradar.sdh.domain.dgt.Sport dgtSport;
+
+	private com.sportradar.sdh.domain.br.Sport brSport;
+
+	public String getDgtIdXRefs() {
+		return dgtSport!=null ? dgtSport.getCompositedId() : "";
+	}
+
+	public String getBrIdXRefs() {
+		return brSport != null ? brSport.getCompositedId() : "";
+	}
+
 }

@@ -16,7 +16,11 @@ public abstract class BaseEntity implements IdCompositable {
 	public String getCompositedId() {
 		return "";
 	}
+	public void setCompositedId(String compositedId) {};
 
 
-
+	@Override
+	public SourceTypeEnum getSourceType() {
+		return SourceTypeEnum.UNKNOWN;
+	}
 }

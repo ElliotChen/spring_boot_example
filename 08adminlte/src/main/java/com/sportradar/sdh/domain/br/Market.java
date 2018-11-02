@@ -1,14 +1,9 @@
 package com.sportradar.sdh.domain.br;
 
 import com.sportradar.sdh.domain.common.BaseMarket;
-import com.sportradar.sdh.domain.dgt.RegionSport;
-import com.sportradar.sdh.domain.sdp.Region;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.apache.commons.lang3.StringUtils;
-
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import org.springframework.util.StringUtils;
 
 @Data
 @NoArgsConstructor
@@ -28,7 +23,7 @@ public class Market extends BaseMarket {
 	public static Market ofRefCompositeId(String compositeKey, Long refMarketId) {
 		Market market = null;
 
-		if (StringUtils.isEmpty(compositeKey) || compositeKey.startsWith("-1")) {
+		if (StringUtils.isEmpty(compositeKey)) { //  || compositeKey.startsWith("-1")) {
 			return market;
 		}
 

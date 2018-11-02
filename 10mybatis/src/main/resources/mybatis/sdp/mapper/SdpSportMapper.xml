@@ -2,15 +2,17 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="tw.elliot.ms.dao.sdp.SdpSportDao" >
 	<resultMap id="BaseResultMap" type="tw.elliot.ms.domain.sdp.Sport" >
+		<!--
 		<constructor>
 			<idArg column="sportId" javaType="Long"/>
 			<arg column="dgtSportIds" javaType="String"/>
 			<arg column="brSportIds" javaType="String"/>
 		</constructor>
-
+		-->
+		<id column="sportId" property="sportId" javaType="Long" />
 		<result column="sportName" property="sportName" jdbcType="VARCHAR" />
 		<result column="priority" property="priority" jdbcType="INTEGER" />
-		<result column="updatedTime" property="updatedTime" jdbcType="TIMESTAMP" />
+		<result column="updatedTime" property="updatedTime" jdbcType="TIMESTAMP"/>
 		<!--
 		<result column="dgtSportIds" property="dgtSportXRefs" jdbcType="VARCHAR" javaType="java.util.List" typeHandler="tw.elliot.ms.mybatis.typehandler.DgtSportListHandler"/>
 		<result column="brSportIds" property="brSportXRefs" jdbcType="VARCHAR" javaType="java.util.List" typeHandler="tw.elliot.ms.mybatis.typehandler.BrSportListHandler"/>

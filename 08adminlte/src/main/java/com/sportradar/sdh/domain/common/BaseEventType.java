@@ -1,8 +1,5 @@
 package com.sportradar.sdh.domain.common;
 
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
-
 import lombok.Data;
 
 @Data

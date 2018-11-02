@@ -41,17 +41,17 @@ public class MarketOptionCtrl {
 	@Autowired
 	private SdpMarketDao sdhMarketDao;
 
-	@GetMapping("/")
+	@GetMapping("/pair")
 	public String index() {
 		return prefix+"/pairIndex";
 	}
 
-	@GetMapping("/i18nIndex")
+	@GetMapping("/i18n")
 	public String i18nIndex() {
 		return prefix+"/i18nIndex";
 	}
 
-	@GetMapping("/dataIndex")
+	@GetMapping("/data")
 	public String dataIndex() {
 		return prefix+"/dataIndex";
 	}
@@ -73,25 +73,25 @@ public class MarketOptionCtrl {
 		return  ds;
 	}
 
-	@GetMapping("/pair/{id}/{optionNum}")
-	public String pair(@PathVariable Long id, @PathVariable Integer optionNum, Model model) {
-		MarketOption sport = this.sdhMarketOptionDao.findById(id, optionNum);
+	@GetMapping("/pair/{marketId}/{optionNum}")
+	public String pair(@PathVariable Long marketId, @PathVariable Integer optionNum, Model model) {
+		MarketOption sport = this.sdhMarketOptionDao.findById(marketId, optionNum);
 		model.addAttribute("market", sport);
 		return prefix+"/pair";
 	}
 
-	@GetMapping("/i18n/{id}/{optionNum}")
-	public String i18n(@PathVariable Long id, @PathVariable Integer optionNum, Model model) {
+	@GetMapping("/i18n/{marketId}/{optionNum}")
+	public String i18n(@PathVariable Long marketId, @PathVariable Integer optionNum, Model model) {
 
-		MarketOption marketOption = this.sdhMarketOptionDao.findById(id, optionNum);
-		List<MarketOption> marketOptions = this.sdhMarketOptionDao.findByIdWithAllLanguage(id, optionNum);
+		MarketOption marketOption = this.sdhMarketOptionDao.findById(marketId, optionNum);
+		List<MarketOption> marketOptions = this.sdhMarketOptionDao.findByIdWithAllLanguage(marketId, optionNum);
 
 		model.addAttribute("marketOption", marketOption);
 		model.addAttribute("marketOptions", marketOptions);
 		return prefix+"/i18n";
 	}
 
-	@PostMapping("/saveI18n")
+	@PostMapping("/i18n/save")
 	@ResponseBody
 	public ApiResult saveI18n(MarketOptionDto marketOptionDto, Model model) {
 		log.error("Find MarketOpton [{}][{}] - [{}]",marketOptionDto.getMarketId(), marketOptionDto.getOptionNum(), marketOptionDto.getLanguage().getLanguageCode());
@@ -102,6 +102,33 @@ public class MarketOptionCtrl {
 		apiResult.setStatus(HttpStatus.OK);
 		apiResult.setMessage("Save Success!");
 		return apiResult;
+	}
+
+	@GetMapping("/data/{marketId}/{optionNum}")
+	public String data(@PathVariable Long marketId, @PathVariable Integer optionNum, Model model) {
+		/*
+		MarketOptionPK id = new MarketOptionPK(expressId);
+		this.findById(id, model);
+
+		model.addAttribute("markets", Lists.newArrayList(this.sdhMarketDao.findAll()));
+		*/
+
+		MarketOption marketOption = this.sdhMarketOptionDao.findById(marketId, optionNum);
+
+		if (null == marketOption) {
+			marketOption = new MarketOption();
+		}
+
+		model.addAttribute("marketOption", marketOption);
+		model.addAttribute("markets", this.sdhMarketDao.findAll());
+		return prefix+"/data";
+	}
+
+	@PostMapping("/data/save")
+	public String saveData(MarketOption marketOption, Model model) {
+		this.saveDbData(marketOption);
+		model.addAttribute("successFlash", "Success!");
+		return prefix+"/dataIndex";
 	}
 
 	private List<MarketOptionDto> coverDto(List<MarketOption> markets) {
@@ -125,13 +152,33 @@ public class MarketOptionCtrl {
 		return result;
 	}
 
-	private void saveDbI18N(MarketOptionDto market) {
-		market.setUpdatedTime(new Date());
-		MarketOption mk = this.sdhMarketOptionDao.findByIdAndLanguageCodeWithLanguage(market.getMarketId(), market.getOptionNum(), market.getLanguage().getLanguageCode());
+	private void saveDbI18N(MarketOption marketOption) {
+		marketOption.setUpdatedTime(new Date());
+		MarketOption mk = this.sdhMarketOptionDao.findByIdAndLanguageCodeWithLanguage(marketOption.getMarketId(), marketOption.getOptionNum(), marketOption.getLanguage().getLanguageCode());
 		if (mk == null) {
-			this.sdhMarketOptionDao.insertI18N(market);
+			this.sdhMarketOptionDao.insertI18N(marketOption);
 		} else {
-			this.sdhMarketOptionDao.updateI18N(market);
+			this.sdhMarketOptionDao.updateI18N(marketOption);
+		}
+	}
+
+	private void saveDbData(MarketOption marketOption) {
+		Integer count = this.sdhMarketOptionDao.countById(marketOption.getMarketId(), marketOption.getOptionNum());
+		Date now = new Date();
+		log.info("Save MarketOption [{}] - [{}]", marketOption.getMarketId(), marketOption.getOptionNum());
+		if (count == 0) {
+
+			Integer optionNum = this.sdhMarketOptionDao.findNextOptionNum(marketOption.getMarketId());
+			if (null == optionNum) {
+				optionNum = 1;
+			}
+
+			marketOption.setOptionNum(optionNum);
+			marketOption.setUpdatedTime(now);
+			this.sdhMarketOptionDao.insertData(marketOption);
+		} else {
+			marketOption.setUpdatedTime(now);
+			this.sdhMarketOptionDao.updateData(marketOption);
 		}
 	}
 

@@ -2,11 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.sportradar.sdh.dao.sdp.SdpLeagueDao">
 	<resultMap id="BaseResultMap" type="com.sportradar.sdh.domain.sdp.League">
+		<!--
 		<constructor>
 			<idArg column="leagueId" javaType="Long"/>
 			<arg column="dgtLeagueIds" javaType="String"/>
 			<arg column="brLeagueIds" javaType="String"/>
 		</constructor>
+		-->
+		<id column="leagueId" property="leagueId" javaType="Long"/>
 		<result column="leagueName" property="leagueName" jdbcType="VARCHAR"/>
 		<result column="priority" property="priority" jdbcType="SMALLINT"/>
 		<result column="regionNum" property="regionNum" jdbcType="INTEGER"/>
@@ -18,6 +21,9 @@
 
 		<result column="languageCode" property="language.languageCode"/>
 		<result column="languageName" property="language.languageName"/>
+
+		<result column="leagueIdXRefs" property="leagueXRefs" jdbcType="VARCHAR" javaType="java.util.List" typeHandler="com.sportradar.sdh.dao.sdp.handler.LeaguesHandler"></result>
+
 	</resultMap>
 
 
@@ -26,6 +32,17 @@
 		<result property="languageName" column="languageName" jdbcType="VARCHAR"/>
 	</resultMap>
 
+	<sql id="Base_Column_List">
+    	leagueId, leagueName, priority, regionNum, sportId, leagueGroupId, createdTime, updatedTime, CONCAT(leagueId, '|', leagueIdXRefs) as leagueIdXRefs
+  </sql>
+
+	<sql id="Language_Column_List">
+    	lg.leagueId, IFNULL(li.leagueName,lg.leagueName) as leagueName, lg.priority, lg.regionNum, lg.sportId, lg.leagueGroupId, lg.createdTime, lg.updatedTime,
+    	CONCAT(lg.leagueId, '|', lg.leagueIdXRefs) as leagueIdXRefs,
+    	IFNULL(li.languageCode, 1) AS languageCode, IFNULL(l.languageName, 'English') AS languageName
+	</sql>
+
+	<!--
 	<sql id="Base_Column_List">
     	leagueId, leagueName, priority, regionNum, sportId, leagueGroupId, createdTime, updatedTime,
     	SUBSTRING_INDEX(leagueIdXRefs, '|', 1) as dgtLeagueIds,
@@ -38,6 +55,7 @@
     	SUBSTRING_INDEX(SUBSTRING_INDEX(lg.leagueIdXRefs, '|', 2), '|', -1) as brLeagueIds,
     	IFNULL(li.languageCode, 1) AS languageCode, IFNULL(l.languageName, 'English') AS languageName
 	</sql>
+	-->
 
 	<sql id="Language_Table_Join">
 		FROM League lg
@@ -99,6 +117,17 @@
 	<!--回传某一指定leagueId的所有语系翻译值，包含i18N里没有储存的 -->
 	<select id="findByIdWithAllLanguage" resultMap="BaseResultMap">
 		SELECT allLang.leagueId, IFNULL(li.leagueName,allLang.leagueName) as leagueName, allLang.priority, allLang.regionNum, allLang.sportId, allLang.leagueGroupId, allLang.createdTime, allLang.updatedTime,
+    		allLang.leagueIdXRefs, allLang.languageCode, allLang.languageName
+		FROM
+			(SELECT lg.leagueId, lg.leagueName, lg.priority, lg.regionNum, lg.sportId, lg.leagueGroupId, lg.createdTime, lg.updatedTime,
+    	CONCAT(lg.leagueId, '|', lg.leagueIdXRefs) as leagueIdXRefs,
+    	l.languageCode, l.languageName
+			  FROM League lg, Language l WHERE lg.leagueId = #{leagueId}) allLang
+		LEFT JOIN League_I18N li ON allLang.leagueId = li.leagueId AND allLang.languageCode = li.languageCode
+	</select>
+	<!--
+	<select id="findByIdWithAllLanguage" resultMap="BaseResultMap">
+		SELECT allLang.leagueId, IFNULL(li.leagueName,allLang.leagueName) as leagueName, allLang.priority, allLang.regionNum, allLang.sportId, allLang.leagueGroupId, allLang.createdTime, allLang.updatedTime,
     		allLang.dgtLeagueIds, allLang.brLeagueIds, allLang.languageCode, allLang.languageName
 		FROM
 			(SELECT lg.leagueId, lg.leagueName, lg.priority, lg.regionNum, lg.sportId, lg.leagueGroupId, lg.createdTime, lg.updatedTime,
@@ -108,6 +137,7 @@
 			  FROM League lg, Language l WHERE lg.leagueId = #{leagueId}) allLang
 		LEFT JOIN League_I18N li ON allLang.leagueId = li.leagueId AND allLang.languageCode = li.languageCode
 	</select>
+	-->
 
 	<insert id="insertI18N" parameterType="com.sportradar.sdh.domain.sdp.League">
 		INSERT INTO League_I18N (leagueId, languageCode, leagueName, updatedTime)
@@ -129,6 +159,12 @@
 	  update League
 	  set leagueName = #{leagueName}, priority = #{priority}, regionNum = #{regionNum}, sportId = #{sportId}, leagueGroupId = #{leagueGroupId}, updatedTime = #{updatedTime}
 	  where leagueId = #{leagueId}
+	</update>
+
+	<update id="updatePair">
+		UPDATE League
+		SET leagueIdXRefs = #{leagueIdXRefs}
+		WHERE  leagueId=#{leagueId}
 	</update>
 	<!--
 	<insert id="insert" parameterType="com.betmatrix.theonex.mybatis.model.League" >

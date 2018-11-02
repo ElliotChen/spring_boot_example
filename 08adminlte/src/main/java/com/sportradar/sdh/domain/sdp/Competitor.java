@@ -3,7 +3,6 @@ package com.sportradar.sdh.domain.sdp;
 import com.sportradar.sdh.domain.common.BaseCompetitor;
 import lombok.Data;
 
-import javax.persistence.*;
 import java.util.List;
 
 @Data

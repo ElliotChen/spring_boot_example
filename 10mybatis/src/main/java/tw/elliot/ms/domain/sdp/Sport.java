@@ -19,6 +19,8 @@ public class Sport extends BaseSport implements UpdateIdable {
 
 	private List<tw.elliot.ms.domain.br.Sport> brSportXRefs = new ArrayList<>();
 
+	private List<BaseSport> sportRefs = new ArrayList<>();
+
 	public Sport(Long sportId) {
 		this(sportId, "", "");
 	}

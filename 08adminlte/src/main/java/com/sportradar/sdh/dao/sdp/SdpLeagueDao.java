@@ -5,7 +5,6 @@ import com.sportradar.sdh.domain.sdp.League;
 import com.sportradar.sdh.domain.sdp.Sport;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.data.jpa.datatables.repository.DataTablesRepository;
 
 import java.util.List;
 
@@ -36,4 +35,6 @@ public interface SdpLeagueDao {
 	void insertData(League sport);
 
 	void updateData(League sport);
+
+	void updatePair(@Param("leagueId") Long leagueId, @Param("leagueIdXRefs") String leagueIdXRefs);
 }

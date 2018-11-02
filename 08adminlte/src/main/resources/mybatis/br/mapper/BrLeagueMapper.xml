@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sportradar.sdh.dao.br.DgtLeagueDao">
+	<resultMap id="BaseResultMap" type="com.sportradar.sdh.domain.br.League">
+		<id column="leagueId" property="leagueId" javaType="Long"/>
+		<result column="leagueName" property="leagueName" jdbcType="VARCHAR"/>
+		<result column="priority" property="priority" jdbcType="SMALLINT"/>
+		<result column="regionNum" property="regionNum" jdbcType="INTEGER"/>
+		<result column="sportId" property="sportId" jdbcType="BIGINT"/>
+		<result column="leagueGroupId" property="leagueGroupId" jdbcType="BIGINT"/>
+
+		<result column="createdTime" property="createdTime" jdbcType="TIMESTAMP"/>
+		<result column="updatedTime" property="updatedTime" jdbcType="TIMESTAMP"/>
+
+	</resultMap>
+
+	<sql id="Base_Column_List">
+    	leagueId, leagueName, priority, regionNum, sportId, leagueGroupId, createdTime, updatedTime
+	</sql>
+
+	<select id="findById" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List"/>
+		from League
+		where leagueId = #{leagueId}
+	</select>
+
+	<select id="findAll" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List"/>
+		from League
+	</select>
+</mapper>

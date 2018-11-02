@@ -4,11 +4,6 @@ import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.StringUtils;
 
-import javax.persistence.MappedSuperclass;
-import javax.persistence.PostLoad;
-import javax.persistence.PreUpdate;
-import javax.persistence.Transient;
-
 @Data
 @Slf4j
 public abstract class BaseReferenceModel {

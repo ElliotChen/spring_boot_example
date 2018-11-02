@@ -21,7 +21,7 @@
 						<a href="/market/data" type="button" class="btn btn-box-tool"><i class="fa fa-list-ul"></i></a>
 					</div>
 				</div>
-				<form data-toggle="validator" id="marketDataForm" role="form" th:object="${market}" th:action="@{/market/saveData}" method="post">
+				<form data-toggle="validator" id="marketDataForm" role="form" th:object="${market}" th:action="@{/market/data/save}" method="post">
 					<div class="box-body">
 						<input type="hidden" name="marketId" th:field="*{marketId}"/>
 

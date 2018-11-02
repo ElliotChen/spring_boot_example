@@ -3,7 +3,7 @@ package com.sportradar.sdh.domain.dgt;
 import com.sportradar.sdh.domain.common.BaseMarketOption;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.apache.commons.lang3.StringUtils;
+import org.springframework.util.StringUtils;
 
 @Data
 @NoArgsConstructor
@@ -21,7 +21,7 @@ public class MarketOption extends BaseMarketOption {
 	public static MarketOption ofRefCompositeId(String compositeKey, Long refMarketId, Integer refOptionNum) {
 		MarketOption marketOption = null;
 
-		if (StringUtils.isEmpty(compositeKey) || compositeKey.startsWith("-1")) {
+		if (StringUtils.isEmpty(compositeKey)) { // || compositeKey.startsWith("-1")) {
 			return marketOption;
 		}
 

@@ -1,17 +1,15 @@
 package com.sportradar.sdh.domain.br;
 
 import com.sportradar.sdh.domain.common.BaseSport;
+import com.sportradar.sdh.domain.common.SourceTypeEnum;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
-
-@Entity
-@Table(name = "Sport")
 @Data
+@NoArgsConstructor
 public class Sport extends BaseSport {
 
-	private com.sportradar.sdh.domain.sdp.Sport sportRef;
+	protected com.sportradar.sdh.domain.sdp.Sport sportRef = new com.sportradar.sdh.domain.sdp.Sport();
 
 	public Sport(Long sportId) {
 		this.setSportId(sportId);
@@ -33,7 +31,8 @@ public class Sport extends BaseSport {
 
 	}
 
-	public String getCompositedId() {
-		return String.valueOf(this.sportId);
+	@Override
+	public SourceTypeEnum getSourceType() {
+		return SourceTypeEnum.BR;
 	}
 }
