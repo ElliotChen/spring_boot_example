@@ -16,40 +16,25 @@
 		<div class="col-xs-12">
 			<div class="box">
 				<div class="box-header">
-					<h3 class="box-title">Region Pair Content</h3>
+					<h3 class="box-title"><h3 class="box-title">Pair: <h3 th:text="|${region.regionNum} ${region.regionFullName}|"></h3></h3></h3>
 					<div class="box-tools pull-right">
 						<a href="/region/pair" type="button" class="btn btn-box-tool"><i class="fa fa-list-ul"></i></a>
 					</div>
 				</div>
-				<form data-toggle="validator" class="form-horizontal" role="form" th:object="${region}" th:action="@{/region/savePair}" method="post">
+				<form data-toggle="validator" class="form-horizontal" role="form" th:object="${region}" th:action="@{/region/pair/save}" method="post">
 					<div class="box-body">
 						<input type="hidden" name="regionNum" th:field="*{regionNum}"/>
 
 						<div class="form-group">
-							<label for="sportName" class="col-sm-2 control-label">Region Name</label>
-							<div class="col-sm-10">
-								<input type="text" required="true" class="form-control" th:field="*{regionFullName}" id="sportName" />
-							</div>
-						</div>
-
-						<div class="form-group">
-							<label for="dgtregionNumXRefs" class="col-sm-2 control-label">DGT</label>
-							<div class="col-sm-10">
-							<select class="form-control" id="dgtregionNumXRefs" name="dgtregionNumXRefs" multiple="multiple"  th:field="*{dgtIdXRefs}">
-								<option th:each="i : ${#numbers.sequence(0, 100)}" th:value="${i}" th:text="|${i}, 名称待查|"></option>
+							<label for="dgtRegionSport.sportId" class="control-label">DGT</label>
+							<select class="form-control" id="dgtRegionSport.sportId" th:field="*{dgtRegionSport.sportId}">
+								<option th:each="ds : ${dgtSports}" th:value="${ds.sportId}" th:text="|${ds.sportId}, ${ds.sportName}|"></option>
 							</select>
-							</div>
-						</div>
-
-						<div class="form-group">
-							<label for="brregionNumXRefs" class="col-sm-2 control-label">BR</label>
-							<div class="col-sm-10">
-							<select class="form-control" id="brregionNumXRefs" name="brregionNumXRefs" multiple="multiple"  th:field="*{brIdXRefs}">
-								<option th:each="i : ${#numbers.sequence(0, 100)}" th:value="${i}" th:text="|${i}, 名称待查|"></option>
+							<select class="form-control" id="dgtRegionSport.regionNum" th:field="*{dgtRegionSport.regionNum}">
+								<option th:each="ds : ${dgtRegions}" th:value="${ds.regionNum}" th:text="|${ds.regionNum}, ${ds.regionFullName}|"></option>
 							</select>
-							</div>
-						</div>
 
+						</div>
 
 					</div>
 					<div class="box-footer">

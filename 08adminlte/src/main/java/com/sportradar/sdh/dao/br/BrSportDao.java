@@ -11,4 +11,7 @@ public interface BrSportDao {
 	Sport findById(@Param("sportId") Long sportId);
 
 	List<Sport> findAll();
+
+	List<Sport> findByRegionNum(@Param("regionNum") Integer regionNum);
+	List<Sport> findAllForRegion();
 }

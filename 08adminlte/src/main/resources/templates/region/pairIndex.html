@@ -46,7 +46,7 @@
 	<script language="JavaScript">
 		$(document).ready(function () {
 			var table = $('table#sample').DataTable({
-				'ajax': '/region/findAll',
+				'ajax': '/region/findByPage',
 				'serverSide': true,
 				columns: [{
 					data: 'regionNum'

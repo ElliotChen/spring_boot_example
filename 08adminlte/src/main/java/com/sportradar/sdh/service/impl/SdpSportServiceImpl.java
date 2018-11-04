@@ -12,27 +12,28 @@ import com.sportradar.sdh.dto.dts.DataTablesInput;
 import com.sportradar.sdh.dto.dts.DataTablesOutput;
 import com.sportradar.sdh.dto.sdp.SportDto;
 import com.sportradar.sdh.dto.sdp.Translation;
-import com.sportradar.sdh.service.SportService;
+import com.sportradar.sdh.service.SdpSportService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 @Service
-public class SportServiceImpl implements SportService {
+public class SdpSportServiceImpl implements SdpSportService {
 
 	@Autowired
 	private SdpSportDao sdpSportDao;
 
+	/*
 	@Autowired
 	private DgtSportDao dgtSportDao;
 
 	@Autowired
 	private BrSportDao brSportDao;
+	*/
 
 	@Override
 	public List<SportDto> findAll() {
@@ -42,15 +43,6 @@ public class SportServiceImpl implements SportService {
 	@Override
 	public List<SportDto> findByIdWithAllLanguage(Long sportId) {
 		return this.convertDto(this.sdpSportDao.findByIdWithAllLanguage(sportId));
-	}
-	@Override
-	public List<com.sportradar.sdh.domain.dgt.Sport> findAllDgtSports() {
-		return this.dgtSportDao.findAll();
-	}
-
-	@Override
-	public List<com.sportradar.sdh.domain.br.Sport> findAllBrSports() {
-		return this.brSportDao.findAll();
 	}
 
 	@Override
@@ -105,7 +97,7 @@ public class SportServiceImpl implements SportService {
 	@Override
 	public void savePair(SportDto sport) {
 		String sportIdXRefs = sport.getDgtSport().getCompositedId()+"|"+sport.getBrSport().getCompositedId();
-		this.sdpSportDao.updatePair(sport.getSportId(), sportIdXRefs);
+		this.sdpSportDao.updatePair(sport, sportIdXRefs);
 	}
 
 

@@ -14,15 +14,15 @@ public class RegionDto extends Region {
 		return  Translation.transToLangString(this.translations);
 	}
 
-	private com.sportradar.sdh.domain.dgt.Region dgtRegion;
+	private com.sportradar.sdh.domain.dgt.RegionSport dgtRegionSport;
 
-	private com.sportradar.sdh.domain.br.Region brRegion;
+	private com.sportradar.sdh.domain.br.RegionSport brRegionSport;
 
 	public String getDgtIdXRefs() {
-		return dgtRegion !=null ? dgtRegion.getCompositedId() : "";
+		return dgtRegionSport !=null ? dgtRegionSport.getCompositedId() : "";
 	}
 
 	public String getBrIdXRefs() {
-		return brRegion != null ? brRegion.getCompositedId() : "";
+		return brRegionSport != null ? brRegionSport.getCompositedId() : "";
 	}
 }

@@ -5,12 +5,15 @@ import com.github.pagehelper.PageHelper;
 import com.sportradar.sdh.dao.br.BrRegionDao;
 import com.sportradar.sdh.dao.dgt.DgtRegionDao;
 import com.sportradar.sdh.dao.sdp.SdpRegionDao;
+import com.sportradar.sdh.domain.common.BaseRegionSport;
+import com.sportradar.sdh.domain.common.BaseSport;
+import com.sportradar.sdh.domain.common.SourceTypeEnum;
 import com.sportradar.sdh.domain.sdp.Region;
 import com.sportradar.sdh.dto.dts.DataTablesInput;
 import com.sportradar.sdh.dto.dts.DataTablesOutput;
 import com.sportradar.sdh.dto.sdp.RegionDto;
 import com.sportradar.sdh.dto.sdp.Translation;
-import com.sportradar.sdh.service.RegionService;
+import com.sportradar.sdh.service.SdpRegionService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,7 +23,7 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-public class RegionServiceImpl implements RegionService {
+public class SdpRegionServiceImpl implements SdpRegionService {
 
 	@Autowired
 	private SdpRegionDao sdpRegionDao;
@@ -41,10 +44,12 @@ public class RegionServiceImpl implements RegionService {
 		return this.convertDto(this.sdpRegionDao.findById(regionNum));
 	}
 
+	/*
 	@Override
 	public List<com.sportradar.sdh.domain.dgt.Region> findAllDgtRegions() {
 		return this.dgtRegionDao.findAll();
 	}
+	*/
 
 	@Override
 	public List<com.sportradar.sdh.domain.br.Region> findAllBrRegions() {
@@ -98,7 +103,7 @@ public class RegionServiceImpl implements RegionService {
 
 	@Override
 	public void savePair(RegionDto region) {
-		String regionNumXRefs = region.getDgtRegion().getCompositedId()+"|"+region.getBrRegion().getCompositedId();
+		String regionNumXRefs = region.getDgtRegionSport().getCompositedId()+"|"+region.getBrRegionSport().getCompositedId();
 		this.sdpRegionDao.updatePair(region.getRegionNum(), regionNumXRefs);
 	}
 
@@ -124,6 +129,14 @@ public class RegionServiceImpl implements RegionService {
 			translation.setTranslationValue(translatedRegion.getRegionFullName());
 
 			sd.getTranslations().add(translation);
+		}
+
+		for (BaseRegionSport baseRegionSport: region.getRegionSportXRefs()) {
+			if (SourceTypeEnum.DGT == baseRegionSport.getSourceType()) {
+				sd.setDgtRegionSport((com.sportradar.sdh.domain.dgt.RegionSport) baseRegionSport);
+			} else if (SourceTypeEnum.BR == baseRegionSport.getSourceType()) {
+				sd.setBrRegionSport((com.sportradar.sdh.domain.br.RegionSport) baseRegionSport);
+			}
 		}
 
 		return sd;

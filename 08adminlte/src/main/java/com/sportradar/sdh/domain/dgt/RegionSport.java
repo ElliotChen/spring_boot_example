@@ -1,6 +1,7 @@
 package com.sportradar.sdh.domain.dgt;
 
 import com.sportradar.sdh.domain.common.BaseRegionSport;
+import com.sportradar.sdh.domain.common.SourceTypeEnum;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.util.StringUtils;
@@ -33,7 +34,8 @@ public class RegionSport extends BaseRegionSport {
 		return regionSport;
 	}
 
-	public String getCompositedId() {
-		return String.valueOf(this.regionNum)+" "+String.valueOf(this.sportId);
+	@Override
+	public SourceTypeEnum getSourceType() {
+		return SourceTypeEnum.DGT;
 	}
 }

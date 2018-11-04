@@ -7,7 +7,7 @@ import com.sportradar.sdh.dto.sdp.LeagueDto;
 
 import java.util.List;
 
-public interface LeagueService {
+public interface SdpLeagueService {
 	List<LeagueDto> findAll();
 
 	LeagueDto findById(Long leagueId);

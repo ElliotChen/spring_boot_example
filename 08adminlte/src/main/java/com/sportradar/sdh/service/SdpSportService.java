@@ -6,14 +6,10 @@ import com.sportradar.sdh.dto.sdp.SportDto;
 
 import java.util.List;
 
-public interface SportService {
+public interface SdpSportService {
 	List<SportDto> findAll();
 
 	SportDto findById(Long sportId);
-
-	List<com.sportradar.sdh.domain.dgt.Sport> findAllDgtSports();
-
-	List<com.sportradar.sdh.domain.br.Sport> findAllBrSports();
 
 	DataTablesOutput<SportDto> findByPage(DataTablesInput input);
 

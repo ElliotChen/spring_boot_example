@@ -32,4 +32,15 @@
 		from Sport
 	</select>
 
+	<!-- Mapping Table is RegionSport -->
+	<select id="findByRegionNum" resultMap="BaseResultMap">
+		SELECT s.sportId, s.sportName, s.priority, s.updatedTime, s.sportIdXRef
+			FROM Sport as s INNER JOIN RegionSport as rs
+			ON s.sportId = rs.sportId AND rs.regionNum = #{regionNum};
+	</select>
+	<select id="findAllForRegion" resultMap="BaseResultMap">
+		SELECT s.sportId, s.sportName, s.priority, s.updatedTime, s.sportIdXRef
+			FROM Sport as s INNER JOIN RegionSport as rs
+			ON s.sportId = rs.sportId
+	</select>
 </mapper>

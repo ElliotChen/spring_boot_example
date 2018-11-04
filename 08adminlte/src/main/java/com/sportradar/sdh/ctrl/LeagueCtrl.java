@@ -1,17 +1,15 @@
 package com.sportradar.sdh.ctrl;
 
-import com.sportradar.sdh.dao.sdp.*;
 import com.sportradar.sdh.domain.sdp.League;
-import com.sportradar.sdh.domain.sdp.Region;
 import com.sportradar.sdh.dto.dts.DataTablesInput;
 import com.sportradar.sdh.dto.dts.DataTablesOutput;
 import com.sportradar.sdh.dto.sdp.LeagueDto;
 import com.sportradar.sdh.dto.sdp.RegionDto;
 import com.sportradar.sdh.dto.system.ApiResult;
-import com.sportradar.sdh.service.LeagueGroupService;
-import com.sportradar.sdh.service.LeagueService;
-import com.sportradar.sdh.service.RegionService;
-import com.sportradar.sdh.service.SportService;
+import com.sportradar.sdh.service.SdpLeagueGroupService;
+import com.sportradar.sdh.service.SdpLeagueService;
+import com.sportradar.sdh.service.SdpRegionService;
+import com.sportradar.sdh.service.SdpSportService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,22 +28,22 @@ public class LeagueCtrl {
 	private static final String prefix = "league";
 
 	@Autowired
-	private LeagueService leagueService;
+	private SdpLeagueService sdpLeagueService;
 
 	@Autowired
-	private RegionService regionService;
+	private SdpRegionService sdpRegionService;
 
 	@Autowired
-	private SportService sportService;
+	private SdpSportService sdpSportService;
 
 	@Autowired
-	private LeagueGroupService leagueGroupService;
+	private SdpLeagueGroupService sdpLeagueGroupService;
 
 	@GetMapping("/findByPage")
 	@ResponseBody
 	public DataTablesOutput<LeagueDto> findByPage(@Valid DataTablesInput input) {
 
-		return this.leagueService.findByPage(input);
+		return this.sdpLeagueService.findByPage(input);
 	}
 
 
@@ -59,11 +57,11 @@ public class LeagueCtrl {
 
 	@GetMapping("/pair/{id}")
 	public String pair(@PathVariable Long id, Model model) {
-		League league = this.leagueService.findById(id);
+		League league = this.sdpLeagueService.findById(id);
 		model.addAttribute("league", league);
 
-		model.addAttribute("dgtLeagues", this.leagueService.findAllDgtLeagues());
-		model.addAttribute("brLeagues", this.leagueService.findAllBrLeagues());
+		model.addAttribute("dgtLeagues", this.sdpLeagueService.findAllDgtLeagues());
+		model.addAttribute("brLeagues", this.sdpLeagueService.findAllBrLeagues());
 
 		return prefix+"/pair";
 	}
@@ -73,7 +71,7 @@ public class LeagueCtrl {
 		log.info("Find save target : Sport [{}] - DGT[{}],BR[{}]",league.getLeagueId(),
 				league.getDgtLeague().getLeagueId(), league.getBrLeague().getLeagueId());
 
-		this.leagueService.savePair(league);
+		this.sdpLeagueService.savePair(league);
 		model.addAttribute("successFlash", "Success!");
 		return prefix+"/pairIndex";
 	}
@@ -90,8 +88,8 @@ public class LeagueCtrl {
 	@GetMapping("/i18n/{id}")
 	public String i18n(@PathVariable Long id, Model model) {
 
-		LeagueDto league = this.leagueService.findById(id);
-		List<LeagueDto> leagues = this.leagueService.findByIdWithAllLanguage(id);
+		LeagueDto league = this.sdpLeagueService.findById(id);
+		List<LeagueDto> leagues = this.sdpLeagueService.findByIdWithAllLanguage(id);
 
 		model.addAttribute("league", league);
 		model.addAttribute("leagues", leagues);
@@ -102,7 +100,7 @@ public class LeagueCtrl {
 	@ResponseBody
 	public ApiResult saveI18n(LeagueDto league, Model model) {
 		log.info("Find League [{}] - [{}]",league.getLeagueId(), league.getLanguage().getLanguageCode());
-		this.leagueService.saveI18N(league);
+		this.sdpLeagueService.saveI18N(league);
 		model.addAttribute("successFlash", "Success!");
 
 		ApiResult apiResult = new ApiResult();
@@ -123,7 +121,7 @@ public class LeagueCtrl {
 
 	@GetMapping("/data/{id}")
 	public String data(@PathVariable Long id, Model model) {
-		League league = this.leagueService.findById(id);
+		League league = this.sdpLeagueService.findById(id);
 
 		if (null == league) {
 			league = new League();
@@ -137,14 +135,14 @@ public class LeagueCtrl {
 
 		List<RegionDto> regions = new ArrayList<>();
 		if (null != league.getRegionNum()) {
-			RegionDto region = this.regionService.findById(league.getRegionNum());
+			RegionDto region = this.sdpRegionService.findById(league.getRegionNum());
 			if (null != region) {
 				regions.add(region);
 			}
 		}
 
-		model.addAttribute("leagueGroups", this.leagueGroupService.findAll());
-		model.addAttribute("sports", this.sportService.findAll());
+		model.addAttribute("leagueGroups", this.sdpLeagueGroupService.findAll());
+		model.addAttribute("sports", this.sdpSportService.findAll());
 		model.addAttribute("regions", regions);
 
 		return prefix+"/data";
@@ -152,7 +150,7 @@ public class LeagueCtrl {
 
 	@PostMapping("/data/save")
 	public String saveData(LeagueDto league,Model model) {
-		this.leagueService.saveData(league);
+		this.sdpLeagueService.saveData(league);
 		model.addAttribute("successFlash", "Success!");
 		return prefix+"/dataIndex";
 	}

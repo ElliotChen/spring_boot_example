@@ -4,7 +4,9 @@ import com.sportradar.sdh.dto.dts.DataTablesInput;
 import com.sportradar.sdh.dto.dts.DataTablesOutput;
 import com.sportradar.sdh.dto.sdp.SportDto;
 import com.sportradar.sdh.dto.system.ApiResult;
-import com.sportradar.sdh.service.SportService;
+import com.sportradar.sdh.service.BrSportService;
+import com.sportradar.sdh.service.DgtSportService;
+import com.sportradar.sdh.service.SdpSportService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,12 +23,18 @@ import java.util.List;
 public class SportCtrl {
 
 	@Autowired
-	private SportService sportService;
+	private SdpSportService sdpSportService;
+
+	@Autowired
+	private DgtSportService dgtSportService;
+
+	@Autowired
+	private BrSportService brSportService;
 
 	@GetMapping("/findByPage")
 	@ResponseBody
 	public DataTablesOutput<SportDto> findByPage(@Valid DataTablesInput input) {
-		return this.sportService.findByPage(input);
+		return this.sdpSportService.findByPage(input);
 	}
 
 	/*********************************/
@@ -39,10 +47,10 @@ public class SportCtrl {
 
 	@GetMapping("/pair/{id}")
 	public String pair(@PathVariable Long id, Model model) {
-		SportDto sport = this.sportService.findById(id);
+		SportDto sport = this.sdpSportService.findById(id);
 		model.addAttribute("sport", sport);
-		model.addAttribute("dgtSports", this.sportService.findAllDgtSports());
-		model.addAttribute("brSports", this.sportService.findAllBrSports());
+		model.addAttribute("dgtSports", this.dgtSportService.findAll());
+		model.addAttribute("brSports", this.brSportService.findAll());
 		return "sport/pair";
 	}
 
@@ -51,7 +59,7 @@ public class SportCtrl {
 		log.info("Find save target : Sport [{}] - DGT[{}],BR[{}]",sport.getSportId(),
 				sport.getDgtSport().getSportId(), sport.getBrSport().getSportId());
 
-		this.sportService.savePair(sport);
+		this.sdpSportService.savePair(sport);
 		model.addAttribute("successFlash", "Success!");
 		return "sport/pairIndex";
 	}
@@ -69,8 +77,8 @@ public class SportCtrl {
 	@GetMapping("/i18n/{id}")
 	public String i18n(@PathVariable Long id, Model model) {
 
-		SportDto sport = this.sportService.findById(id);
-		List<SportDto> sports = this.sportService.findByIdWithAllLanguage(id);
+		SportDto sport = this.sdpSportService.findById(id);
+		List<SportDto> sports = this.sdpSportService.findByIdWithAllLanguage(id);
 
 		model.addAttribute("sport", sport);
 		model.addAttribute("sports", sports);
@@ -81,7 +89,7 @@ public class SportCtrl {
 	@ResponseBody
 	public ApiResult saveI18n(SportDto sport,Model model) {
 		log.info("Find Sport [{}] - [{}]",sport.getSportId(), sport.getLanguage().getLanguageCode());
-		this.sportService.saveI18N(sport);
+		this.sdpSportService.saveI18N(sport);
 		model.addAttribute("successFlash", "Success!");
 
 		ApiResult apiResult = new ApiResult();
@@ -102,7 +110,7 @@ public class SportCtrl {
 	@GetMapping("/data/{id}")
 	public String data(@PathVariable Long id, Model model) {
 
-		SportDto sport = this.sportService.findById(id);
+		SportDto sport = this.sdpSportService.findById(id);
 		if (null == sport) {
 			sport = new SportDto();
 		}
@@ -116,7 +124,7 @@ public class SportCtrl {
 	public String saveData(SportDto sport, Model model) {
 		log.info("Find save target : Sport [{}] - Name[{}],Priority[{}]",sport.getSportId(), sport.getSportName(), sport.getPriority());
 
-		this.sportService.saveData(sport);
+		this.sdpSportService.saveData(sport);
 		model.addAttribute("successFlash", "Success!");
 		return "sport/dataIndex";
 	}

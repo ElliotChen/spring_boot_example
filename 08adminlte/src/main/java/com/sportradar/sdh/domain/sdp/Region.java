@@ -17,7 +17,7 @@ import java.util.List;
 @NoArgsConstructor
 public class Region extends BaseRegion {
 
-	private List<BaseRegionSport> regionXRefs = new ArrayList<>();
+	private List<BaseRegionSport> regionSportXRefs = new ArrayList<>();
 
 	public Region(Integer regionNum) {
 		this.regionNum = regionNum;
@@ -33,9 +33,9 @@ public class Region extends BaseRegion {
 		return SourceTypeEnum.SDP;
 	}
 	/*
-	private List<com.sportradar.sdh.domain.dgt.RegionSport> dgtRegionXRefs = new ArrayList<>();;
+	private List<com.sportradar.sdh.domain.dgt.RegionSportDao> dgtRegionXRefs = new ArrayList<>();;
 
-	private List<com.sportradar.sdh.domain.br.RegionSport> brRegionXRefs = new ArrayList<>();;
+	private List<com.sportradar.sdh.domain.br.RegionSportDao> brRegionXRefs = new ArrayList<>();;
 
 	public Region(Integer regionNum, String dgtRegionNums, String brRegionNums) {
 		super();
@@ -54,7 +54,7 @@ public class Region extends BaseRegion {
 		dgtRegionXRefs.clear();
 		if (null != refRegionIds) {
 			for (String id : refRegionIds) {
-				com.sportradar.sdh.domain.dgt.RegionSport regionSport = com.sportradar.sdh.domain.dgt.RegionSport.ofRefCompositeId(id, regionNum);
+				com.sportradar.sdh.domain.dgt.RegionSportDao regionSport = com.sportradar.sdh.domain.dgt.RegionSportDao.ofRefCompositeId(id, regionNum);
 				if (null != regionSport) {
 					dgtRegionXRefs.add(regionSport);
 				}
@@ -67,7 +67,7 @@ public class Region extends BaseRegion {
 		brRegionXRefs.clear();
 		if (null != refRegionIds) {
 			for (String id : refRegionIds) {
-				com.sportradar.sdh.domain.br.RegionSport regionSport = com.sportradar.sdh.domain.br.RegionSport.ofRefCompositeId(id, regionNum);
+				com.sportradar.sdh.domain.br.RegionSportDao regionSport = com.sportradar.sdh.domain.br.RegionSportDao.ofRefCompositeId(id, regionNum);
 				if (null != regionSport) {
 					brRegionXRefs.add(regionSport);
 				}

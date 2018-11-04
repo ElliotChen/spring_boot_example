@@ -11,4 +11,9 @@ public interface DgtRegionDao {
 	Region findById(@Param("regionNum") Integer regionNum);
 
 	List<Region> findAll();
+
+	void savePair(@Param("region") Region region, @Param("regionNumXRef") String regionNumXRef);
+
+	List<Region> findBySportId(@Param("sportId") Long sportId);
+	List<Region> findAllForSport();
 }

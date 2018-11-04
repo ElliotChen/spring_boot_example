@@ -19,7 +19,7 @@
 		<result column="languageCode" property="language.languageCode"/>
 		<result column="languageName" property="language.languageName"/>
 
-		<result column="regionNumXRefs" property="regionXRefs" jdbcType="VARCHAR" javaType="java.util.List" typeHandler="com.sportradar.sdh.dao.sdp.handler.RegionsHandler"></result>
+		<result column="regionNumXRefs" property="regionSportXRefs" jdbcType="VARCHAR" javaType="java.util.List" typeHandler="com.sportradar.sdh.dao.sdp.handler.RegionsHandler"></result>
 	</resultMap>
 
 	<resultMap id="languageResult" type="com.sportradar.sdh.domain.common.Language">
@@ -165,7 +165,7 @@
 	  set regionNumXRefs = #{regionNumXRefs}
 	  where regionNum = #{regionNum}
 	</update>
-	<!-- Mapping Table is RegionSport -->
+	<!-- Mapping Table is RegionSportDao -->
 	<select id="findBySportId" resultMap="BaseResultMap">
 		SELECT r.regionNum, r.regionShortName, r.regionFullName, r.alias, r.createdTime, r.updatedTime,
 			CONCAT(r.regionNum, '|', r.regionNumXRefs) as regionNumXRefs

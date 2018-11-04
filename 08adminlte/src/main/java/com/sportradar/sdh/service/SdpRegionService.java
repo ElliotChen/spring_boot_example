@@ -7,13 +7,11 @@ import com.sportradar.sdh.dto.sdp.SportDto;
 
 import java.util.List;
 
-public interface RegionService {
+public interface SdpRegionService {
 
 	List<RegionDto> findAll();
 
 	RegionDto findById(Integer regionNum);
-
-	List<com.sportradar.sdh.domain.dgt.Region> findAllDgtRegions();
 
 	List<com.sportradar.sdh.domain.br.Region> findAllBrRegions();
 

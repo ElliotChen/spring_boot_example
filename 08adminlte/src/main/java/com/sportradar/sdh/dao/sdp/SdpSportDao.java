@@ -35,5 +35,5 @@ public interface SdpSportDao {
 
 	void updateData(Sport sport);
 
-	void updatePair(@Param("sportId") Long sportId, @Param("sportIdXRefs") String sportIdXRefs);
+	void updatePair(@Param("sport") Sport sport, @Param("sportIdXRefs") String sportIdXRefs);
 }

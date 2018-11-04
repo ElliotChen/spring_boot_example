@@ -15,7 +15,7 @@ import com.sportradar.sdh.dto.dts.DataTablesInput;
 import com.sportradar.sdh.dto.dts.DataTablesOutput;
 import com.sportradar.sdh.dto.sdp.LeagueDto;
 import com.sportradar.sdh.dto.sdp.Translation;
-import com.sportradar.sdh.service.LeagueService;
+import com.sportradar.sdh.service.SdpLeagueService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,7 +25,7 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-public class LeagueServiceImpl implements LeagueService {
+public class SdpLeagueServiceImpl implements SdpLeagueService {
 	@Autowired
 	private SdpLeagueDao sdpLeagueDao;
 

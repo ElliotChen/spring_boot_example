@@ -3,7 +3,7 @@ package com.sportradar.sdh.service.impl;
 import com.sportradar.sdh.dao.sdp.SdpLeagueGroupDao;
 import com.sportradar.sdh.domain.sdp.LeagueGroup;
 import com.sportradar.sdh.dto.sdp.LeagueGroupDto;
-import com.sportradar.sdh.service.LeagueGroupService;
+import com.sportradar.sdh.service.SdpLeagueGroupService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class LeagueGroupServiceImpl implements LeagueGroupService {
+public class SdpLeagueGroupServiceImpl implements SdpLeagueGroupService {
 	@Autowired
 	private SdpLeagueGroupDao sdpLeagueGroupDao;
 

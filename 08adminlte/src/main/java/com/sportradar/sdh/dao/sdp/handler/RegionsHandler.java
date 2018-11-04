@@ -1,6 +1,7 @@
 package com.sportradar.sdh.dao.sdp.handler;
 
 import com.sportradar.sdh.domain.common.BaseRegion;
+import com.sportradar.sdh.domain.common.BaseRegionSport;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.type.BaseTypeHandler;
@@ -14,24 +15,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
-public class RegionsHandler<T extends BaseRegion> extends BaseTypeHandler<List<BaseRegion>> {
+public class RegionsHandler<T extends BaseRegionSport> extends BaseTypeHandler<List<BaseRegionSport>> {
 	@Override
-	public void setNonNullParameter(PreparedStatement preparedStatement, int i, List<BaseRegion> baseRegions, JdbcType jdbcType) throws SQLException {
+	public void setNonNullParameter(PreparedStatement preparedStatement, int i, List<BaseRegionSport> baseRegions, JdbcType jdbcType) throws SQLException {
 
 	}
 
 	@Override
-	public List<BaseRegion> getNullableResult(ResultSet resultSet, String s) throws SQLException {
+	public List<BaseRegionSport> getNullableResult(ResultSet resultSet, String s) throws SQLException {
 		return this.buildRegions(resultSet.getString(s));
 	}
 
 	@Override
-	public List<BaseRegion> getNullableResult(ResultSet resultSet, int i) throws SQLException {
+	public List<BaseRegionSport> getNullableResult(ResultSet resultSet, int i) throws SQLException {
 		return this.buildRegions(resultSet.getString(i));
 	}
 
 	@Override
-	public List<BaseRegion> getNullableResult(CallableStatement callableStatement, int i) throws SQLException {
+	public List<BaseRegionSport> getNullableResult(CallableStatement callableStatement, int i) throws SQLException {
 		return this.buildRegions(callableStatement.getString(i));
 	}
 
@@ -40,32 +41,32 @@ public class RegionsHandler<T extends BaseRegion> extends BaseTypeHandler<List<B
 	 * @param compositedIds sportId | dgtSportId | brSportId, like 53|53|109
 	 * @return
 	 */
-	private List<BaseRegion> buildRegions(String compositedIds) {
-		log.debug("buildRegions for [{}]", compositedIds);
-		List<BaseRegion> regions = new ArrayList<>();
+	private List<BaseRegionSport> buildRegions(String compositedIds) {
+		log.info("buildRegions for [{}]", compositedIds);
+		List<BaseRegionSport> regionSports = new ArrayList<>();
 
 		com.sportradar.sdh.domain.sdp.Region sdpRegion = new com.sportradar.sdh.domain.sdp.Region();
-		com.sportradar.sdh.domain.dgt.Region dgtRegion = new com.sportradar.sdh.domain.dgt.Region();
-		com.sportradar.sdh.domain.br.Region brRegion = new com.sportradar.sdh.domain.br.Region();
+		com.sportradar.sdh.domain.dgt.RegionSport dgtRegionSport = new com.sportradar.sdh.domain.dgt.RegionSport();
+		com.sportradar.sdh.domain.br.RegionSport brRegionSport = new com.sportradar.sdh.domain.br.RegionSport();
 
-		dgtRegion.setRegionRef(sdpRegion);
-		brRegion.setRegionRef(sdpRegion);
+		dgtRegionSport.setRegionRef(sdpRegion);
+		brRegionSport.setRegionRef(sdpRegion);
 
-		regions.add(dgtRegion);
-		regions.add(brRegion);
+		regionSports.add(dgtRegionSport);
+		regionSports.add(brRegionSport);
 
 		if (StringUtils.isEmpty(compositedIds) || StringUtils.contains(compositedIds, "\\|")) {
-			return regions;
+			return regionSports;
 		}
 
 		String[] ids = compositedIds.split("\\|");
 
-		log.debug("init region[{}] with dgt[{}], br[{}]", ids[0], ids[1], ids[2]);
+		log.info("init region[{}] with dgt[{}], br[{}]", ids[0], ids[1], ids[2]);
 		sdpRegion.setCompositedId(ids[0]);
-		dgtRegion.setCompositedId(ids[1]);
-		brRegion.setCompositedId(ids[2]);
+		dgtRegionSport.setCompositedId(ids[1]);
+		brRegionSport.setCompositedId(ids[2]);
 
 
-		return regions;
+		return regionSports;
 	}
 }
