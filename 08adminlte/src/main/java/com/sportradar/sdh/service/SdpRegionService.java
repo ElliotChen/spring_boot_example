@@ -24,4 +24,6 @@ public interface SdpRegionService {
 	void saveData(RegionDto region);
 
 	void savePair(RegionDto region);
+
+	List<RegionDto> findBySportId(Long sportId);
 }

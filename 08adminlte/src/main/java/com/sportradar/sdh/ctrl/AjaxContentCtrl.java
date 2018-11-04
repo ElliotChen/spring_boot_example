@@ -1,7 +1,10 @@
 package com.sportradar.sdh.ctrl;
 
-import com.sportradar.sdh.dao.sdp.SdpRegionDao;
 import com.sportradar.sdh.domain.sdp.Region;
+import com.sportradar.sdh.dto.sdp.RegionDto;
+import com.sportradar.sdh.service.BrRegionService;
+import com.sportradar.sdh.service.DgtRegionService;
+import com.sportradar.sdh.service.SdpRegionService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,11 +21,29 @@ import java.util.List;
 public class AjaxContentCtrl {
 
 	@Autowired
-	private SdpRegionDao sdpRegionDao;
+	private SdpRegionService sdpRegionService;
 
-	@GetMapping("/findRegionsBySport/{sportId}")
+	@Autowired
+	private DgtRegionService dgtRegionService;
+
+	@Autowired
+	private BrRegionService brRegionService;
+
+	@GetMapping("/findSdpRegionsBySport/{sportId}")
 	@ResponseBody
-	public List<Region> findRegionsBySport(@PathVariable Long sportId) {
-		return this.sdpRegionDao.findBySportId(sportId);
+	public List<RegionDto> findSdpRegionsBySport(@PathVariable Long sportId) {
+		return this.sdpRegionService.findBySportId(sportId);
+	}
+
+	@GetMapping("/findDgtRegionsBySport/{sportId}")
+	@ResponseBody
+	public List<com.sportradar.sdh.domain.dgt.Region> findDgtRegionsBySport(@PathVariable Long sportId) {
+		return this.dgtRegionService.findBySportId(sportId);
+	}
+
+	@GetMapping("/findBrRegionsBySport/{sportId}")
+	@ResponseBody
+	public List<com.sportradar.sdh.domain.br.Region> findBrRegionsBySport(@PathVariable Long sportId) {
+		return this.brRegionService.findBySportId(sportId);
 	}
 }

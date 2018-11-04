@@ -25,17 +25,33 @@
 					<div class="box-body">
 						<input type="hidden" name="regionNum" th:field="*{regionNum}"/>
 
+						<div class="row">
 						<div class="form-group">
-							<label for="dgtRegionSport.sportId" class="control-label">DGT</label>
-							<select class="form-control" id="dgtRegionSport.sportId" th:field="*{dgtRegionSport.sportId}">
+							<label for="dgtRegionSport_sportId" class="control-label">DGT Sport</label>
+							<select class="form-control" id="dgtRegionSport_sportId" th:field="*{dgtRegionSport.sportId}">
 								<option th:each="ds : ${dgtSports}" th:value="${ds.sportId}" th:text="|${ds.sportId}, ${ds.sportName}|"></option>
 							</select>
-							<select class="form-control" id="dgtRegionSport.regionNum" th:field="*{dgtRegionSport.regionNum}">
+							<label for="dgtRegionSport_regionNum" class="control-label">DGT Region</label>
+							<select class="form-control" id="dgtRegionSport_regionNum" th:field="*{dgtRegionSport.regionNum}">
 								<option th:each="ds : ${dgtRegions}" th:value="${ds.regionNum}" th:text="|${ds.regionNum}, ${ds.regionFullName}|"></option>
 							</select>
 
 						</div>
+						</div>
 
+						<div class="row">
+							<div class="form-group">
+								<label for="brRegionSport_sportId" class="control-label">BR Sport</label>
+								<select class="form-control" id="brRegionSport_sportId" th:field="*{brRegionSport.sportId}">
+									<option th:each="ds : ${brSports}" th:value="${ds.sportId}" th:text="|${ds.sportId}, ${ds.sportName}|"></option>
+								</select>
+								<label for="brRegionSport_regionNum" class="control-label">BR Region</label>
+								<select class="form-control" id="brRegionSport_regionNum" th:field="*{brRegionSport.regionNum}">
+									<option th:each="ds : ${brRegions}" th:value="${ds.regionNum}" th:text="|${ds.regionNum}, ${ds.regionFullName}|"></option>
+								</select>
+
+							</div>
+						</div>
 					</div>
 					<div class="box-footer">
 						<button type="submit" class="btn btn-primary">Save</button>
@@ -54,8 +70,75 @@
 <th:block layout:fragment="script">
 	<script language="JavaScript">
 		$(document).ready(function () {
+			$("#dgtRegionSport_sportId").select2();
+			$("#brRegionSport_sportId").select2();
 
+			$("#dgtRegionSport_sportId").change(
+				function () {
+					$.ajax({
+							url: "/ajax/findDgtRegionsBySport/" + $("#dgtRegionSport_sportId").val(),
+							type: 'GET',
+							data: {},
+							dataType:"json",
+							success: function(data){
+								var selectedValue = $("#dgtRegionSport_regionNum").val();
+								if (data.length > 0) {
+									$("#dgtRegionSport_regionNum").html("");
+								} else {
+									$("#dgtRegionSport_regionNum").html("<option value=''>---</option>");
+								}
+
+								$.each(data, function (index, item) {
+									appendOptionTo($("#dgtRegionSport_regionNum"), item, selectedValue);
+								});
+
+							},
+							error: function() {
+								$("#dgtRegionSport_regionNumv").html("<option value=''>---</option>");
+							}
+						}
+
+					)
+				}
+			);
+
+			$("#brRegionSport_sportId").change(
+				function () {
+					$.ajax({
+							url: "/ajax/findBrRegionsBySport/" + $("#brRegionSport_sportId").val(),
+							type: 'GET',
+							data: {},
+							dataType:"json",
+							success: function(data){
+								var selectedValue = $("#brRegionSport_regionNum").val();
+								if (data.length > 0) {
+									$("#brRegionSport_regionNum").html("");
+								} else {
+									$("#brRegionSport_regionNum").html("<option value=''>---</option>");
+								}
+
+								$.each(data, function (index, item) {
+									appendOptionTo($("#brRegionSport_regionNum"), item, selectedValue);
+								});
+
+							},
+							error: function() {
+								$("#brRegionSport_regionNumv").html("<option value=''>---</option>");
+							}
+						}
+
+					)
+				}
+			);
 		})
+
+		function appendOptionTo($obj, item, selectedValue) {
+			var $opt = $("<option>").text(item.regionNum +', '+item.regionFullName).val(item.regionNum);
+			if (item.regionNum == selectedValue) {
+				$opt.attr("selected", "selected");
+			}
+			$opt.appendTo($obj);
+		}
 	</script>
 </th:block>
 

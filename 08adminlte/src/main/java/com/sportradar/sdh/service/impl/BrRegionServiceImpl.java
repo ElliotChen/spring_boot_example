@@ -29,4 +29,14 @@ public class BrRegionServiceImpl implements BrRegionService {
 
 		this.brRegionDao.savePair(region, compositedId);
 	}
+
+	@Override
+	public List<Region> findBySportId(Long sportId) {
+		return this.brRegionDao.findBySportId(sportId);
+	}
+
+	@Override
+	public List<Region> findAllForSport() {
+		return this.brRegionDao.findAllForSport();
+	}
 }

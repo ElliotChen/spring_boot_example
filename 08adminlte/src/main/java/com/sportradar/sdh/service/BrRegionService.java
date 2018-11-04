@@ -10,4 +10,7 @@ public interface BrRegionService {
 	List<Region> findAll();
 
 	void savePair(Region region);
+
+	List<Region> findBySportId(Long sportId);
+	List<Region> findAllForSport();
 }

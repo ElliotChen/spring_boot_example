@@ -29,4 +29,14 @@ public class DgtRegionServiceImpl implements DgtRegionService {
 
 		this.dgtRegionDao.savePair(region, compositedId);
 	}
+
+	@Override
+	public List<Region> findBySportId(Long sportId) {
+		return this.dgtRegionDao.findBySportId(sportId);
+	}
+
+	@Override
+	public List<Region> findAllForSport() {
+		return this.dgtRegionDao.findAllForSport();
+	}
 }

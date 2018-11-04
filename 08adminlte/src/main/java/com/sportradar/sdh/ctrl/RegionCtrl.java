@@ -12,9 +12,7 @@ import com.sportradar.sdh.dto.sdp.RegionDto;
 import com.sportradar.sdh.dto.sdp.SportDto;
 import com.sportradar.sdh.dto.sdp.Translation;
 import com.sportradar.sdh.dto.system.ApiResult;
-import com.sportradar.sdh.service.DgtRegionService;
-import com.sportradar.sdh.service.DgtSportService;
-import com.sportradar.sdh.service.SdpRegionService;
+import com.sportradar.sdh.service.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +42,10 @@ public class RegionCtrl {
 	private DgtRegionService dgtRegionService;
 
 
+	@Autowired
+	private BrSportService brSportService;
+	@Autowired
+	private BrRegionService brRegionService;
 
 
 	@GetMapping("/findByPage")
@@ -74,10 +76,15 @@ public class RegionCtrl {
 		model.addAttribute("dgtSports", this.dgtSportService.findAllForRegion());
 		model.addAttribute("dgtRegions", dgtRegions);
 
+		List<com.sportradar.sdh.domain.br.Region> brRegions = new ArrayList<>();
+		brRegions.add(this.brRegionService.findById(region.getBrRegionSport().getRegionNum()));
+		model.addAttribute("brSports", this.brSportService.findAllForRegion());
+		model.addAttribute("brRegions", brRegions);
+
 		return prefix+"/pair";
 	}
 
-	@PostMapping("/savePair")
+	@PostMapping("/pair/save")
 	public String savePair(RegionDto region, Model model) {
 		log.info("Find save target : Region [{}] - DGT[{}],BR[{}]",region.getCompositedId(),
 				region.getDgtRegionSport().getCompositedId(), region.getBrRegionSport().getCompositedId());

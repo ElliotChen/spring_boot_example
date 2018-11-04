@@ -6,7 +6,6 @@ import com.sportradar.sdh.dao.br.BrRegionDao;
 import com.sportradar.sdh.dao.dgt.DgtRegionDao;
 import com.sportradar.sdh.dao.sdp.SdpRegionDao;
 import com.sportradar.sdh.domain.common.BaseRegionSport;
-import com.sportradar.sdh.domain.common.BaseSport;
 import com.sportradar.sdh.domain.common.SourceTypeEnum;
 import com.sportradar.sdh.domain.sdp.Region;
 import com.sportradar.sdh.dto.dts.DataTablesInput;
@@ -105,6 +104,11 @@ public class SdpRegionServiceImpl implements SdpRegionService {
 	public void savePair(RegionDto region) {
 		String regionNumXRefs = region.getDgtRegionSport().getCompositedId()+"|"+region.getBrRegionSport().getCompositedId();
 		this.sdpRegionDao.updatePair(region.getRegionNum(), regionNumXRefs);
+	}
+
+	@Override
+	public List<RegionDto> findBySportId(Long sportId) {
+		return this.convertDto(this.sdpRegionDao.findBySportId(sportId));
 	}
 
 	private List<RegionDto> convertDto(List<Region> regions) {

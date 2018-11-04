@@ -49,7 +49,7 @@
 			ON r.regionNum = rs.regionNum AND rs.sportId = #{sportId};
 	</select>
 	<select id="findAllForSport" resultMap="BaseResultMap">
-		SELECT r.regionNum, r.regionShortName, r.regionFullName, r.alias, r.createdTime, r.updatedTime
+		SELECT DISTINCTROW r.*
 			FROM Region as r INNER JOIN RegionSport as rs
 			ON r.regionNum = rs.regionNum
 	</select>
