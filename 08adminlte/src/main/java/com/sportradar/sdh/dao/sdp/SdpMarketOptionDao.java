@@ -6,6 +6,8 @@ import com.sportradar.sdh.domain.sdp.Market;
 import com.sportradar.sdh.domain.sdp.MarketOption;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.security.core.parameters.P;
+
 import java.util.List;
 
 @Mapper
@@ -35,4 +37,6 @@ public interface SdpMarketOptionDao {
 	void insertData(MarketOption marketOption);
 
 	void updateData(MarketOption marketOption);
+
+	void updatePair(@Param("marketOption") MarketOption marketOption, @Param("marketOptionIdXRefs") String marketOptionIdXRefs);
 }

@@ -76,22 +76,7 @@ public class MarketCtrl {
 	public String pair(@PathVariable Long id, Model model) {
 		MarketDto market = this.sdpMarketService.findById(id);
 		model.addAttribute("market", market);
-		/*
-		SportEventPart sportEventPart = this.dgtSportEventPartService.findById(market.getDgtSportMarket().getSportId(),
-				market.getDgtSportMarket().getEventPartId());
-		List<SportEventPart> seps = new ArrayList<>();
-		if (null != sportEventPart) {
-			seps.add(sportEventPart);
-		}
 
-
-		Period period = this.dgtPeriodService.findById(market.getDgtSportMarket().getSportId(),
-				market.getDgtSportMarket().getEventPartId(), market.getDgtSportMarket().getPeriodNum());
-		List<Period> periods = new ArrayList<>();
-		if(null != period) {
-			periods.add(period);
-		}
-		*/
 		model.addAttribute("dgtSports", dgtSportService.findAllForSportMarket());
 		model.addAttribute("dgtSportEventParts", dgtSportEventPartService.findAllForSportMarket(market.getDgtSportMarket().getSportId()));
 		model.addAttribute("dgtPeriods", dgtPeriodService.findAllForSportMarket(market.getDgtSportMarket().getSportId(),

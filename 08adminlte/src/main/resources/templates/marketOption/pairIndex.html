@@ -47,7 +47,7 @@
 	<script language="JavaScript">
 		$(document).ready(function () {
 			var table = $('table#sample').DataTable({
-				'ajax': '/marketOption/findAll',
+				'ajax': '/marketOption/findByPage',
 				'serverSide': true,
 				columns: [{
 					data: 'marketId'

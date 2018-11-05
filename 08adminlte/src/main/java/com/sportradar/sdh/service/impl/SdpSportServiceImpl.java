@@ -27,13 +27,12 @@ public class SdpSportServiceImpl implements SdpSportService {
 	@Autowired
 	private SdpSportDao sdpSportDao;
 
-	/*
+
 	@Autowired
 	private DgtSportDao dgtSportDao;
 
 	@Autowired
 	private BrSportDao brSportDao;
-	*/
 
 	@Override
 	public List<SportDto> findAll() {

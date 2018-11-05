@@ -17,15 +17,17 @@ public class MarketOption extends BaseMarketOption {
 
 	private List<com.sportradar.sdh.domain.br.MarketOption> brMarketOptionXRefs = new ArrayList<>();
 
-	private List<BaseMarketOption> referMarketOptionXRefs = new ArrayList<>();
+	private List<BaseMarketOption> marketOptionXRefs = new ArrayList<>();
 
 	public MarketOption(Long marketId) {
 		this(marketId, -1);
 	}
 	public MarketOption(Long marketId, Integer optionNum) {
-		this(marketId, optionNum, "", "");
+		this.marketId = marketId;
+		this.optionNum = optionNum;
 	}
 
+	/*
 	public MarketOption(Long marketId, Integer optionNum, String dgtMarketOptionIds, String brMarketOptionIds) {
 		this.setMarketId(marketId);
 		this.setOptionNum(optionNum);
@@ -34,9 +36,9 @@ public class MarketOption extends BaseMarketOption {
 		this.initBrXRefs(brMarketOptionIds);
 
 
-		referMarketOptionXRefs.clear();
-		referMarketOptionXRefs.addAll(this.dgtMarketOptionXRefs);
-		referMarketOptionXRefs.addAll(this.brMarketOptionXRefs);
+		marketOptionXRefs.clear();
+		marketOptionXRefs.addAll(this.dgtMarketOptionXRefs);
+		marketOptionXRefs.addAll(this.brMarketOptionXRefs);
 
 	}
 
@@ -66,11 +68,6 @@ public class MarketOption extends BaseMarketOption {
 		}
 	}
 
-	@Override
-	public String getCompositedId() {
-		return String.valueOf(this.marketId + " " +this.optionNum);
-	}
-
 	public String getDgtIdXRefs() {
 		return IdCompositable.joinCompositedId(this.dgtMarketOptionXRefs);
 	}
@@ -78,4 +75,20 @@ public class MarketOption extends BaseMarketOption {
 	public String getBrIdXRefs() {
 		return IdCompositable.joinCompositedId(this.brMarketOptionXRefs);
 	}
+	*/
+
+	@Override
+	public String getCompositedId() {
+		return String.valueOf(this.marketId + " " +this.optionNum);
+	}
+
+	@Override
+	public void setCompositedId(String compositedId) {
+		String[] ids = compositedId.split(" ");
+
+		this.marketId = Long.parseLong(ids[0]);
+		this.optionNum = Integer.parseInt(ids[1]);
+
+	}
+
 }

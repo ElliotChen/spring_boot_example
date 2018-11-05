@@ -2,19 +2,24 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sportradar.sdh.dao.sdp.SdpMarketOptionDao">
 	<resultMap id="BaseResultMap" type="com.sportradar.sdh.domain.sdp.MarketOption">
+		<!--
 		<constructor>
 			<idArg column="marketId" javaType="Long"/>
 			<idArg column="optionNum" javaType="Integer"/>
 			<arg column="dgtMarketOptionIds" javaType="String"/>
 			<arg column="brMarketOptionIds" javaType="String"/>
 		</constructor>
-
+		-->
+		<id column="marketId" property="marketId"/>
+		<id column="optionNum" property="optionNum"/>
 		<result column="shortName" jdbcType="VARCHAR" property="shortName"/>
 		<result column="updatedTime" jdbcType="TIMESTAMP" property="updatedTime"/>
 		<result column="fullName" jdbcType="VARCHAR" property="fullName"/>
 
 		<result column="languageCode" property="language.languageCode"/>
 		<result column="languageName" property="language.languageName"/>
+
+		<result column="marketOptionIdXRefs" property="marketOptionXRefs" jdbcType="VARCHAR" javaType="java.util.List" typeHandler="com.sportradar.sdh.dao.sdp.handler.MarketOptionsHandler"/>
 	</resultMap>
 
 	<resultMap id="languageResult" type="com.sportradar.sdh.domain.common.Language">
@@ -22,6 +27,16 @@
 		<result property="languageName" column="languageName" jdbcType="VARCHAR"/>
 	</resultMap>
 
+	<sql id="Base_Column_List">
+    	marketId, optionNum, shortName, fullName, updatedTime, CONCAT(marketId, ' ', optionNum, '|', marketOptionIdXRefs) as marketOptionIdXRefs
+  </sql>
+
+	<sql id="Language_Column_List">
+    	m.marketId, m.optionNum, IFNULL(mi.shortName,m.shortName) as shortName, IFNULL(mi.fullName,m.fullName) as fullName, m.updatedTime,
+    	CONCAT(m.marketId, ' ', m.optionNum, '|', m.marketOptionIdXRefs) as marketOptionIdXRefs,
+    	IFNULL(mi.languageCode, 1) AS languageCode, IFNULL(l.languageName, 'English') AS languageName
+	</sql>
+	<!--
 	<sql id="Base_Column_List">
     	marketId, optionNum, shortName, fullName, updatedTime,
     	SUBSTRING_INDEX(marketOptionIdXRefs, '|', 1) as dgtMarketOptionIds,
@@ -34,6 +49,7 @@
     	SUBSTRING_INDEX(SUBSTRING_INDEX(m.marketOptionIdXRefs, '|', 2), '|', -1) as brMarketOptionIds,
     	IFNULL(mi.languageCode, 1) AS languageCode, IFNULL(l.languageName, 'English') AS languageName
 	</sql>
+	-->
 
 	<sql id="Language_Table_Join">
 		FROM MarketOption m
@@ -98,6 +114,17 @@
 	<!--回传某一指定marketId的所有语系翻译值，包含i18N里没有储存的 -->
 	<select id="findByIdWithAllLanguage" resultMap="BaseResultMap">
 		SELECT allLang.marketId, allLang.optionNum, IFNULL(mi.shortName,allLang.shortName) as shortName, IFNULL(mi.fullName,allLang.fullName) as fullName, allLang.updatedTime,
+    	allLang.marketOptionIdXRefs, allLang.languageCode, allLang.languageName
+		FROM
+			(SELECT m.marketId, m.optionNum, m.shortName, m.fullName, m.updatedTime,
+    	CONCAT(m.marketId, ' ', m.optionNum, '|', m.marketOptionIdXRefs) as marketOptionIdXRefs,
+    	l.languageCode, l.languageName
+			  FROM MarketOption m, Language l WHERE m.marketId = #{marketId} AND m.optionNum = #{optionNum}) allLang
+		LEFT JOIN MarketOption_I18N mi ON allLang.marketId = mi.marketId AND allLang.optionNum = mi.optionNum AND allLang.languageCode = mi.languageCode
+	</select>
+	<!--
+	<select id="findByIdWithAllLanguage" resultMap="BaseResultMap">
+		SELECT allLang.marketId, allLang.optionNum, IFNULL(mi.shortName,allLang.shortName) as shortName, IFNULL(mi.fullName,allLang.fullName) as fullName, allLang.updatedTime,
     	allLang.dgtMarketOptionIds, allLang.brMarketOptionIds, allLang.languageCode, allLang.languageName
 		FROM
 			(SELECT m.marketId, m.optionNum, m.shortName, m.fullName, m.updatedTime,
@@ -107,6 +134,7 @@
 			  FROM MarketOption m, Language l WHERE m.marketId = #{marketId} AND m.optionNum = #{optionNum}) allLang
 		LEFT JOIN MarketOption_I18N mi ON allLang.marketId = mi.marketId AND allLang.optionNum = mi.optionNum AND allLang.languageCode = mi.languageCode
 	</select>
+	-->
 
 	<insert id="insertI18N" parameterType="com.sportradar.sdh.domain.sdp.MarketOption">
 		INSERT INTO MarketOption_I18N (marketId, optionNum, languageCode, shortName, fullName)
@@ -128,6 +156,12 @@
 	  update MarketOption
 	  set shortName = #{shortName}, fullName = #{fullName}, updatedTime = #{updatedTime}
 	  where marketId = #{marketId} AND optionNum = #{optionNum}
+	</update>
+
+	<update id="updatePair">
+	  update MarketOption
+	  set marketOptionIdXRefs = #{marketOptionIdXRefs}
+	  where marketId = #{marketOption.marketId} AND optionNum = #{marketOption.optionNum}
 	</update>
 	<!--
 	<select id="selectByPrimaryKey" parameterType="map" resultMap="BaseResultMap">

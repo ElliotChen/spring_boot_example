@@ -22,6 +22,8 @@ import java.util.List;
 @RequestMapping("/sport")
 public class SportCtrl {
 
+	private static final String prefix = "sport";
+
 	@Autowired
 	private SdpSportService sdpSportService;
 
@@ -51,7 +53,7 @@ public class SportCtrl {
 		model.addAttribute("sport", sport);
 		model.addAttribute("dgtSports", this.dgtSportService.findAll());
 		model.addAttribute("brSports", this.brSportService.findAll());
-		return "sport/pair";
+		return prefix+"/pair";
 	}
 
 	@PostMapping("/pair/save")
@@ -61,7 +63,7 @@ public class SportCtrl {
 
 		this.sdpSportService.savePair(sport);
 		model.addAttribute("successFlash", "Success!");
-		return "sport/pairIndex";
+		return prefix+"/pairIndex";
 	}
 
 
@@ -71,7 +73,7 @@ public class SportCtrl {
 
 	@GetMapping("/i18n")
 	public String i18nIndex() {
-		return "sport/i18nIndex";
+		return prefix+"/i18nIndex";
 	}
 
 	@GetMapping("/i18n/{id}")
@@ -82,7 +84,7 @@ public class SportCtrl {
 
 		model.addAttribute("sport", sport);
 		model.addAttribute("sports", sports);
-		return "sport/i18n";
+		return prefix+"/i18n";
 	}
 
 	@PostMapping("/i18n/save")
@@ -104,7 +106,7 @@ public class SportCtrl {
 
 	@GetMapping("/data")
 	public String dataIndex() {
-		return "sport/dataIndex";
+		return prefix+"/dataIndex";
 	}
 
 	@GetMapping("/data/{id}")
@@ -117,7 +119,7 @@ public class SportCtrl {
 
 		model.addAttribute("sport", sport);
 
-		return "sport/data";
+		return prefix+"/data";
 	}
 
 	@PostMapping("/data/save")
@@ -126,7 +128,7 @@ public class SportCtrl {
 
 		this.sdpSportService.saveData(sport);
 		model.addAttribute("successFlash", "Success!");
-		return "sport/dataIndex";
+		return prefix+"/dataIndex";
 	}
 
 }

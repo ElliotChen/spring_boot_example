@@ -9,12 +9,15 @@ import org.springframework.util.StringUtils;
 @Data
 @NoArgsConstructor
 public class MarketOption extends BaseMarketOption {
-	private Integer marketTypeId;
-
-	private String optionType;
+	//private Integer marketTypeId;
 
 	private com.sportradar.sdh.domain.sdp.MarketOption marketOptionRef;
 
+	public MarketOption(Long marketId, Integer optionNum) {
+		this.marketId = marketId;
+		this.optionNum = optionNum;
+	}
+	/*
 	public MarketOption(Long marketId, Integer optionNum, Integer marketTypeId, String optionType) {
 		this.setMarketId(marketId);
 	}
@@ -35,15 +38,22 @@ public class MarketOption extends BaseMarketOption {
 		marketOption.setOptionType(keys[3]);
 
 
-		marketOption.setMarketOptionRef(new com.sportradar.sdh.domain.sdp.MarketOption(refMarketId, refOptionNum));
+		marketOption.setMarketOptionXRef(new com.sportradar.sdh.domain.sdp.MarketOption(refMarketId, refOptionNum));
 
 		return marketOption;
 	}
-
+	*/
 	@Override
 	public String getCompositedId() {
-		return String.valueOf(this.marketId + " " + optionNum + " " + marketTypeId + " " + optionType);
+		return String.valueOf(this.marketId + " " + optionNum);
 	}
+	public void setCompositedId(String compositedId) {
+		String[] keys = compositedId.trim().split(" ");
+
+		this.marketId = Long.parseLong(keys[0]);
+		this.optionNum = Integer.parseInt(keys[1]);
+	}
+
 	@Override
 	public SourceTypeEnum getSourceType() {
 		return SourceTypeEnum.DGT;
