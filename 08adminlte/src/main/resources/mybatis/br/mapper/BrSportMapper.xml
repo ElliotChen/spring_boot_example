@@ -43,4 +43,10 @@
 			FROM Sport as s INNER JOIN RegionSport as rs
 			ON s.sportId = rs.sportId
 	</select>
+
+	<update id="updatePair">
+		UPDATE Sport
+		SET sportIdXRef = #{sportIdXRef}
+		WHERE  sportId=#{sport.sportId}
+	</update>
 </mapper>

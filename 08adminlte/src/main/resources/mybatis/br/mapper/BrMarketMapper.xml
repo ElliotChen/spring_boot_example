@@ -43,4 +43,10 @@
 		FROM Market
 		WHERE marketTypeId = #{marketTypeId}
 	</select>
+
+	<update id="updatePair">
+		UPDATE Market
+		SET marketIdXRef = #{marketIdXRef}
+		WHERE marketId = #{market.marketId} AND marketTypeId = #{market.marketTypeId}
+	</update>
 </mapper>

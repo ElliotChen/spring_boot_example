@@ -12,7 +12,7 @@ public interface BrRegionDao {
 
 	List<Region> findAll();
 
-	void savePair(@Param("region") Region region, @Param("regionNumXRef") String regionNumXRef);
+	void updatePair(@Param("region") Region region, @Param("regionNumXRef") String regionNumXRef);
 
 	List<Region> findBySportId(@Param("sportId") Long sportId);
 	List<Region> findAllForSport();

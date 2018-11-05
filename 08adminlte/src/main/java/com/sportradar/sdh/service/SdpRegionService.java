@@ -13,7 +13,7 @@ public interface SdpRegionService {
 
 	RegionDto findById(Integer regionNum);
 
-	List<com.sportradar.sdh.domain.br.Region> findAllBrRegions();
+	//List<com.sportradar.sdh.domain.br.Region> findAllBrRegions();
 
 	DataTablesOutput<RegionDto> findByPage(DataTablesInput input);
 

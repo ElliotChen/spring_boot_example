@@ -97,6 +97,10 @@ public class SdpSportServiceImpl implements SdpSportService {
 	public void savePair(SportDto sport) {
 		String sportIdXRefs = sport.getDgtSport().getCompositedId()+"|"+sport.getBrSport().getCompositedId();
 		this.sdpSportDao.updatePair(sport, sportIdXRefs);
+
+		String compositedId = sport.getCompositedId();
+		this.dgtSportDao.updatePair(sport.getDgtSport(), compositedId);
+		this.brSportDao.updatePair(sport.getBrSport(), compositedId);
 	}
 
 

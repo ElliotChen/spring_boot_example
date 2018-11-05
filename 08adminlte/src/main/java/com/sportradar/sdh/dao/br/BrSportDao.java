@@ -14,4 +14,6 @@ public interface BrSportDao {
 
 	List<Sport> findByRegionNum(@Param("regionNum") Integer regionNum);
 	List<Sport> findAllForRegion();
+
+	void updatePair(@Param("sport") Sport sport, @Param("sportIdXRef") String sportIdXRef);
 }

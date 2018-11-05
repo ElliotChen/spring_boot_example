@@ -6,10 +6,7 @@ import com.sportradar.sdh.dto.dts.DataTablesOutput;
 import com.sportradar.sdh.dto.sdp.LeagueDto;
 import com.sportradar.sdh.dto.sdp.RegionDto;
 import com.sportradar.sdh.dto.system.ApiResult;
-import com.sportradar.sdh.service.SdpLeagueGroupService;
-import com.sportradar.sdh.service.SdpLeagueService;
-import com.sportradar.sdh.service.SdpRegionService;
-import com.sportradar.sdh.service.SdpSportService;
+import com.sportradar.sdh.service.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -39,6 +36,11 @@ public class LeagueCtrl {
 	@Autowired
 	private SdpLeagueGroupService sdpLeagueGroupService;
 
+	@Autowired
+	private DgtLeagueService dgtLeagueService;
+
+	@Autowired
+	private BrLeagueService brLeagueService;
 	@GetMapping("/findByPage")
 	@ResponseBody
 	public DataTablesOutput<LeagueDto> findByPage(@Valid DataTablesInput input) {
@@ -60,8 +62,8 @@ public class LeagueCtrl {
 		League league = this.sdpLeagueService.findById(id);
 		model.addAttribute("league", league);
 
-		model.addAttribute("dgtLeagues", this.sdpLeagueService.findAllDgtLeagues());
-		model.addAttribute("brLeagues", this.sdpLeagueService.findAllBrLeagues());
+		model.addAttribute("dgtLeagues", this.dgtLeagueService.findAll());
+		model.addAttribute("brLeagues", this.brLeagueService.findAll());
 
 		return prefix+"/pair";
 	}

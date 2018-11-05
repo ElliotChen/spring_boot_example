@@ -27,7 +27,7 @@ public class DgtRegionServiceImpl implements DgtRegionService {
 	public void savePair(Region region) {
 		String compositedId = region.getRegionRef().getCompositedId();
 
-		this.dgtRegionDao.savePair(region, compositedId);
+		this.dgtRegionDao.updatePair(region, compositedId);
 	}
 
 	@Override

@@ -16,4 +16,6 @@ public interface DgtSportDao {
 	List<Sport> findAllForRegion();
 
 	List<Sport> findAllForSportMarket();
+
+	void updatePair(@Param("sport") Sport sport, @Param("sportIdXRef") String sportIdXRef);
 }

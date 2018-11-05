@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sportradar.sdh.dao.dgt.DgtSportMarketDao">
+    <resultMap id="BaseResultMap" type="com.sportradar.sdh.domain.dgt.SportMarket">
+        <id column="sportId" jdbcType="BIGINT" property="sportId"/>
+        <id column="eventPartId" jdbcType="INTEGER" property="eventPartId"/>
+        <id column="periodNum" jdbcType="INTEGER" property="periodNum"/>
+        <id column="marketId" jdbcType="BIGINT" property="marketId"/>
+        <result column="marketTypeId" jdbcType="INTEGER" property="marketTypeId"/>
+        <result column="sportMarketName" jdbcType="VARCHAR" property="sportMarketName"/>
+        <result column="priority" jdbcType="INTEGER" property="priority"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        sportId,eventPartId,periodNum,marketId, marketTypeId,sportMarketName,priority
+    </sql>
+    <!--
+    <select id="selectByPrimaryKey" parameterType="map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from SportMarket
+        where sportId = #{sportId,jdbcType=BIGINT}
+        and eventPartId = #{eventPartId,jdbcType=INTEGER}
+        and periodNum = #{periodNum,jdbcType=INTEGER}
+        and marketId = #{marketId,jdbcType=BIGINT}
+    </select>
+    -->
+    <update id="updatePair">
+		UPDATE SportMarket
+		SET sportMarketXRef = #{sportMarketXRef}
+		WHERE sportId = #{sportMarket.sportId} and eventPartId = #{sportMarket.eventPartId}
+		  and periodNum = #{sportMarket.periodNum} and marketId = #{sportMarket.marketId}
+	</update>
+</mapper>

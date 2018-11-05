@@ -17,4 +17,6 @@ public interface BrMarketDao {
 	List<Market> findAll();
 
 	List<Market> findByMarketTypeId(@Param("marketTypeId") Integer marketTypeId);
+
+	void updatePair(@Param("market") Market market, @Param("marketIdXRef") String marketIdXRef);
 }

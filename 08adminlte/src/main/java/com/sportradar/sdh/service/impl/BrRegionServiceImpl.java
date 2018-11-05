@@ -27,7 +27,7 @@ public class BrRegionServiceImpl implements BrRegionService {
 	public void savePair(Region region) {
 		String compositedId = region.getRegionRef().getCompositedId();
 
-		this.brRegionDao.savePair(region, compositedId);
+		this.brRegionDao.updatePair(region, compositedId);
 	}
 
 	@Override

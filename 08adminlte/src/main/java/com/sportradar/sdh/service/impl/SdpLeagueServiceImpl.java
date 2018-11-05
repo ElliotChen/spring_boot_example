@@ -114,6 +114,10 @@ public class SdpLeagueServiceImpl implements SdpLeagueService {
 	public void savePair(LeagueDto league) {
 		String leagueIdXRefs = league.getDgtLeague().getCompositedId()+"|"+league.getBrLeague().getCompositedId();
 		this.sdpLeagueDao.updatePair(league.getLeagueId(), leagueIdXRefs);
+
+		String compositedId = league.getCompositedId();
+		this.dgtLeagueDao.updatePair(league.getDgtLeague(), compositedId);
+		this.brLeagueDao.updatePair(league.getBrLeague(), compositedId);
 	}
 
 	private List<LeagueDto> convertDto(List<League> leagues) {

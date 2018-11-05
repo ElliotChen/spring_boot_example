@@ -1,10 +1,12 @@
 package com.sportradar.sdh.dao.dgt;
 
 import com.sportradar.sdh.domain.dgt.SportEventPart;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
+@Mapper
 public interface DgtSportEventPartDao {
 	SportEventPart findById(@Param("sportId") Long sportId, @Param("eventPartId") Integer eventPartId);
 

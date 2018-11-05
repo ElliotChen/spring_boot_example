@@ -2,6 +2,8 @@ package com.sportradar.sdh.service.impl;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.sportradar.sdh.dao.br.BrMarketOptionDao;
+import com.sportradar.sdh.dao.dgt.DgtMarketOptionDao;
 import com.sportradar.sdh.dao.sdp.SdpMarketOptionDao;
 import com.sportradar.sdh.domain.common.BaseMarketOption;
 import com.sportradar.sdh.domain.common.SourceTypeEnum;
@@ -25,6 +27,12 @@ import java.util.List;
 public class SdpMarketOptionServiceImpl implements SdpMarketOptionService {
 	@Autowired
 	private SdpMarketOptionDao sdpMarketOptionDao;
+
+	@Autowired
+	private DgtMarketOptionDao dgtMarketOptionDao;
+
+	@Autowired
+	private BrMarketOptionDao brMarketOptionDao;
 
 	@Override
 	public List<MarketOptionDto> findAll() {
@@ -90,6 +98,10 @@ public class SdpMarketOptionServiceImpl implements SdpMarketOptionService {
 	public void savePair(MarketOptionDto marketOption) {
 		String marketOptionIdXRefs = marketOption.getDgtMarketOption().getCompositedId()+"|"+marketOption.getBrMarketOption().getCompositedId();
 		this.sdpMarketOptionDao.updatePair(marketOption, marketOptionIdXRefs);
+
+		String compositedId = marketOption.getCompositedId();
+		this.dgtMarketOptionDao.updatePair(marketOption.getDgtMarketOption(), compositedId);
+		this.brMarketOptionDao.updatePair(marketOption.getBrMarketOption(), compositedId);
 	}
 
 

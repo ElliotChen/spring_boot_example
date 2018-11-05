@@ -54,4 +54,10 @@
 		FROM Sport s INNER JOIN SportMarket sm
 			ON s.sportId = sm.sportId
 	</select>
+
+	<update id="updatePair">
+		UPDATE Sport
+		SET sportIdXRef = #{sportIdXRef}
+		WHERE  sportId=#{sport.sportId}
+	</update>
 </mapper>

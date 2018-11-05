@@ -2,8 +2,8 @@ package com.sportradar.sdh.service.impl;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.sportradar.sdh.dao.br.BrRegionDao;
-import com.sportradar.sdh.dao.dgt.DgtRegionDao;
+import com.sportradar.sdh.dao.br.BrRegionSportDao;
+import com.sportradar.sdh.dao.dgt.DgtRegionSportDao;
 import com.sportradar.sdh.dao.sdp.SdpRegionDao;
 import com.sportradar.sdh.domain.common.BaseRegionSport;
 import com.sportradar.sdh.domain.common.SourceTypeEnum;
@@ -28,10 +28,10 @@ public class SdpRegionServiceImpl implements SdpRegionService {
 	private SdpRegionDao sdpRegionDao;
 
 	@Autowired
-	private DgtRegionDao dgtRegionDao;
+	private DgtRegionSportDao dgtRegionSportDao;
 
 	@Autowired
-	private BrRegionDao brRegionDao;
+	private BrRegionSportDao brRegionSportDao;
 
 	@Override
 	public List<RegionDto> findAll() {
@@ -43,17 +43,6 @@ public class SdpRegionServiceImpl implements SdpRegionService {
 		return this.convertDto(this.sdpRegionDao.findById(regionNum));
 	}
 
-	/*
-	@Override
-	public List<com.sportradar.sdh.domain.dgt.Region> findAllDgtRegions() {
-		return this.dgtRegionDao.findAll();
-	}
-	*/
-
-	@Override
-	public List<com.sportradar.sdh.domain.br.Region> findAllBrRegions() {
-		return this.brRegionDao.findAll();
-	}
 
 	@Override
 	public DataTablesOutput<RegionDto> findByPage(DataTablesInput input) {
@@ -104,6 +93,11 @@ public class SdpRegionServiceImpl implements SdpRegionService {
 	public void savePair(RegionDto region) {
 		String regionNumXRefs = region.getDgtRegionSport().getCompositedId()+"|"+region.getBrRegionSport().getCompositedId();
 		this.sdpRegionDao.updatePair(region.getRegionNum(), regionNumXRefs);
+
+		String compositedId = region.getCompositedId();
+
+		this.dgtRegionSportDao.updatePair(region.getDgtRegionSport(), compositedId);
+		this.brRegionSportDao.updatePair(region.getBrRegionSport(), compositedId);
 	}
 
 	@Override

@@ -11,4 +11,6 @@ public interface BrLeagueDao {
 	League findById(@Param("leagueId") Long leagueId);
 
 	List<League> findAll();
+
+	void updatePair(@Param("league") League league, @Param("leagueIdXRef") String leagueIdXRef);
 }

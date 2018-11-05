@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sportradar.sdh.dao.br.BrRegionSportDao" >
+  <resultMap id="BaseResultMap" type="com.sportradar.sdh.domain.br.RegionSport" >
+    <id column="regionNum" property="regionNum" jdbcType="INTEGER" />
+    <id column="sportId" property="sportId" jdbcType="BIGINT" />
+    <result column="updatedTime" property="updatedTime" jdbcType="TIMESTAMP" />
+    <result column="regionSportXRef" property="regionSportXRef" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    regionNum, sportId, updatedTime
+  </sql>
+  <update id="updatePair">
+		UPDATE RegionSport
+		SET regionSportXRef = #{regionSportXRef}
+		WHERE regionNum = #{regionSport.regionNum} and sportId = #{regionSport.sportId}
+	</update>
+</mapper>

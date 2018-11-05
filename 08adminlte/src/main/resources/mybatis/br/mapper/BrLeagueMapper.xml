@@ -30,4 +30,10 @@
 		<include refid="Base_Column_List"/>
 		from League
 	</select>
+
+	<update id="updatePair">
+		UPDATE League
+		SET leagueIdXRef = #{leagueIdXRef}
+		WHERE  leagueId=#{league.leagueId}
+	</update>
 </mapper>
