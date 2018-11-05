@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sportradar.sdh.dao.dgt.DgtPeriodDao" >
+  <resultMap id="BaseResultMap" type="com.sportradar.sdh.domain.dgt.Period" >
+    <id column="periodNum" property="periodNum" jdbcType="INTEGER" />
+    <id column="eventPartId" property="eventPartId" jdbcType="INTEGER" />
+    <id column="sportId" property="sportId" jdbcType="BIGINT" />
+    <result column="periodName" property="periodName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    periodNum, eventPartId, sportId, periodName
+  </sql>
+  <select id="findById" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from Period
+    where periodNum = #{periodNum,jdbcType=INTEGER}
+      and eventPartId = #{eventPartId,jdbcType=INTEGER}
+      and sportId = #{sportId,jdbcType=BIGINT}
+  </select>
+  <select id="findAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from Period
+    where periodNum = #{periodNum,jdbcType=INTEGER}
+    and eventPartId = #{eventPartId,jdbcType=INTEGER}
+    and sportId = #{sportId,jdbcType=BIGINT}
+  </select>
+
+  <select id="findAllForSportMarket" resultMap="BaseResultMap">
+    SELECT DISTINCTROW p.*
+	FROM Period p INNER JOIN SportMarket sm ON p.sportId = sm.sportId AND p.eventPartId = sm.eventPartId
+
+    <if test="sportId != null">
+      AND p.sportId = #{sportId}
+    </if>
+    <if test="eventPartId != null">
+      AND p.eventPartId = #{eventPartId}
+    </if>
+    <if test="periodNum != null">
+      AND p.periodNum = #{periodNum}
+    </if>
+  </select>
+  <!--
+  <insert id="insert" parameterType="com.betmatrix.theonex.mybatis.model.Period" >
+    insert into Period (periodNum, eventPartId, sportId, 
+      periodName)
+    values (#{periodNum,jdbcType=INTEGER}, #{eventPartId,jdbcType=INTEGER}, #{sportId,jdbcType=BIGINT}, 
+      #{periodName,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.betmatrix.theonex.mybatis.model.Period" >
+    insert into Period
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="periodNum != null" >
+        periodNum,
+      </if>
+      <if test="eventPartId != null" >
+        eventPartId,
+      </if>
+      <if test="sportId != null" >
+        sportId,
+      </if>
+      <if test="periodName != null" >
+        periodName,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="periodNum != null" >
+        #{periodNum,jdbcType=INTEGER},
+      </if>
+      <if test="eventPartId != null" >
+        #{eventPartId,jdbcType=INTEGER},
+      </if>
+      <if test="sportId != null" >
+        #{sportId,jdbcType=BIGINT},
+      </if>
+      <if test="periodName != null" >
+        #{periodName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.betmatrix.theonex.mybatis.model.Period" >
+    update Period
+    <set >
+      <if test="periodName != null" >
+        periodName = #{periodName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where periodNum = #{periodNum,jdbcType=INTEGER}
+      and eventPartId = #{eventPartId,jdbcType=INTEGER}
+      and sportId = #{sportId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.betmatrix.theonex.mybatis.model.Period" >
+    update Period
+    set periodName = #{periodName,jdbcType=VARCHAR}
+    where periodNum = #{periodNum,jdbcType=INTEGER}
+      and eventPartId = #{eventPartId,jdbcType=INTEGER}
+      and sportId = #{sportId,jdbcType=BIGINT}
+  </update>
+  -->
+</mapper>

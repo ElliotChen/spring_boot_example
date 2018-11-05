@@ -17,6 +17,9 @@
 	<sql id="Base_Column_List" >
     sportId, sportName, priority, updatedTime, sportIdXRef
   </sql>
+	<sql id="Join_Column_List" >
+		s.sportId, s.sportName, s.priority, s.updatedTime, s.sportIdXRef
+	</sql>
 	<select id="findById" resultMap="BaseResultMap" >
 		select
 		<include refid="Base_Column_List" />
@@ -35,13 +38,20 @@
 
 	<!-- Mapping Table is RegionSport -->
 	<select id="findByRegionNum" resultMap="BaseResultMap">
-		SELECT s.sportId, s.sportName, s.priority, s.updatedTime, s.sportIdXRef
-			FROM Sport as s INNER JOIN RegionSport as rs
+		SELECT <include refid="Join_Column_List" />
+		FROM Sport as s INNER JOIN RegionSport as rs
 			ON s.sportId = rs.sportId AND rs.regionNum = #{regionNum};
 	</select>
 	<select id="findAllForRegion" resultMap="BaseResultMap">
-		SELECT DISTINCTROW s.*
-			FROM Sport as s INNER JOIN RegionSport as rs
+		SELECT DISTINCTROW <include refid="Join_Column_List" />
+		FROM Sport as s INNER JOIN RegionSport as rs
 			ON s.sportId = rs.sportId
+	</select>
+
+	<!-- Mapping Table is SportMarket -->
+	<select id="findAllForSportMarket" resultMap="BaseResultMap">
+		SELECT DISTINCTROW <include refid="Join_Column_List" />
+		FROM Sport s INNER JOIN SportMarket sm
+			ON s.sportId = sm.sportId
 	</select>
 </mapper>

@@ -25,31 +25,46 @@
 					<div class="box-body">
 						<input type="hidden" name="regionNum" th:field="*{regionNum}"/>
 
-						<div class="row">
-						<div class="form-group">
-							<label for="dgtRegionSport_sportId" class="control-label">DGT Sport</label>
-							<select class="form-control" id="dgtRegionSport_sportId" th:field="*{dgtRegionSport.sportId}">
-								<option th:each="ds : ${dgtSports}" th:value="${ds.sportId}" th:text="|${ds.sportId}, ${ds.sportName}|"></option>
-							</select>
-							<label for="dgtRegionSport_regionNum" class="control-label">DGT Region</label>
-							<select class="form-control" id="dgtRegionSport_regionNum" th:field="*{dgtRegionSport.regionNum}">
-								<option th:each="ds : ${dgtRegions}" th:value="${ds.regionNum}" th:text="|${ds.regionNum}, ${ds.regionFullName}|"></option>
-							</select>
 
-						</div>
+						<div class="form-group">
+							<div class="row">
+								<div class="col-xs-2 ">
+									<label for="dgtRegionSport_sportId" class="control-label">DGT Sport</label>
+								</div>
+								<div class="col-xs-4">
+									<select class="form-control" id="dgtRegionSport_sportId" th:field="*{dgtRegionSport.sportId}">
+										<option th:each="ds : ${dgtSports}" th:value="${ds.sportId}" th:text="|${ds.sportId}, ${ds.sportName}|"></option>
+									</select>
+								</div>
+								<div class="col-xs-2 ">
+									<label for="dgtRegionSport_regionNum" class="control-label">DGT Region</label>
+								</div>
+								<div class="col-xs-4">
+									<select class="form-control" id="dgtRegionSport_regionNum" th:field="*{dgtRegionSport.regionNum}">
+										<option th:each="ds : ${dgtRegions}" th:value="${ds.regionNum}" th:text="|${ds.regionNum}, ${ds.regionFullName}|"></option>
+									</select>
+								</div>
+							</div>
 						</div>
 
 						<div class="row">
 							<div class="form-group">
-								<label for="brRegionSport_sportId" class="control-label">BR Sport</label>
-								<select class="form-control" id="brRegionSport_sportId" th:field="*{brRegionSport.sportId}">
-									<option th:each="ds : ${brSports}" th:value="${ds.sportId}" th:text="|${ds.sportId}, ${ds.sportName}|"></option>
-								</select>
-								<label for="brRegionSport_regionNum" class="control-label">BR Region</label>
-								<select class="form-control" id="brRegionSport_regionNum" th:field="*{brRegionSport.regionNum}">
-									<option th:each="ds : ${brRegions}" th:value="${ds.regionNum}" th:text="|${ds.regionNum}, ${ds.regionFullName}|"></option>
-								</select>
-
+								<div class="col-xs-2 ">
+									<label for="brRegionSport_sportId" class="control-label">BR Sport</label>
+								</div>
+								<div class="col-xs-4">
+									<select class="form-control" id="brRegionSport_sportId" th:field="*{brRegionSport.sportId}">
+										<option th:each="ds : ${brSports}" th:value="${ds.sportId}" th:text="|${ds.sportId}, ${ds.sportName}|"></option>
+									</select>
+								</div>
+								<div class="col-xs-2 ">
+									<label for="brRegionSport_regionNum" class="control-label">BR Region</label>
+								</div>
+								<div class="col-xs-4">
+									<select class="form-control" id="brRegionSport_regionNum" th:field="*{brRegionSport.regionNum}">
+										<option th:each="ds : ${brRegions}" th:value="${ds.regionNum}" th:text="|${ds.regionNum}, ${ds.regionFullName}|"></option>
+									</select>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -123,7 +138,7 @@
 
 							},
 							error: function() {
-								$("#brRegionSport_regionNumv").html("<option value=''>---</option>");
+								$("#brRegionSport_regionNum").html("<option value=''>---</option>");
 							}
 						}
 

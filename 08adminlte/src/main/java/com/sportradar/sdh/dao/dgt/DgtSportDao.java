@@ -14,4 +14,6 @@ public interface DgtSportDao {
 
 	List<Sport> findByRegionNum(@Param("regionNum") Integer regionNum);
 	List<Sport> findAllForRegion();
+
+	List<Sport> findAllForSportMarket();
 }

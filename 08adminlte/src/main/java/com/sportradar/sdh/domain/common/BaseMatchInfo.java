@@ -15,7 +15,7 @@ import lombok.Data;
 import java.util.Date;
 
 @Data
-public abstract class BaseMatchInfo {
+public abstract class BaseMatchInfo extends BaseEntity {
 
     protected Long matchId;
     protected Boolean isInLive;

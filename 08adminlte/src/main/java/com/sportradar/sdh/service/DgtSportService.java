@@ -10,4 +10,6 @@ public interface DgtSportService {
 
 	List<Sport> findByRegionNum(Integer regionNum);
 	List<Sport> findAllForRegion();
+
+	List<Sport> findAllForSportMarket();
 }

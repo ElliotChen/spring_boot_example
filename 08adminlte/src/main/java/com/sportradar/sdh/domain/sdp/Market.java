@@ -1,5 +1,6 @@
 package com.sportradar.sdh.domain.sdp;
 
+import com.sportradar.sdh.domain.common.BaseEntity;
 import com.sportradar.sdh.domain.common.BaseMarket;
 import com.sportradar.sdh.domain.common.BaseSport;
 import com.sportradar.sdh.domain.common.IdCompositable;
@@ -16,12 +17,21 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 public class Market extends BaseMarket {
-	private List<com.sportradar.sdh.domain.dgt.SportMarket> dgtMarketXRefs = new ArrayList<>();
 
-	private List<com.sportradar.sdh.domain.br.Market> brMarketXRefs = new ArrayList<>();
+	protected String eventTypeId;
 
-	private List<BaseMarket> referMarketXRefs = new ArrayList<>();
+	private List<BaseEntity> marketXRefs = new ArrayList<>();
 
+	@Override
+	public String getCompositedId() {
+		return String.valueOf(this.marketId);
+	}
+
+	public Market(Long marketId) {
+		this.marketId = marketId;
+	}
+
+	/*
 	public Market(Long marketId) {
 		this(marketId, "", "");
 	}
@@ -33,12 +43,16 @@ public class Market extends BaseMarket {
 		this.initDgtXRefs(dgtSportMarketIds);
 		this.initBrXRefs(brMarketIds);
 
-		/*
+
 		sportXRefs.clear();
 		sportXRefs.addAll(this.dgtMarketXRefs);
 		sportXRefs.addAll(this.brMarketXRefs);
-		*/
+
 	}
+
+	private List<com.sportradar.sdh.domain.dgt.SportMarket> dgtMarketXRefs = new ArrayList<>();
+
+	private List<com.sportradar.sdh.domain.br.Market> brMarketXRefs = new ArrayList<>();
 
 	public void initDgtXRefs(String dgtSportMarketIds) {
 		String[] refSportIds = StringUtils.split(dgtSportMarketIds, ',');
@@ -66,11 +80,6 @@ public class Market extends BaseMarket {
 		}
 	}
 
-	@Override
-	public String getCompositedId() {
-		return String.valueOf(this.marketId);
-	}
-
 	public String getDgtIdXRefs() {
 		return IdCompositable.joinCompositedId(this.dgtMarketXRefs);
 	}
@@ -78,4 +87,9 @@ public class Market extends BaseMarket {
 	public String getBrIdXRefs() {
 		return IdCompositable.joinCompositedId(this.brMarketXRefs);
 	}
+
+	*/
+
+
+
 }

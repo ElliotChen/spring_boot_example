@@ -26,4 +26,11 @@ public class DgtSportServiceImpl implements DgtSportService {
 	public List<Sport> findAllForRegion() {
 		return this.dgtSportDao.findAllForRegion();
 	}
+
+	@Override
+	public List<Sport> findAllForSportMarket() {
+		return this.dgtSportDao.findAllForSportMarket();
+	}
+
+
 }

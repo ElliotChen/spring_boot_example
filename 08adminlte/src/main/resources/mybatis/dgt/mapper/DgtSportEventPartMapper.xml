@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sportradar.sdh.dao.dgt.DgtSportEventPartDao" >
+  <resultMap id="BaseResultMap" type="com.sportradar.sdh.domain.dgt.SportEventPart" >
+    <id column="eventPartId" property="eventPartId"/>
+    <id column="sportId" property="sportId"/>
+    <result column="eventPartName" property="eventPartName"/>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    eventPartId, sportId, eventPartName
+  </sql>
+  <select id="findById" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM SportEventPart
+    WHERE eventPartId = #{eventPartId} AND sportId = #{sportId}
+  </select>
+  <select id="findAll" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM SportEventPart
+  </select>
+
+  <!-- Mapping Table is SportMarket -->
+  <select id="findAllForSportMarket" resultMap="BaseResultMap">
+  SELECT DISTINCTROW sep.*
+    FROM SportEventPart sep INNER JOIN SportMarket sm ON sep.sportId = sm.sportId AND sep.eventPartId = sm.eventPartId
+    <if test="sportId != null">
+      AND sep.sportId = #{sportId}
+    </if>
+  </select>
+</mapper>

@@ -9,5 +9,13 @@ public abstract class BaseEventType extends BaseEntity {
 
     protected String eventTypeName;
 
-    protected String eventTypeIdXRefs;
+    @Override
+    public String getCompositedId() {
+        return String.valueOf(this.getEventTypeId());
+    }
+
+    @Override
+    public void setCompositedId(String compositedId) {
+        this.eventTypeId = Integer.parseInt(compositedId);
+    };
 }

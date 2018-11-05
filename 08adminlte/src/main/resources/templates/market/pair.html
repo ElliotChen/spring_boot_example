@@ -16,37 +16,73 @@
 		<div class="col-xs-12">
 			<div class="box">
 				<div class="box-header">
-					<h3 class="box-title">Market Pair Content</h3>
+					<h3 class="box-title" th:text="|Pair: ${market.marketId} ${market.marketName}|"></h3>
 					<div class="box-tools pull-right">
 						<a href="/market/pair" type="button" class="btn btn-box-tool"><i class="fa fa-list-ul"></i></a>
 					</div>
 				</div>
-				<form data-toggle="validator" class="form-horizontal" role="form" th:object="${market}" th:action="@{/market/savePair}" method="post">
+				<form data-toggle="validator" class="form-horizontal" role="form" th:object="${market}" th:action="@{/market/pair/save}" method="post">
 					<div class="box-body">
 						<input type="hidden" name="marketId" th:field="*{marketId}"/>
 
 						<div class="form-group">
-							<label for="sportName" class="col-sm-2 control-label">Sport Name</label>
-							<div class="col-sm-10">
-								<input type="text" required="true" class="form-control" th:field="*{marketName}" id="sportName" />
+							<div class="row">
+								<div class="col-xs-2 ">
+									<label for="dgtSportMarket_sportId" class="control-label">DGT Sport</label>
+								</div>
+								<div class="col-xs-4">
+									<select class="form-control" id="dgtSportMarket_sportId" th:field="*{dgtSportMarket.sportId}">
+										<option th:each="ds : ${dgtSports}" th:value="${ds.sportId}" th:text="|${ds.sportId}, ${ds.sportName}|"></option>
+									</select>
+								</div>
+								<div class="col-xs-2 ">
+									<label for="dgtSportMarket_eventPartId" class="control-label">DGT EventPart</label>
+								</div>
+								<div class="col-xs-4">
+									<select class="form-control" id="dgtSportMarket_eventPartId" th:field="*{dgtSportMarket.eventPartId}">
+										<option th:each="ds : ${dgtSportEventParts}" th:value="${ds.eventPartId}" th:text="|${ds.eventPartId}, ${ds.eventPartName}|"></option>
+									</select>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-xs-2 ">
+									<label for="dgtSportMarket_periodNum" class="control-label">DGT Period</label>
+								</div>
+								<div class="col-xs-4">
+									<select class="form-control" id="dgtSportMarket_periodNum" th:field="*{dgtSportMarket.periodNum}">
+										<option th:each="ds : ${dgtPeriods}" th:value="${ds.periodNum}" th:text="|${ds.periodNum}, ${ds.periodName}|"></option>
+									</select>
+								</div>
+
+								<div class="col-xs-2 ">
+									<label for="dgtSportMarket_marketId" class="control-label">DGT Market</label>
+								</div>
+								<div class="col-xs-4">
+									<select class="form-control" id="dgtSportMarket_marketId" th:field="*{dgtSportMarket.marketId}">
+										<option th:each="ds : ${dgtMarkets}" th:value="${ds.marketId}" th:text="|${ds.marketId}, ${ds.marketName}|"></option>
+									</select>
+								</div>
 							</div>
 						</div>
 
 						<div class="form-group">
-							<label for="dgtmarketIdXRefs" class="col-sm-2 control-label">DGT</label>
-							<div class="col-sm-10">
-							<select class="form-control" id="dgtmarketIdXRefs" name="dgtmarketIdXRefs" multiple="multiple"  th:field="*{dgtIdXRefs}">
-								<option th:each="i : ${#numbers.sequence(0, 100)}" th:value="${i}" th:text="|${i}, 名称待查|"></option>
-							</select>
-							</div>
-						</div>
-
-						<div class="form-group">
-							<label for="brmarketIdXRefs" class="col-sm-2 control-label">BR</label>
-							<div class="col-sm-10">
-							<select class="form-control" id="brmarketIdXRefs" name="brmarketIdXRefs" multiple="multiple"  th:field="*{brIdXRefs}">
-								<option th:each="i : ${#numbers.sequence(0, 100)}" th:value="${i}" th:text="|${i}, 名称待查|"></option>
-							</select>
+							<div class="row">
+								<div class="col-xs-2 ">
+									<label for="brMarket_marketTypeId" class="control-label">BR EventType</label>
+								</div>
+								<div class="col-xs-4">
+									<select class="form-control" id="brMarket_marketTypeId" th:field="*{brMarket.marketTypeId}">
+										<option th:each="ds : ${brEventTypes}" th:value="${ds.eventTypeId}" th:text="|${ds.eventTypeId}, ${ds.eventTypeName}|"></option>
+									</select>
+								</div>
+								<div class="col-xs-2 ">
+									<label for="brMarket_marketId" class="control-label">BR Market</label>
+								</div>
+								<div class="col-xs-4">
+									<select class="form-control" id="brMarket_marketId" th:field="*{brMarket.marketId}">
+										<option th:each="ds : ${brMarkets}" th:value="${ds.marketId}" th:text="|${ds.marketId}, ${ds.marketName}|"></option>
+									</select>
+								</div>
 							</div>
 						</div>
 
@@ -69,8 +105,131 @@
 <th:block layout:fragment="script">
 	<script language="JavaScript">
 		$(document).ready(function () {
+			$("#dgtSportMarket_sportId").select2();
+			$("#dgtSportMarket_eventPartId").select2();
+			$("#dgtSportMarket_periodNum").select2();
+			$("#dgtSportMarket_marketId").select2();
 
+			$("#brMarket_marketTypeId").select2();
+			$("#brMarket_marketId").select2();
+
+			$("#dgtSportMarket_sportId").change(
+				function () {
+					$.ajax({
+							url: "/ajax/findDgtEventPartForSportMarket",
+							type: 'POST',
+							data: {"sportId":$("#dgtSportMarket_sportId").val()},
+							dataType:"json",
+							success: function(data){
+								$("#dgtSportMarket_eventPartId").html("");
+
+								var selectedValue = $("#dgtSportMarket_periodNum").val();
+
+								if (data.length > 0) {
+									$.each(data, function (index, item) {
+										appendOptionToEventPart($("#dgtSportMarket_eventPartId"), item, "-1");
+									});
+								} else {
+									$("#dgtSportMarket_eventPartId").html("<option value=''>---</option>");
+								}
+
+								$("#dgtSportMarket_eventPartId").trigger("change");
+							},
+							error: function() {
+								$("#dgtSportMarket_eventPartId").html("<option value=''>---</option>");
+							}
+						}
+
+					)
+				}
+			);
+			$("#dgtSportMarket_eventPartId").change(
+				function () {
+					$.ajax({
+							url: "/ajax/findDgtPeriodForSportMarket",
+							type: 'POST',
+							data: {
+								"sportId":$("#dgtSportMarket_sportId").val(),
+								"eventPartId":$("#dgtSportMarket_eventPartId").val()},
+							dataType:"json",
+							success: function(data){
+								$("#dgtSportMarket_periodNum").html("");
+								var selectedValue = $("#dgtSportMarket_periodNum").val();
+
+								if (data.length > 0) {
+									$.each(data, function (index, item) {
+										appendOptionToPeriod($("#dgtSportMarket_periodNum"), item, "-1");
+									});
+								} else {
+									$("#dgtSportMarket_periodNum").html("<option value=''>---</option>");
+								}
+								$("#dgtSportMarket_periodNum").trigger("change");
+
+							},
+							error: function() {
+								$("#dgtSportMarket_periodNum").html("<option value=''>---</option>");
+							}
+						}
+
+					)
+				}
+			);
+
+			$("#brMarket_marketTypeId").change(
+				function () {
+					$.ajax({
+							url: "/ajax/findBrMarketByMarketTypeId",
+							type: 'POST',
+							data: {"marketTypeId":$("#brMarket_marketTypeId").val()},
+							dataType:"json",
+							success: function(data){
+								$("#brMarket_marketId").html("");
+
+								var selectedValue = $("#brMarket_marketId").val();
+
+								if (data.length > 0) {
+									$.each(data, function (index, item) {
+										appendOptionToMarket($("#brMarket_marketId"), item, "-1");
+									});
+								} else {
+									$("#brMarket_marketId").html("<option value=''>---</option>");
+								}
+
+								$("#brMarket_marketId").trigger("change");
+							},
+							error: function() {
+								$("#brMarket_marketId").html("<option value=''>---</option>");
+							}
+						}
+
+					)
+				}
+			);
 		})
+
+		function appendOptionToEventPart($obj, item, selectedValue) {
+			var $opt = $("<option>").text(item.eventPartId +', '+item.eventPartName).val(item.eventPartId);
+			if (item.eventPartId == selectedValue) {
+				$opt.attr("selected", "selected");
+			}
+			$opt.appendTo($obj);
+		}
+
+		function appendOptionToPeriod($obj, item, selectedValue) {
+			var $opt = $("<option>").text(item.periodNum +', '+item.periodName).val(item.periodNum);
+			if (item.periodNum == selectedValue) {
+				$opt.attr("selected", "selected");
+			}
+			$opt.appendTo($obj);
+		}
+
+		function appendOptionToMarket($obj, item, selectedValue) {
+			var $opt = $("<option>").text(item.marketId +', '+item.marketName).val(item.marketId);
+			if (item.marketId == selectedValue) {
+				$opt.attr("selected", "selected");
+			}
+			$opt.appendTo($obj);
+		}
 	</script>
 </th:block>
 

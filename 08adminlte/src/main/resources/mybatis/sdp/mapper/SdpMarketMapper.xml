@@ -2,11 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.sportradar.sdh.dao.sdp.SdpMarketDao">
 	<resultMap id="BaseResultMap" type="com.sportradar.sdh.domain.sdp.Market">
+		<!--
 		<constructor>
 			<idArg column="marketId" javaType="Long"/>
 			<arg column="dgtMarketIds" javaType="String"/>
 			<arg column="brMarketIds" javaType="String"/>
 		</constructor>
+		-->
+		<id column="marketId" property="marketId" />
 		<result column="marketName" property="marketName" jdbcType="VARCHAR"/>
 		<result column="priority" property="priority" jdbcType="SMALLINT"/>
 		<result column="createdTime" property="createdTime" jdbcType="TIMESTAMP"/>
@@ -15,6 +18,8 @@
 
 		<result column="languageCode" property="language.languageCode"/>
 		<result column="languageName" property="language.languageName"/>
+
+		<result column="marketIdXRefs" property="marketXRefs" jdbcType="VARCHAR" javaType="java.util.List" typeHandler="com.sportradar.sdh.dao.sdp.handler.MarketsHandler"/>
 	</resultMap>
 
 	<resultMap id="languageResult" type="com.sportradar.sdh.domain.common.Language">
@@ -22,6 +27,17 @@
 		<result property="languageName" column="languageName" jdbcType="VARCHAR"/>
 	</resultMap>
 
+	<sql id="Base_Column_List">
+    marketId, marketName, priority, eventTypeId, createdTime, updatedTime, CONCAT(marketId, '|', marketIdXRefs) as marketIdXRefs
+  </sql>
+
+	<sql id="Language_Column_List">
+    m.marketId, IFNULL(mi.marketName, m.marketName) AS marketName, m.priority, m.eventTypeId, m.createdTime, m.updatedTime,
+    CONCAT(m.marketId, '|', m.marketIdXRefs) as marketIdXRefs,
+    IFNULL(mi.languageCode, 1) AS languageCode, IFNULL(l.languageName, 'English') AS languageName
+	</sql>
+
+	<!--
 	<sql id="Base_Column_List">
     marketId, marketName, priority, eventTypeId, createdTime, updatedTime,
     SUBSTRING_INDEX(marketIdXRefs, '|', 1) as dgtMarketIds,
@@ -34,6 +50,7 @@
     SUBSTRING_INDEX(SUBSTRING_INDEX(m.marketIdXRefs, '|', 2), '|', -1) as brMarketIds,
     IFNULL(mi.languageCode, 1) AS languageCode, IFNULL(l.languageName, 'English') AS languageName
 	</sql>
+	-->
 
 	<sql id="Language_Table_Join">
 		FROM Market m
@@ -96,6 +113,17 @@
 	<!--回传某一指定marketId的所有语系翻译值，包含i18N里没有储存的 -->
 	<select id="findByIdWithAllLanguage" resultMap="BaseResultMap">
 		SELECT allLang.marketId, IFNULL(mi.marketName, allLang.marketName) AS marketName, allLang.priority, allLang.createdTime, allLang.updatedTime, allLang.eventTypeId,
+		allLang.marketIdXRefs, allLang.languageCode, allLang.languageName
+		FROM
+			(SELECT m.marketId, m.marketName, m.priority, m.createdTime, m.updatedTime, m.eventTypeId,
+    			CONCAT(m.marketId, '|', m.marketIdXRefs) as marketIdXRefs,
+    				l.languageCode, l.languageName
+			  FROM Market m, Language l WHERE m.marketId = #{marketId}) allLang
+		LEFT JOIN Market_I18N mi ON allLang.marketId = mi.marketId AND allLang.languageCode = mi.languageCode
+	</select>
+	<!--
+	<select id="findByIdWithAllLanguage" resultMap="BaseResultMap">
+		SELECT allLang.marketId, IFNULL(mi.marketName, allLang.marketName) AS marketName, allLang.priority, allLang.createdTime, allLang.updatedTime, allLang.eventTypeId,
 		allLang.dgtMarketIds, allLang.brMarketIds, allLang.languageCode, allLang.languageName
 		FROM
 			(SELECT m.marketId, m.marketName, m.priority, m.createdTime, m.updatedTime, m.eventTypeId,
@@ -105,6 +133,7 @@
 			  FROM Market m, Language l WHERE m.marketId = #{marketId}) allLang
 		LEFT JOIN Market_I18N mi ON allLang.marketId = mi.marketId AND allLang.languageCode = mi.languageCode
 	</select>
+	-->
 
 	<insert id="insertI18N" parameterType="com.sportradar.sdh.domain.sdp.Market">
 		INSERT INTO Market_I18N (marketId, languageCode, marketName)
@@ -127,6 +156,13 @@
 	  set marketName = #{marketName}, priority = #{priority}, eventTypeId = #{eventTypeId}, updatedTime = #{updatedTime}
 	  where marketId = #{marketId}
 	</update>
+
+	<update id="updatePair">
+		UPDATE Market
+		SET marketIdXRefs = #{marketIdXRefs}
+		WHERE  marketId=#{market.marketId}
+	</update>
+
 	<!--
 	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
 	  select

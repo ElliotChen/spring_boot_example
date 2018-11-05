@@ -2,16 +2,11 @@ package com.sportradar.sdh.ctrl;
 
 import com.sportradar.sdh.domain.sdp.Region;
 import com.sportradar.sdh.dto.sdp.RegionDto;
-import com.sportradar.sdh.service.BrRegionService;
-import com.sportradar.sdh.service.DgtRegionService;
-import com.sportradar.sdh.service.SdpRegionService;
+import com.sportradar.sdh.service.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -29,6 +24,14 @@ public class AjaxContentCtrl {
 	@Autowired
 	private BrRegionService brRegionService;
 
+	@Autowired
+	private DgtSportEventPartService dgtSportEventPartService;
+
+	@Autowired
+	private DgtPeriodService dgtPeriodService;
+
+	@Autowired
+	private BrMarketService brMarketService;
 	@GetMapping("/findSdpRegionsBySport/{sportId}")
 	@ResponseBody
 	public List<RegionDto> findSdpRegionsBySport(@PathVariable Long sportId) {
@@ -45,5 +48,24 @@ public class AjaxContentCtrl {
 	@ResponseBody
 	public List<com.sportradar.sdh.domain.br.Region> findBrRegionsBySport(@PathVariable Long sportId) {
 		return this.brRegionService.findBySportId(sportId);
+	}
+
+
+	@PostMapping("/findDgtEventPartForSportMarket")
+	@ResponseBody
+	public List<com.sportradar.sdh.domain.dgt.SportEventPart> findDgtEventPartForSportMarket(com.sportradar.sdh.domain.dgt.SportMarket sportMarket) {
+		return this.dgtSportEventPartService.findAllForSportMarket(sportMarket.getSportId());
+	}
+
+	@PostMapping("/findDgtPeriodForSportMarket")
+	@ResponseBody
+	public List<com.sportradar.sdh.domain.dgt.Period> findDgtPeriodForSportMarket(com.sportradar.sdh.domain.dgt.SportMarket sportMarket) {
+		return this.dgtPeriodService.findAllForSportMarket(sportMarket.getSportId(), sportMarket.getEventPartId());
+	}
+
+	@PostMapping("/findBrMarketByMarketTypeId")
+	@ResponseBody
+	public List<com.sportradar.sdh.domain.br.Market> findBrMarketByMarketTypeId(com.sportradar.sdh.domain.br.Market market) {
+		return brMarketService.findByMarketTypeId(market.getMarketTypeId());
 	}
 }

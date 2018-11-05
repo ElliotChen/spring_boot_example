@@ -34,4 +34,6 @@ public interface SdpMarketDao {
 	void insertData(Market market);
 
 	void updateData(Market market);
+
+	void updatePair(@Param("market") Market market, @Param("marketIdXRefs") String marketIdXRefs);
 }

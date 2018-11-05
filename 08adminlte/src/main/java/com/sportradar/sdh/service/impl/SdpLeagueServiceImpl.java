@@ -46,7 +46,7 @@ public class SdpLeagueServiceImpl implements SdpLeagueService {
 
 	@Override
 	public List<LeagueDto> findAll() {
-		return null;
+		return this.convertDto(this.sdpLeagueDao.findAll());
 	}
 
 	@Override

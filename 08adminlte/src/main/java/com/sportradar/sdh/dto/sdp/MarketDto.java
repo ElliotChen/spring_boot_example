@@ -13,4 +13,16 @@ public class MarketDto extends Market {
 	public String getLangString() {
 		return  Translation.transToLangString(this.translations);
 	}
+
+	private com.sportradar.sdh.domain.dgt.SportMarket dgtSportMarket = new com.sportradar.sdh.domain.dgt.SportMarket();
+
+	private com.sportradar.sdh.domain.br.Market brMarket = new com.sportradar.sdh.domain.br.Market();
+
+	public String getDgtIdXRefs() {
+		return dgtSportMarket !=null ? dgtSportMarket.getCompositedId() : "";
+	}
+
+	public String getBrIdXRefs() {
+		return brMarket != null ? brMarket.getCompositedId() : "";
+	}
 }

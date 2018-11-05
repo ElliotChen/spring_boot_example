@@ -1,8 +1,7 @@
 package com.sportradar.sdh.domain.dgt;
 
 import com.sportradar.sdh.domain.common.BaseSportMarket;
-import com.sportradar.sdh.domain.sdp.Market;
-import com.sportradar.sdh.domain.sdp.Region;
+import com.sportradar.sdh.domain.common.SourceTypeEnum;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.util.StringUtils;
@@ -13,7 +12,7 @@ public class SportMarket extends BaseSportMarket {
 
     private Integer periodNum;
 
-    private Market marketRef;
+    private com.sportradar.sdh.domain.sdp.Market marketRef;
 
     public SportMarket(Long sportId, Long marketId, Integer eventPartId, Integer periodNum, Long refMarketId) {
         this.setSportId(sportId);
@@ -21,7 +20,7 @@ public class SportMarket extends BaseSportMarket {
         this.setEventPartId(eventPartId);
         this.setPeriodNum(periodNum);
 
-        this.marketRef = new Market(refMarketId);
+        this.marketRef = new com.sportradar.sdh.domain.sdp.Market(refMarketId);
     }
 
 
@@ -41,13 +40,26 @@ public class SportMarket extends BaseSportMarket {
         sportMarket.setEventPartId(Integer.parseInt(keys[2]));
         sportMarket.setPeriodNum(Integer.parseInt(keys[3]));
 
-        sportMarket.setMarketRef(new Market(refMarketId));
+        sportMarket.setMarketRef(new com.sportradar.sdh.domain.sdp.Market(refMarketId));
 
         return sportMarket;
     }
 
     @Override
     public String getCompositedId() {
-        return String.valueOf(this.sportId + " " + this.marketId + " " + this.eventPartId + " " + this.periodNum);
+        return String.valueOf(this.sportId + " " + this.eventPartId + " " + this.periodNum + " " + this.marketId);
+    }
+
+    @Override
+    public void setCompositedId(String compositedId) {
+        String[] ids = compositedId.split(" ");
+        this.sportId = Long.parseLong(ids[0]);
+        this.eventPartId = Integer.parseInt(ids[1]);
+        this.periodNum = Integer.parseInt(ids[2]);
+        this.marketId = Long.parseLong(ids[3]);
+    }
+    @Override
+    public SourceTypeEnum getSourceType() {
+        return SourceTypeEnum.DGT;
     }
 }

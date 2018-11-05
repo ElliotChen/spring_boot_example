@@ -3,7 +3,7 @@ package com.sportradar.sdh.domain.common;
 import lombok.Data;
 
 @Data
-public abstract class BaseCompetitor {
+public abstract class BaseCompetitor extends BaseEntity {
 	protected Long competitorId;
 
 	protected String competitorFullName;

@@ -16,7 +16,5 @@ public abstract class BaseMarket extends BaseEntity {
     protected Date createdTime;
     protected Date updatedTime;
 
-    protected String eventTypeId;
-
     protected String marketIdXRefs;
 }

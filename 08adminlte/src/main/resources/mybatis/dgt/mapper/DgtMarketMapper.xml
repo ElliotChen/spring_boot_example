@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sportradar.sdh.dao.dgt.DgtMarketDao">
+	<resultMap id="BaseResultMap" type="com.sportradar.sdh.domain.dgt.Market">
+		<id column="marketId" property="marketId" />
+		<result column="marketName" property="marketName" jdbcType="VARCHAR"/>
+		<result column="priority" property="priority" jdbcType="SMALLINT"/>
+		<result column="createdTime" property="createdTime" jdbcType="TIMESTAMP"/>
+		<result column="updatedTime" property="updatedTime" jdbcType="TIMESTAMP"/>
+		<result column="eventTypeId" property="eventTypeId" jdbcType="INTEGER"/>
+	</resultMap>
+
+	<sql id="Base_Column_List">
+    marketId, marketName, priority, eventTypeId, createdTime, updatedTime
+  </sql>
+
+	<select id="findById" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List"/>
+		from Market
+		where marketId = #{marketId}
+	</select>
+
+	<select id="countById" resultType="java.lang.Integer">
+		select COUNT(*)
+		from Market
+		where marketId = #{marketId}
+	</select>
+
+	<select id="findNextId" resultType="java.lang.Long">
+		SELECT MAX(marketId)+1 FROM Market;
+	</select>
+
+	<select id="findAll" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List"/>
+		from Market
+	</select>
+</mapper>

@@ -1,6 +1,7 @@
 package com.sportradar.sdh.domain.br;
 
 import com.sportradar.sdh.domain.common.BaseMarket;
+import com.sportradar.sdh.domain.common.SourceTypeEnum;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.util.StringUtils;
@@ -41,5 +42,17 @@ public class Market extends BaseMarket {
 	@Override
 	public String getCompositedId() {
 		return String.valueOf(this.marketId + " " + marketTypeId);
+	}
+
+	@Override
+	public void setCompositedId(String compositedId) {
+		String[] ids = compositedId.split(" ");
+		this.marketId = Long.parseLong(ids[0]);
+		this.marketTypeId = Integer.parseInt(ids[1]);
+	}
+
+	@Override
+	public SourceTypeEnum getSourceType() {
+		return SourceTypeEnum.BR;
 	}
 }
