@@ -72,12 +72,25 @@ public class RegionCtrl {
 		/* RegionSport, Sport 较少，Region 多*/
 
 		List<com.sportradar.sdh.domain.dgt.Region> dgtRegions = new ArrayList<>();
-		dgtRegions.add(this.dgtRegionService.findById(region.getDgtRegionSport().getRegionNum()));
+		com.sportradar.sdh.domain.dgt.Region dgtRegion = this.dgtRegionService.findById(region.getDgtRegionSport().getRegionNum());
+		if (null == dgtRegion) {
+			dgtRegion = new com.sportradar.sdh.domain.dgt.Region();
+			dgtRegion.setRegionNum(-1);
+			dgtRegion.setRegionFullName("----");
+		}
+		dgtRegions.add(dgtRegion);
+
 		model.addAttribute("dgtSports", this.dgtSportService.findAllForRegion());
 		model.addAttribute("dgtRegions", dgtRegions);
 
 		List<com.sportradar.sdh.domain.br.Region> brRegions = new ArrayList<>();
-		brRegions.add(this.brRegionService.findById(region.getBrRegionSport().getRegionNum()));
+		com.sportradar.sdh.domain.br.Region brRegion = this.brRegionService.findById(region.getBrRegionSport().getRegionNum());
+		if (null == brRegion) {
+			brRegion = new com.sportradar.sdh.domain.br.Region();
+			brRegion.setRegionNum(-1);
+			brRegion.setRegionFullName("----");
+		}
+		brRegions.add(brRegion);
 		model.addAttribute("brSports", this.brSportService.findAllForRegion());
 		model.addAttribute("brRegions", brRegions);
 
@@ -86,7 +99,7 @@ public class RegionCtrl {
 
 	@PostMapping("/pair/save")
 	public String savePair(RegionDto region, Model model) {
-		log.info("Find save target : Region [{}] - DGT[{}],BR[{}]",region.getCompositedId(),
+		log.debug("Find save target : Region [{}] - DGT[{}],BR[{}]",region.getCompositedId(),
 				region.getDgtRegionSport().getCompositedId(), region.getBrRegionSport().getCompositedId());
 
 		this.sdpRegionService.savePair(region);

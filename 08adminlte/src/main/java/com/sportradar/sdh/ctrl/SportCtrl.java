@@ -58,7 +58,7 @@ public class SportCtrl {
 
 	@PostMapping("/pair/save")
 	public String savePair(SportDto sport, Model model) {
-		log.info("Find save target : Sport [{}] - DGT[{}],BR[{}]",sport.getSportId(),
+		log.debug("Find save target : Sport [{}] - DGT[{}],BR[{}]",sport.getSportId(),
 				sport.getDgtSport().getSportId(), sport.getBrSport().getSportId());
 
 		this.sdpSportService.savePair(sport);
@@ -90,7 +90,7 @@ public class SportCtrl {
 	@PostMapping("/i18n/save")
 	@ResponseBody
 	public ApiResult saveI18n(SportDto sport,Model model) {
-		log.info("Find Sport [{}] - [{}]",sport.getSportId(), sport.getLanguage().getLanguageCode());
+		log.debug("Find Sport [{}] - [{}]",sport.getSportId(), sport.getLanguage().getLanguageCode());
 		this.sdpSportService.saveI18N(sport);
 		model.addAttribute("successFlash", "Success!");
 
@@ -124,7 +124,7 @@ public class SportCtrl {
 
 	@PostMapping("/data/save")
 	public String saveData(SportDto sport, Model model) {
-		log.info("Find save target : Sport [{}] - Name[{}],Priority[{}]",sport.getSportId(), sport.getSportName(), sport.getPriority());
+		log.debug("Find save target : Sport [{}] - Name[{}],Priority[{}]",sport.getSportId(), sport.getSportName(), sport.getPriority());
 
 		this.sdpSportService.saveData(sport);
 		model.addAttribute("successFlash", "Success!");

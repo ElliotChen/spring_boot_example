@@ -34,14 +34,14 @@
 							Short:<input class="form-control" type="text" name="shortName" th:value="${mk.shortName}" size="9" required maxlength="9"/>
 							Full:<input class="form-control" type="text" name="fullName" th:value="${mk.fullName}" size="20" required maxlength="40"/>
 
-							<button type="button" class="btn btn-primary">Save</button>
+							<button type="button" class="btn btn-primary" th:text="#{btn.save}">Save</button>
 							</div>
 						</form>
 					</div>
 
 				</div>
 				<div class="box-footer">
-					<a href="/marketOption/i18n" class="btn btn-primary">返回</a>
+					<a href="/marketOption/i18n" class="btn btn-primary" th:text="#{btn.cancel}">返回</a>
 				</div>
 				<!-- /.box-body -->
 			</div>

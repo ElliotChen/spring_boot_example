@@ -32,12 +32,12 @@
 							<input class="form-control" type="text" name="regionFullName" th:value="${rg.regionFullName}" required maxlength="40"/>
 						</div>
 						<div class="col-sm-2">
-							<button type="button" class="btn btn-primary">Save</button>
+							<button type="button" class="btn btn-primary" th:text="#{btn.save}">Save</button>
 						</div>
 					</form>
 				</div>
 				<div class="box-footer">
-					<a href="/region/i18n" class="btn btn-primary">返回</a>
+					<a href="/region/i18n" class="btn btn-primary" th:text="#{btn.cancel}">返回</a>
 				</div>
 				<!-- /.box-body -->
 			</div>
@@ -60,7 +60,7 @@
 					return;
 				}
 
-				$.post( "/region/saveI18n", form.serialize(), function( data ){
+				$.post( "/region/i18n/save", form.serialize(), function( data ){
 					$.notify({
 						// options
 						message: data.message

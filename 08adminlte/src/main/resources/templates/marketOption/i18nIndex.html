@@ -22,12 +22,12 @@
 					<table id="sample" class="table table-bordered table-hover">
 						<thead>
 						<tr>
-							<th>Market Id</th>
-							<th>Option Num</th>
-							<th>Short Name</th>
-							<th>Full Name</th>
-							<th>Language</th>
-							<th>function</th>
+							<th th:text="#{market.marketId}">Market Id</th>
+							<th th:text="#{marketOption.optionNum}">Option Num</th>
+							<th th:text="#{marketOption.shortName}">Short Name</th>
+							<th th:text="#{marketOption.fullName}">Full Name</th>
+							<th th:text="#{language}">Language</th>
+							<th th:text="#{menu.function}">function</th>
 						</tr>
 						</thead>
 						<tbody>
@@ -50,13 +50,21 @@
 				'ajax': '/marketOption/findByPage',
 				'serverSide': true,
 				columns: [{
-					data: 'marketId'
+					data: 'marketId',
+					orderable: false,
+					searchable: false
 				}, {
-					data: 'optionNum'
+					data: 'optionNum',
+					orderable: false,
+					searchable: false
 				}, {
-					data: 'shortName'
+					data: 'shortName',
+					orderable: false,
+					searchable: false
 				},{
-					data: 'fullName'
+					data: 'fullName',
+					orderable: false,
+					searchable: false
 				},{
 					data: 'langString',
 					orderable: false,

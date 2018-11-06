@@ -70,7 +70,7 @@ public class LeagueCtrl {
 
 	@PostMapping("/pair/save")
 	public String savePair(LeagueDto league, Model model) {
-		log.info("Find save target : Sport [{}] - DGT[{}],BR[{}]",league.getLeagueId(),
+		log.debug("Find save target : Sport [{}] - DGT[{}],BR[{}]",league.getLeagueId(),
 				league.getDgtLeague().getLeagueId(), league.getBrLeague().getLeagueId());
 
 		this.sdpLeagueService.savePair(league);
@@ -101,7 +101,7 @@ public class LeagueCtrl {
 	@PostMapping("/i18n/save")
 	@ResponseBody
 	public ApiResult saveI18n(LeagueDto league, Model model) {
-		log.info("Find League [{}] - [{}]",league.getLeagueId(), league.getLanguage().getLanguageCode());
+		log.debug("Find League [{}] - [{}]",league.getLeagueId(), league.getLanguage().getLanguageCode());
 		this.sdpLeagueService.saveI18N(league);
 		model.addAttribute("successFlash", "Success!");
 

@@ -83,7 +83,7 @@ public class MarketCtrl {
 				market.getDgtSportMarket().getEventPartId()));
 		model.addAttribute("dgtMarkets", this.dgtMarketService.findAll());
 
-		log.info("markettypeid[{}]", market.getBrMarket().getMarketTypeId());
+		log.debug("markettypeid[{}]", market.getBrMarket().getMarketTypeId());
 		model.addAttribute("brEventTypes", brEventTypeService.findAllForMarket());
 		model.addAttribute("brMarkets", brMarketService.findByMarketTypeId(market.getBrMarket().getMarketTypeId()));
 		return prefix+"/pair";

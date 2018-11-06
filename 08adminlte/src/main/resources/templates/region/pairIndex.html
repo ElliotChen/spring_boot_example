@@ -22,11 +22,11 @@
 					<table id="sample" class="table table-bordered table-hover">
 						<thead>
 						<tr>
-							<th>Region Num</th>
-							<th>Region Name</th>
+							<th th:text="#{region.regionNum}">Region Num</th>
+							<th th:text="#{region.regionFullName}">Region Name</th>
 							<th>DGT Id refs</th>
 							<th>BR Id refs</th>
-							<th>function</th>
+							<th th:text="#{menu.function}">function</th>
 						</tr>
 						</thead>
 						<tbody>
@@ -49,9 +49,13 @@
 				'ajax': '/region/findByPage',
 				'serverSide': true,
 				columns: [{
-					data: 'regionNum'
+					data: 'regionNum',
+					orderable: false,
+					searchable: false
 				}, {
-					data: 'regionFullName'
+					data: 'regionFullName',
+					orderable: false,
+					searchable: false
 				},{
 					data: 'dgtIdXRefs',
 					orderable: false,
@@ -65,7 +69,7 @@
 					orderable: false,
 					searchable: false,
 					render: function(data, type, row){
-						return '<a href="/region/pair/'+data.regionNum+'" class="btn btn-primary">Pair</a>';
+						return '<a href="/region/pair/'+data.regionNum+'" class="btn btn-primary">匹配</a>';
 					}
 
 				}]

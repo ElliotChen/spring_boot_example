@@ -42,7 +42,7 @@ public class RegionsHandler<T extends BaseRegionSport> extends BaseTypeHandler<L
 	 * @return
 	 */
 	private List<BaseRegionSport> buildRegions(String compositedIds) {
-		log.info("buildRegions for [{}]", compositedIds);
+		log.debug("buildRegions for [{}]", compositedIds);
 		List<BaseRegionSport> regionSports = new ArrayList<>();
 
 		com.sportradar.sdh.domain.sdp.Region sdpRegion = new com.sportradar.sdh.domain.sdp.Region();
@@ -61,7 +61,7 @@ public class RegionsHandler<T extends BaseRegionSport> extends BaseTypeHandler<L
 
 		String[] ids = compositedIds.split("\\|");
 
-		log.info("init region[{}] with dgt[{}], br[{}]", ids[0], ids[1], ids[2]);
+		log.debug("init region[{}] with dgt[{}], br[{}]", ids[0], ids[1], ids[2]);
 		sdpRegion.setCompositedId(ids[0]);
 		dgtRegionSport.setCompositedId(ids[1]);
 		brRegionSport.setCompositedId(ids[2]);

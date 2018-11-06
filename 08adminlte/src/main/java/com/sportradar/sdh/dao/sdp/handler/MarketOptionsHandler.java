@@ -41,7 +41,7 @@ public class MarketOptionsHandler<T extends BaseMarketOption> extends BaseTypeHa
 	 * @return
 	 */
 	private List<BaseMarketOption> buildMarketOptions(String compositedIds) {
-		log.info("build MarketOptions for [{}]", compositedIds);
+		log.debug("build MarketOptions for [{}]", compositedIds);
 		List<BaseMarketOption> marketOptions = new ArrayList<>();
 
 		com.sportradar.sdh.domain.sdp.MarketOption sdpMarketOption = new com.sportradar.sdh.domain.sdp.MarketOption();
@@ -60,7 +60,7 @@ public class MarketOptionsHandler<T extends BaseMarketOption> extends BaseTypeHa
 
 		String[] ids = compositedIds.split("\\|");
 
-		log.info("init MarketOption[{}] with dgt[{}], br[{}]", ids[0], ids[1], ids[2]);
+		log.debug("init MarketOption[{}] with dgt[{}], br[{}]", ids[0], ids[1], ids[2]);
 		sdpMarketOption.setCompositedId(ids[0]);
 		dgtMarketOption.setCompositedId(ids[1]);
 		brMarketOption.setCompositedId(ids[2]);

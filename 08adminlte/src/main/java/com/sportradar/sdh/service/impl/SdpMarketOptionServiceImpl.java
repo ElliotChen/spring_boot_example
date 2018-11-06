@@ -77,7 +77,7 @@ public class SdpMarketOptionServiceImpl implements SdpMarketOptionService {
 	public void saveData(MarketOptionDto marketOption) {
 		Integer count = this.sdpMarketOptionDao.countById(marketOption.getMarketId(), marketOption.getOptionNum());
 		Date now = new Date();
-		log.info("Save MarketOption [{}] - [{}]", marketOption.getMarketId(), marketOption.getOptionNum());
+		log.debug("Save MarketOption [{}] - [{}]", marketOption.getMarketId(), marketOption.getOptionNum());
 		if (count == 0) {
 
 			Integer optionNum = this.sdpMarketOptionDao.findNextOptionNum(marketOption.getMarketId());
@@ -114,6 +114,10 @@ public class SdpMarketOptionServiceImpl implements SdpMarketOptionService {
 	}
 
 	private MarketOptionDto convertDto(MarketOption marketOption) {
+		if (null == marketOption) {
+			return null;
+		}
+
 		MarketOptionDto sd = new MarketOptionDto();
 
 		BeanUtils.copyProperties(marketOption, sd);

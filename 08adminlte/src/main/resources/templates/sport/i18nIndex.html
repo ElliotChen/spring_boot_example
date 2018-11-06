@@ -22,10 +22,10 @@
 					<table id="sample" class="table table-bordered table-hover">
 						<thead>
 						<tr>
-							<th>Sport Id</th>
-							<th>Sport Name</th>
-							<th>Language</th>
-							<th>function</th>
+							<th th:text="#{sport.sportId}">Sport Id</th>
+							<th th:text="#{sport.sportName}">Sport Name</th>
+							<th th:text="#{language}">Language</th>
+							<th th:text="#{menu.function}">function</th>
 						</tr>
 						</thead>
 						<tbody>
@@ -64,7 +64,7 @@
 					orderable: false,
 					searchable: false,
 					render: function(data, type, row){
-						return '<a href="/sport/i18n/'+data.sportId+'" class="btn btn-primary">修改</a>';
+						return '<a href="/sport/i18n/'+data.sportId+'" class="btn btn-primary" th:text="#{btn.edit}">修改</a>';
 					}
 
 				}]

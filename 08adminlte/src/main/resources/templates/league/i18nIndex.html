@@ -22,10 +22,10 @@
 					<table id="sample" class="table table-bordered table-hover">
 						<thead>
 						<tr>
-							<th>League Id</th>
-							<th>League Name</th>
-							<th>Language</th>
-							<th>function</th>
+							<th th:text="#{league.leagueId}">League Id</th>
+							<th th:text="#{league.leagueName}">League Name</th>
+							<th th:text="#{language}">Language</th>
+							<th th:text="#{menu.function}">function</th>
 						</tr>
 						</thead>
 						<tbody>
@@ -45,12 +45,16 @@
 	<script language="JavaScript">
 		$(document).ready(function () {
 			var table = $('table#sample').DataTable({
-				'ajax': '/league/findAll',
+				'ajax': '/league/findByPage',
 				'serverSide': true,
 				columns: [{
-					data: 'leagueId'
+					data: 'leagueId',
+					orderable: false,
+					searchable: false
 				}, {
-					data: 'leagueName'
+					data: 'leagueName',
+					orderable: false,
+					searchable: false
 				},{
 					data: 'langString',
 					orderable: false,

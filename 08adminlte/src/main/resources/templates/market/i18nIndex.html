@@ -22,10 +22,10 @@
 					<table id="sample" class="table table-bordered table-hover">
 						<thead>
 						<tr>
-							<th>Market Id</th>
-							<th>Market Name</th>
-							<th>Language</th>
-							<th>function</th>
+							<th th:text="#{market.marketId}">Market Id</th>
+							<th th:text="#{market.marketName}">Market Name</th>
+							<th th:text="#{language}">Language</th>
+							<th th:text="#{menu.function}">function</th>
 						</tr>
 						</thead>
 						<tbody>
@@ -48,9 +48,13 @@
 				'ajax': '/market/findByPage',
 				'serverSide': true,
 				columns: [{
-					data: 'marketId'
+					data: 'marketId',
+					orderable: false,
+					searchable: false
 				}, {
-					data: 'marketName'
+					data: 'marketName',
+					orderable: false,
+					searchable: false
 				},{
 					data: 'langString',
 					orderable: false,

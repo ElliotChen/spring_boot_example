@@ -26,12 +26,12 @@
 						<input type="hidden" name="leagueId" th:field="*{leagueId}"/>
 
 						<div class="form-group">
-							<label for="leagueName">League Name</label>
+							<label for="leagueName" th:text="#{league.leagueName}">League Name</label>
 							<input type="text" required class="form-control" th:field="*{leagueName}" id="leagueName" />
 						</div>
 
 						<div class="form-group">
-							<label for="priority">Priority</label>
+							<label for="priority" th:text="#{league.priority}">Priority</label>
 							<input type="number" required class="form-control" th:field="*{priority}" id="priority" />
 						</div>
 
@@ -43,7 +43,7 @@
 						</div>
 
 						<div class="form-group">
-							<label for="sportId">Sport</label>
+							<label for="sportId" th:text="#{sport}">Sport</label>
 							<select class="form-control" id="sportId" th:field="*{sportId}">
 								<option value="">----</option>
 								<option th:each="sp : ${sports}" th:value="${sp.sportId}" th:text="|${sp.sportId}, ${sp.sportName}|"></option>
@@ -51,7 +51,7 @@
 						</div>
 
 						<div class="form-group">
-							<label for="regionNum">Region</label>
+							<label for="regionNum" th:text="#{region}">Region</label>
 							<select class="form-control" id="regionNum" th:field="*{regionNum}">
 								<option value="">----</option>
 								<option th:each="rg : ${regions}" th:value="${rg.regionNum}" th:text="|${rg.regionNum}, ${rg.regionFullName}|"></option>
@@ -60,8 +60,8 @@
 
 					</div>
 					<div class="box-footer">
-						<button type="submit" class="btn btn-primary">Save</button>
-						<a href="/league/data" class="btn btn-primary">Cancel</a>
+						<button type="submit" class="btn btn-primary" th:text="#{btn.save}">Save</button>
+						<a href="/league/data" class="btn btn-primary" th:text="#{btn.cancel}">Cancel</a>
 					</div>
 				</form>
 				<!-- /.box-body -->

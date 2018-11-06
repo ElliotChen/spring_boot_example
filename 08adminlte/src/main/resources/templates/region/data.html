@@ -26,23 +26,23 @@
 					<div class="box-body">
 						<input type="hidden" th:field="*{regionNum}"/>
 						<div class="form-group">
-							<label for="regionFullName">Region Full Name</label>
+							<label for="regionFullName" th:text="#{region.regionFullName}">Region Full Name</label>
 							<input type="text" required maxlength="40"  class="form-control" th:field="*{regionFullName}" id="regionFullName" />
 						</div>
 
 						<div class="form-group">
-							<label for="regionShortName">Region Short Name</label>
+							<label for="regionShortName" th:text="#{region.regionShortName}">Region Short Name</label>
 							<input type="text" required maxlength="9" class="form-control" th:field="*{regionShortName}" id="regionShortName" />
 						</div>
 
 						<div class="form-group">
-							<label for="alias">Alias</label>
+							<label for="alias" th:text="#{region.alias}">Alias</label>
 							<input type="text" required maxlength="30" class="form-control" th:field="*{alias}" id="alias" />
 						</div>
 				</div>
 					<div class="box-footer">
-						<button type="submit" class="btn btn-primary">Save</button>
-						<a href="/region/data" class="btn btn-primary">Cancel</a>
+						<button type="submit" class="btn btn-primary" th:text="#{btn.save}">Save</button>
+						<a href="/region/data" class="btn btn-primary" th:text="#{btn.cancel}">Cancel</a>
 					</div>
 				</form>
 

@@ -22,11 +22,11 @@
 					<table id="sample" class="table table-bordered table-hover">
 						<thead>
 						<tr>
-							<th>Sport Id</th>
-							<th>Sport Name</th>
+							<th th:text="#{sport.sportId}">Sport Id</th>
+							<th th:text="#{sport.sportName}">Sport Name</th>
 							<th>DGT Id refs</th>
 							<th>BR Id refs</th>
-							<th>function</th>
+							<th th:text="#{menu.function}">function</th>
 						</tr>
 						</thead>
 						<tbody>
@@ -49,9 +49,13 @@
 				'ajax': '/sport/findByPage',
 				'serverSide': true,
 				columns: [{
-					data: 'sportId'
+					data: 'sportId',
+					orderable: false,
+					searchable: false
 				}, {
-					data: 'sportName'
+					data: 'sportName',
+					orderable: false,
+					searchable: false
 				},{
 					data: 'dgtIdXRefs',
 					orderable: false,
@@ -65,7 +69,7 @@
 					orderable: false,
 					searchable: false,
 					render: function(data, type, row){
-						return '<a href="/sport/pair/'+data.sportId+'" class="btn btn-primary">Pair</a>';
+						return '<a href="/sport/pair/'+data.sportId+'" class="btn btn-primary">匹配</a>';
 					}
 
 				}]

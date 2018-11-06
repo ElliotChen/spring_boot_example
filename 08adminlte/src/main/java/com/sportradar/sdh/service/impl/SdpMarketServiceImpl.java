@@ -109,6 +109,10 @@ public class SdpMarketServiceImpl implements SdpMarketService {
 	}
 
 	private MarketDto convertDto(Market market) {
+		if (null == market) {
+			return null;
+		}
+
 		MarketDto sd = new MarketDto();
 
 		BeanUtils.copyProperties(market, sd);

@@ -129,7 +129,6 @@ public class SdpLeagueServiceImpl implements SdpLeagueService {
 	}
 
 	private LeagueDto convertDto(League league) {
-
 		if (null == league) {
 			return null;
 		}

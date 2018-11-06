@@ -115,6 +115,10 @@ public class SdpRegionServiceImpl implements SdpRegionService {
 	}
 
 	private RegionDto convertDto(Region region) {
+		if (null == region) {
+			return null;
+		}
+
 		RegionDto sd = new RegionDto();
 
 		BeanUtils.copyProperties(region, sd);

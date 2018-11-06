@@ -5,6 +5,9 @@ spring:
   thymeleaf:
     cache: false
     prefix: classpath:/templates/
+  messages:
+    basename: i18n/messages
+    cache-duration: 3600s
 
 sdp:
   datasource:

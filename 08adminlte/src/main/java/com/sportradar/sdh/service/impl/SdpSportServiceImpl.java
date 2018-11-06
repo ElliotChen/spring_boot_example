@@ -113,6 +113,10 @@ public class SdpSportServiceImpl implements SdpSportService {
 	}
 
 	private SportDto convertDto(Sport sport) {
+		if (null == sport) {
+			return null;
+		}
+
 		SportDto sd = new SportDto();
 
 		BeanUtils.copyProperties(sport, sd);

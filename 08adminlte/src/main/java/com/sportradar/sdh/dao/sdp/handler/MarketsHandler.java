@@ -43,7 +43,7 @@ public class MarketsHandler<T extends BaseMarket> extends BaseTypeHandler<List<B
 	 * @return
 	 */
 	private List<BaseEntity> buildMarkets(String compositedIds) {
-		log.info("buildMarket for [{}]", compositedIds);
+		log.debug("buildMarket for [{}]", compositedIds);
 		List<BaseEntity> markets = new ArrayList<>();
 
 		com.sportradar.sdh.domain.sdp.Market sdpMarket = new com.sportradar.sdh.domain.sdp.Market();
@@ -62,7 +62,7 @@ public class MarketsHandler<T extends BaseMarket> extends BaseTypeHandler<List<B
 
 		String[] ids = compositedIds.split("\\|");
 
-		log.info("init Market[{}] with dgt[{}], br[{}]", ids[0], ids[1], ids[2]);
+		log.debug("init Market[{}] with dgt[{}], br[{}]", ids[0], ids[1], ids[2]);
 		sdpMarket.setCompositedId(ids[0]);
 		dgtSportMarket.setCompositedId(ids[1]);
 		brMarket.setCompositedId(ids[2]);

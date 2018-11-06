@@ -42,7 +42,7 @@ public class LeaguesHandler<T extends BaseLeague> extends BaseTypeHandler<List<B
 	 * @return
 	 */
 	private List<BaseLeague> buildSports(String compositedIds) {
-		log.info("buildLeagues for [{}]", compositedIds);
+		log.debug("buildLeagues for [{}]", compositedIds);
 		List<BaseLeague> leagues = new ArrayList<>();
 
 		com.sportradar.sdh.domain.sdp.League sdpLeague = new com.sportradar.sdh.domain.sdp.League();
@@ -61,7 +61,7 @@ public class LeaguesHandler<T extends BaseLeague> extends BaseTypeHandler<List<B
 
 		String[] ids = compositedIds.split("\\|");
 
-		log.info("init League[{}] with dgt[{}], br[{}]", ids[0], ids[1], ids[2]);
+		log.debug("init League[{}] with dgt[{}], br[{}]", ids[0], ids[1], ids[2]);
 		sdpLeague.setCompositedId(ids[0]);
 		dgtLeague.setCompositedId(ids[1]);
 		brLeague.setCompositedId(ids[2]);
