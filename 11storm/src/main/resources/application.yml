@@ -1,0 +1,5 @@
+logging:
+  level:
+    tw:
+      elliot:
+        storm: debug
