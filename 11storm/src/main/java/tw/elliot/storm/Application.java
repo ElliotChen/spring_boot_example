@@ -2,6 +2,7 @@ package tw.elliot.storm;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ConfigurableApplicationContext;
 import tw.elliot.storm.topology.SpringTopology;
 import tw.elliot.storm.util.ApplicationContextHolder;
 
@@ -9,7 +10,7 @@ import tw.elliot.storm.util.ApplicationContextHolder;
 public class Application {
 
     public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
+        ConfigurableApplicationContext applicationContext = SpringApplication.run(Application.class, args);
 
         SpringTopology topology = ApplicationContextHolder.getBean(SpringTopology.class);
 

@@ -34,7 +34,7 @@ public class SpringTopology {
     }
 
     private void initBuilderAndConfig() {
-        TopologyBuilder topologyBuilder = new TopologyBuilder();
+        topologyBuilder = new TopologyBuilder();
         topologyBuilder.setSpout("FirstSpout", new FirstSpout(), 1);
 
         topologyBuilder.setBolt("SecondBolt", new SecondBolt(), 1).setNumTasks(1).shuffleGrouping("FirstSpout");

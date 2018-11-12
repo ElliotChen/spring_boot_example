@@ -38,3 +38,25 @@ public class RedisSessionConfig extends AbstractHttpSessionApplicationInitialize
 2. Add @EnableRedisHttpSession
 
 ## DAO
+
+
+## Redis GUI Client for MAC
+
+[TablePlus](https://tableplus.io/blog/)
+
+## Docker Compose
+
+1. [redis.conf](http://download.redis.io/redis-stable/redis.conf)
+2. 
+
+```
+version: "3.3"
+
+services:
+  redis:
+    image: redis:5
+    ports:
+      - 6379:6379
+    volumes:
+      - ./redis.conf:/usr/local/etc/redis/redis.conf
+```
