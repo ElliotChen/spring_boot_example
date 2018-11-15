@@ -58,3 +58,5 @@ gradle-app.setting
 # gradle/wrapper/gradle-wrapper.properties
 
 #08adminlte/
+
+logs/

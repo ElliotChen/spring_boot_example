@@ -270,5 +270,6 @@
 		<module>08adminlte</module>
 		<module>09mem</module>
 		<module>10mybatis</module>
+		<module>11storm</module>
 	</modules>
 </project>

@@ -12,6 +12,8 @@ import org.springframework.stereotype.Component;
 import tw.elliot.storm.bolt.SecondBolt;
 import tw.elliot.storm.spout.FirstSpout;
 
+import java.util.Arrays;
+
 @Slf4j
 @Component
 public class SpringTopology {
@@ -19,6 +21,21 @@ public class SpringTopology {
     TopologyBuilder topologyBuilder;
     Config config;
     public void submitRemote() {
+        initBuilderAndConfig();
+
+        config = new Config();
+        /*
+        config.put(Config.NIMBUS_HOST,"localhost");
+        config.put(Config.NIMBUS_THRIFT_PORT,6627);
+        config.put(Config.STORM_ZOOKEEPER_SERVERS, Arrays.asList("127.0.0.1"));
+        config.put(Config.STORM_ZOOKEEPER_PORT,2181);
+        */
+        config.setDebug(Boolean.TRUE);
+
+
+        config.setNumAckers(1);
+        config.setNumWorkers(1);
+        //System.setProperty("storm.jar","/Users/elliot/gitrepo/spring_boot_example/11storm/target/11storm-1.0-SNAPSHOT.jar");
         try {
             StormSubmitter.submitTopology("ST", config, topologyBuilder.createTopology());
         } catch (Exception e) {
@@ -29,18 +46,19 @@ public class SpringTopology {
     public void submitLocal() {
         initBuilderAndConfig();
 
+        config = new Config();
+        config.setNumAckers(1);
+        config.setNumWorkers(1);
         LocalCluster localCluster = new LocalCluster();
         localCluster.submitTopology("ST", config, topologyBuilder.createTopology());
     }
 
     private void initBuilderAndConfig() {
-        TopologyBuilder topologyBuilder = new TopologyBuilder();
+        topologyBuilder = new TopologyBuilder();
         topologyBuilder.setSpout("FirstSpout", new FirstSpout(), 1);
 
         topologyBuilder.setBolt("SecondBolt", new SecondBolt(), 1).setNumTasks(1).shuffleGrouping("FirstSpout");
 
-        config = new Config();
-        config.setNumAckers(1);
-        config.setNumWorkers(1);
+
     }
 }
