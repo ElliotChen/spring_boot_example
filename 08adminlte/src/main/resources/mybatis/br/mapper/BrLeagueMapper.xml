@@ -31,6 +31,27 @@
 		from League
 	</select>
 
+	<select id="findBySportId" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List"/>
+		from League
+		where sportId = #{sportId}
+	</select>
+
+	<select id="findByExample" parameterType="com.sportradar.sdh.domain.br.League" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List"/>
+		from League
+		where 1 = 1
+		<if test="sportId != null">
+			AND sportId = #{sportId}
+		</if>
+		<if test="regionNum != null">
+			AND regionNum = #{regionNum}
+		</if>
+	</select>
+
+
 	<update id="updatePair">
 		UPDATE League
 		SET leagueIdXRef = #{leagueIdXRef}

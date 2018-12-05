@@ -9,4 +9,7 @@ public interface BrLeagueService {
 
 	List<League> findAll();
 
+	List<League> findBySportId(Long sportId);
+
+	List<League> findByExample(League league);
 }

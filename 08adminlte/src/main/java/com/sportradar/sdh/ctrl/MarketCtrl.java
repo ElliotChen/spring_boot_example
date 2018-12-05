@@ -55,6 +55,9 @@ public class MarketCtrl {
 	@Autowired
 	private BrMarketService brMarketService;
 
+	@Autowired
+	private SdpSportService sdpSportService;
+
 	private SdpLanguageDao sdhLanguageDao;
 
 	@GetMapping("/findByPage")
@@ -150,6 +153,7 @@ public class MarketCtrl {
 		model.addAttribute("market", market);
 
 		model.addAttribute("eventTypes", this.sdpEventTypeDao.findAll());
+		model.addAttribute("sdpSports", this.sdpSportService.findAll());
 		return prefix+"/data";
 
 	}

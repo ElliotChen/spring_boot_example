@@ -47,7 +47,9 @@ public class SdpRegionServiceImpl implements SdpRegionService {
 	@Override
 	public DataTablesOutput<RegionDto> findByPage(DataTablesInput input) {
 		PageHelper.startPage((input.getStart() / input.getLength()) +1 , input.getLength());
-
+		if (!input.getOrder().isEmpty()) {
+			PageHelper.orderBy(input.getOrder().get(0).toString());
+		}
 		Page<Region> page = this.sdpRegionDao.findByPage();
 		DataTablesOutput<RegionDto> ds = new DataTablesOutput<RegionDto>();
 		ds.setData(convertDto(page.getResult()));

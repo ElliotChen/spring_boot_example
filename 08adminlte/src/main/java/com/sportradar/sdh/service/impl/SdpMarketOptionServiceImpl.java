@@ -47,7 +47,9 @@ public class SdpMarketOptionServiceImpl implements SdpMarketOptionService {
 	@Override
 	public DataTablesOutput<MarketOptionDto> findByPage(DataTablesInput input) {
 		PageHelper.startPage((input.getStart() / input.getLength()) +1 , input.getLength());
-
+		if (!input.getOrder().isEmpty()) {
+			PageHelper.orderBy(input.getOrder().get(0).toString());
+		}
 		Page<MarketOption> page = this.sdpMarketOptionDao.findByPage();
 		DataTablesOutput<MarketOptionDto> ds = new DataTablesOutput<MarketOptionDto>();
 		ds.setData(convertDto(page.getResult()));

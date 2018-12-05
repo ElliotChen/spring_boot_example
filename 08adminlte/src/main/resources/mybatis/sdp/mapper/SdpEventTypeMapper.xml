@@ -12,12 +12,13 @@
 		select
 		<include refid="Base_Column_List"/>
 		from EventType
-		where eventTypeId = #{eventTypeId}
+		where eventTypeId = #{eventTypeId} AND eventTypeId &lt; 100000
 	</select>
 	<select id="findAll" resultMap="BaseResultMap">
 		SELECT
 		<include refid="Base_Column_List"/>
 		from EventType
+		where eventTypeId &lt; 100000
 	</select>
 	<!--
 	<insert id="insert" parameterType="com.betmatrix.theonex.mybatis.model.EventType">

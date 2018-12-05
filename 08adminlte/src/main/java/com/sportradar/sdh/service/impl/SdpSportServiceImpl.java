@@ -10,6 +10,7 @@ import com.sportradar.sdh.domain.common.SourceTypeEnum;
 import com.sportradar.sdh.domain.sdp.Sport;
 import com.sportradar.sdh.dto.dts.DataTablesInput;
 import com.sportradar.sdh.dto.dts.DataTablesOutput;
+import com.sportradar.sdh.dto.dts.Order;
 import com.sportradar.sdh.dto.sdp.SportDto;
 import com.sportradar.sdh.dto.sdp.Translation;
 import com.sportradar.sdh.service.SdpSportService;
@@ -52,7 +53,14 @@ public class SdpSportServiceImpl implements SdpSportService {
 	public DataTablesOutput<SportDto> findByPage(DataTablesInput input) {
 
 		PageHelper.startPage((input.getStart() / input.getLength()) +1 , input.getLength());
-
+		if (!input.getOrder().isEmpty()) {
+			Order order = input.getOrder().get(0);
+			Integer columnIndex = order.getColumn();
+			String dir = order.getDir();
+			String name = input.getColumns().get(columnIndex.intValue()).getData();
+			String sort = name + " " +dir;
+			PageHelper.orderBy(sort);
+		}
 		Page<Sport> page = this.sdpSportDao.findByPage();
 		DataTablesOutput<SportDto> ds = new DataTablesOutput<SportDto>();
 

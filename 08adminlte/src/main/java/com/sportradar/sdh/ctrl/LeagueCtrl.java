@@ -1,10 +1,12 @@
 package com.sportradar.sdh.ctrl;
 
 import com.sportradar.sdh.domain.sdp.League;
+import com.sportradar.sdh.domain.sdp.Region;
 import com.sportradar.sdh.dto.dts.DataTablesInput;
 import com.sportradar.sdh.dto.dts.DataTablesOutput;
 import com.sportradar.sdh.dto.sdp.LeagueDto;
 import com.sportradar.sdh.dto.sdp.RegionDto;
+import com.sportradar.sdh.dto.sdp.SportDto;
 import com.sportradar.sdh.dto.system.ApiResult;
 import com.sportradar.sdh.service.*;
 import lombok.extern.slf4j.Slf4j;
@@ -41,6 +43,7 @@ public class LeagueCtrl {
 
 	@Autowired
 	private BrLeagueService brLeagueService;
+
 	@GetMapping("/findByPage")
 	@ResponseBody
 	public DataTablesOutput<LeagueDto> findByPage(@Valid DataTablesInput input) {
@@ -60,10 +63,25 @@ public class LeagueCtrl {
 	@GetMapping("/pair/{id}")
 	public String pair(@PathVariable Long id, Model model) {
 		League league = this.sdpLeagueService.findById(id);
+		Long sportId = league.getSportId();
+		Integer regionNum = league.getRegionNum();
+
+		SportDto sport = sdpSportService.findById(sportId);
+		RegionDto region = sdpRegionService.findById(regionNum);
+
 		model.addAttribute("league", league);
 
-		model.addAttribute("dgtLeagues", this.dgtLeagueService.findAll());
-		model.addAttribute("brLeagues", this.brLeagueService.findAll());
+		com.sportradar.sdh.domain.dgt.League dgtLeague = new com.sportradar.sdh.domain.dgt.League();
+		com.sportradar.sdh.domain.br.League brLeague = new com.sportradar.sdh.domain.br.League();
+
+		dgtLeague.setSportId(sport.getDgtSport().getSportId());
+		dgtLeague.setRegionNum(region.getDgtRegionSport().getRegionNum());
+
+		brLeague.setSportId(sport.getBrSport().getSportId());
+		brLeague.setRegionNum(region.getBrRegionSport().getRegionNum());
+
+		model.addAttribute("dgtLeagues", this.dgtLeagueService.findByExample(dgtLeague));
+		model.addAttribute("brLeagues", this.brLeagueService.findByExample(brLeague));
 
 		return prefix+"/pair";
 	}

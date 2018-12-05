@@ -22,4 +22,13 @@ public class BrLeagueServiceImpl implements BrLeagueService {
 	public List<League> findAll() {
 		return this.brLeagueDao.findAll();
 	}
+
+	@Override
+	public List<League> findBySportId(Long sportId) {
+		return this.brLeagueDao.findBySportId(sportId);
+	}
+
+	public List<League> findByExample(League league) {
+		return this.brLeagueDao.findByExample(league);
+	}
 }

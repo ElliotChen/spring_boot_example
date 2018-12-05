@@ -22,4 +22,13 @@ public class DgtLeagueServiceImpl implements DgtLeagueService {
 	public List<League> findAll() {
 		return this.dgtLeagueDao.findAll();
 	}
+
+	@Override
+	public List<League> findBySportId(Long sportId) {
+		return this.dgtLeagueDao.findBySportId(sportId);
+	}
+
+	public List<League> findByExample(League league) {
+		return this.dgtLeagueDao.findByExample(league);
+	}
 }

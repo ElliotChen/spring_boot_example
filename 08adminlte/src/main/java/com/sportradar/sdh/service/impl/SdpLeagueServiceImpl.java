@@ -68,6 +68,13 @@ public class SdpLeagueServiceImpl implements SdpLeagueService {
 	public DataTablesOutput<LeagueDto> findByPage(DataTablesInput input) {
 		PageHelper.startPage((input.getStart() / input.getLength()) +1 , input.getLength());
 
+		if (!input.getOrder().isEmpty()) {
+			Integer columnIndex = input.getOrder().get(0).getColumn();
+			String name = input.getColumns().get(columnIndex.intValue()).getName();
+			PageHelper.orderBy(name);
+		}
+
+
 		Page<League> page = this.sdpLeagueDao.findByPage();
 		DataTablesOutput<LeagueDto> ds = new DataTablesOutput<LeagueDto>();
 		ds.setData(convertDto(page.getResult()));

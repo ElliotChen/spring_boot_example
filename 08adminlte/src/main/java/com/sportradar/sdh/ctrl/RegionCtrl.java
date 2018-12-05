@@ -47,6 +47,9 @@ public class RegionCtrl {
 	@Autowired
 	private BrRegionService brRegionService;
 
+	@Autowired
+	private SdpSportService sdpSportService;
+
 
 	@GetMapping("/findByPage")
 	@ResponseBody
@@ -161,6 +164,7 @@ public class RegionCtrl {
 		}
 
 		model.addAttribute("region", region);
+		model.addAttribute("sdpSports", this.sdpSportService.findAll());
 		return prefix+"/data";
 	}
 

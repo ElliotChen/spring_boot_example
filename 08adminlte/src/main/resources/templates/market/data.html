@@ -41,6 +41,20 @@
 								<option th:each="et : ${eventTypes}" th:value="${et.eventTypeId}" th:text="|${et.eventTypeId}, ${et.eventTypeName}|"></option>
 							</select>
 						</div>
+						<div class="form-group">
+							<label for="market_sport" th:text="#{sport}">Alias</label>
+							<select class="form-control" id="market_sport" multiple>
+								<option th:each="ds : ${sdpSports}" th:value="${ds.sportId}" th:text="|${ds.sportId}, ${ds.sportName}|"></option>
+							</select>
+						</div>
+						<div class="form-group">
+							<label for="marketTypeId">玩法类别</label>
+							<select class="form-control" id="marketTypeId">
+								<option value="108099">106099</option>
+								<option value="108099">107099</option>
+								<option value="108099">108099</option>
+							</select>
+						</div>
 
 
 					</div>
