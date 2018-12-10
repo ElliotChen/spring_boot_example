@@ -29,7 +29,7 @@ profile的設定是Build中很重要的一環，在我大部份的經驗裡，�
 
 ## 現行情形
 
-在Spring Boot 中如果要使用```application.yml```來設定的話，勢必要將所有的東西寫在同一檔案，但還好，在測試或起動時還能動態指定profile。
+在Spring Boot 中如果要使用```application.yml```來設定的話，可以將共用的部份寫在```application.yml```，而其餘會隨著profile而有不同的部份，就各別寫在```application-${profile_name}.yml```中，並在測試或起動時還能動態指定profile。
 
 另外是因為```Docker```實用度太高了，個人開發環境利用了Docker後，基本上也能統一所有的設定，所以在設定裡，建議不要寫定ip，而都使用hostname。
 hostname對應ip可在hosts裡更改，這樣無論是在各種環境裡都能正常運作。
