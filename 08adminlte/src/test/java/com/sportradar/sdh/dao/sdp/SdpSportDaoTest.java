@@ -74,7 +74,7 @@ public class SdpSportDaoTest {
 
 	@Test
 	public void testFindWithAllLanguage() {
-		List<Sport> sports = this.sdpSportDao.findByIdWithAllLanguage(2L);
+		List<Sport> sports = this.sdpSportDao.findByIdWithAllLanguage(8L);
 
 		for (Sport sport: sports) {
 			String value = String.valueOf(sport.getCompositedId() + " " + sport.getSportName() + " " + sport.getLanguage().getLanguageCode() +" "+ sport.getLanguage().getLanguageName());

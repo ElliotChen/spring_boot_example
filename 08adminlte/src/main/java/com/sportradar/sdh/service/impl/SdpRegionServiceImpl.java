@@ -10,6 +10,7 @@ import com.sportradar.sdh.domain.common.SourceTypeEnum;
 import com.sportradar.sdh.domain.sdp.Region;
 import com.sportradar.sdh.dto.dts.DataTablesInput;
 import com.sportradar.sdh.dto.dts.DataTablesOutput;
+import com.sportradar.sdh.dto.dts.Order;
 import com.sportradar.sdh.dto.sdp.RegionDto;
 import com.sportradar.sdh.dto.sdp.Translation;
 import com.sportradar.sdh.service.SdpRegionService;
@@ -48,7 +49,12 @@ public class SdpRegionServiceImpl implements SdpRegionService {
 	public DataTablesOutput<RegionDto> findByPage(DataTablesInput input) {
 		PageHelper.startPage((input.getStart() / input.getLength()) +1 , input.getLength());
 		if (!input.getOrder().isEmpty()) {
-			PageHelper.orderBy(input.getOrder().get(0).toString());
+			Order order = input.getOrder().get(0);
+			Integer columnIndex = order.getColumn();
+			String dir = order.getDir();
+			String name = input.getColumns().get(columnIndex.intValue()).getData();
+			String sort = name + " " +dir;
+			PageHelper.orderBy(sort);
 		}
 		Page<Region> page = this.sdpRegionDao.findByPage();
 		DataTablesOutput<RegionDto> ds = new DataTablesOutput<RegionDto>();

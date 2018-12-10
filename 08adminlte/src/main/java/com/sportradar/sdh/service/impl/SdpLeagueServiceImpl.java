@@ -13,6 +13,7 @@ import com.sportradar.sdh.domain.common.SourceTypeEnum;
 import com.sportradar.sdh.domain.sdp.League;
 import com.sportradar.sdh.dto.dts.DataTablesInput;
 import com.sportradar.sdh.dto.dts.DataTablesOutput;
+import com.sportradar.sdh.dto.dts.Order;
 import com.sportradar.sdh.dto.sdp.LeagueDto;
 import com.sportradar.sdh.dto.sdp.Translation;
 import com.sportradar.sdh.service.SdpLeagueService;
@@ -69,9 +70,12 @@ public class SdpLeagueServiceImpl implements SdpLeagueService {
 		PageHelper.startPage((input.getStart() / input.getLength()) +1 , input.getLength());
 
 		if (!input.getOrder().isEmpty()) {
-			Integer columnIndex = input.getOrder().get(0).getColumn();
-			String name = input.getColumns().get(columnIndex.intValue()).getName();
-			PageHelper.orderBy(name);
+			Order order = input.getOrder().get(0);
+			Integer columnIndex = order.getColumn();
+			String dir = order.getDir();
+			String name = input.getColumns().get(columnIndex.intValue()).getData();
+			String sort = name + " " +dir;
+			PageHelper.orderBy(sort);
 		}
 
 

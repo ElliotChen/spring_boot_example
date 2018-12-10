@@ -1,18 +1,22 @@
 package com.sportradar.sdh.domain.sdp;
 
 import com.sportradar.sdh.domain.common.BaseCompetitor;
+import com.sportradar.sdh.domain.common.SourceTypeEnum;
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
 public class Competitor extends BaseCompetitor {
-	private String brCompetitorIdXRefs;
 
-	private String dgtCompetitorIdXRefs;
+	private List<BaseCompetitor> competitorXRefs = new ArrayList<>();
 
-	private List<com.sportradar.sdh.domain.dgt.Competitor> dgtCompetitorXRefs;
+	@Override
+	public SourceTypeEnum getSourceType() {
+		return SourceTypeEnum.SDP;
+	}
 
-	private List<com.sportradar.sdh.domain.br.Competitor> brCompetitorXRefs;
 
+	// competitorFullName
 }
