@@ -20,7 +20,6 @@ public class EmployeeRepoTest {
 	@Autowired
 	private EmployeeRepo repo;
 
-	@Ignore
 	@Test
 	public void testCreate() {
 		Assert.assertNotNull(repo);
