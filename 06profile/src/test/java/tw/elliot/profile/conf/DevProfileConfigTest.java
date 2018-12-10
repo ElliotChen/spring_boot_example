@@ -16,9 +16,17 @@ public class DevProfileConfigTest {
 	@Value("${spring.profiles:unknown}")
 	private String profile;
 
+	@Value("${spring.application.name:unknown}")
+	private String name;
 	@Test
 	public void testProfileName() {
+
+		/*測試共用區的設定有效*/
+		Assert.assertEquals("06profile", this.name);
+
+		/*測試各別區的設定有效*/
 		Assert.assertEquals("dev", this.profile);
+
 	}
 
 

@@ -2,9 +2,8 @@
 #spring:
 #  profiles:
 #    active: demo
-spring:
-  application:
-    name: 06profile
+sspring:
+  profiles: stage
 
 server:
   port: 9080
