@@ -272,5 +272,6 @@
 		<module>10mybatis</module>
 		<module>11storm</module>
 		<module>12reactor</module>
+		<module>13nettyserver</module>
 	</modules>
 </project>

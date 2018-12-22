@@ -1,0 +1,1 @@
+docker run -d -p 9300:9300 -p 9200:9200 -e "discovery.type=single-node" -e "network.bind_host=0.0.0.0" docker.elastic.co/elasticsearch/elasticsearch:6.5.4
