@@ -19,7 +19,8 @@ public class Third1Bolt extends BaseRichBolt {
 
 	@Override
 	public void execute(Tuple tuple) {
-		log.info("Third");
+		log.info("Third - "+tuple.getStringByField("message"));
+
 	}
 
 	@Override

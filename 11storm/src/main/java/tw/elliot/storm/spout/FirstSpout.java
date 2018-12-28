@@ -22,7 +22,7 @@ public class FirstSpout extends BaseRichSpout {
     public void open(Map map, TopologyContext topologyContext, SpoutOutputCollector spoutOutputCollector) {
         this.topologyContext = topologyContext;
         this.spoutOutputCollector = spoutOutputCollector;
-        endTime = System.currentTimeMillis() + 1*1000;
+        endTime = System.currentTimeMillis() + 200;
     }
 
     @Override
