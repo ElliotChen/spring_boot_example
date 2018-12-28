@@ -16,4 +16,5 @@ public class User {
 	@Field
 	private String name;
 
+	private String[] tags;
 }

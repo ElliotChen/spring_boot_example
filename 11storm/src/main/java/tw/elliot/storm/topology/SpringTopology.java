@@ -4,15 +4,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.storm.Config;
 import org.apache.storm.LocalCluster;
 import org.apache.storm.StormSubmitter;
-import org.apache.storm.generated.AlreadyAliveException;
-import org.apache.storm.generated.AuthorizationException;
-import org.apache.storm.generated.InvalidTopologyException;
 import org.apache.storm.topology.TopologyBuilder;
 import org.springframework.stereotype.Component;
 import tw.elliot.storm.bolt.SecondBolt;
+import tw.elliot.storm.bolt.Third1Bolt;
+import tw.elliot.storm.bolt.Third2Bolt;
 import tw.elliot.storm.spout.FirstSpout;
-
-import java.util.Arrays;
 
 @Slf4j
 @Component
@@ -58,7 +55,9 @@ public class SpringTopology {
         topologyBuilder.setSpout("FirstSpout", new FirstSpout(), 1);
 
         topologyBuilder.setBolt("SecondBolt", new SecondBolt(), 1).setNumTasks(1).shuffleGrouping("FirstSpout");
-
+        topologyBuilder.setBolt("Third1Bolt", new Third1Bolt(), 1).setNumTasks(1).shuffleGrouping("SecondBolt", "third1msg");
+        topologyBuilder.setBolt("Third2Bolt", new Third2Bolt(), 1).setNumTasks(1).shuffleGrouping("SecondBolt", "third2msg");
+        topologyBuilder.setBolt("FinalBolt", new Third1Bolt(), 1).setNumTasks(1).shuffleGrouping("Third1Bolt").shuffleGrouping("Third2Bolt");
 
     }
 }

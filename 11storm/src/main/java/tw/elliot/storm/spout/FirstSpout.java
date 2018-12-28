@@ -17,15 +17,18 @@ public class FirstSpout extends BaseRichSpout {
 
     TopologyContext topologyContext = null;
     SpoutOutputCollector spoutOutputCollector = null;
+    long endTime = -1;
     @Override
     public void open(Map map, TopologyContext topologyContext, SpoutOutputCollector spoutOutputCollector) {
         this.topologyContext = topologyContext;
         this.spoutOutputCollector = spoutOutputCollector;
+        endTime = System.currentTimeMillis() + 1*1000;
     }
 
     @Override
     public void nextTuple() {
-        while (counter <= 2) {
+        while (System.currentTimeMillis() < endTime) {
+            //System.out.println(System.currentTimeMillis() + " - " + endTime);
             String message = "Okay, we do it "+counter+" time(s)";
             this.spoutOutputCollector.emit(new Values(message));
             counter++;
