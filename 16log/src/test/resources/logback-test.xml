@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration>
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/base.xml"/>
+
+    <timestamp key="date" datePattern="yyyy_MM_dd"/>
+
+    <appender name="rolling" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>./logs/%d{yyyy/MM/dd}/daily.log</fileNamePattern>
+        </rollingPolicy>
+        <encoder>
+            <Pattern>%-20(%d{HH:mm:ss.SSS} [%thread]) %-5level %logger{80} - %msg%n</Pattern>
+        </encoder>
+    </appender>
+
+    <appender name="mdc" class="ch.qos.logback.classic.sift.SiftingAppender">
+        <discriminator>
+            <key>userid</key>
+            <defaultValue>unknown</defaultValue>
+        </discriminator>
+        <sift>
+            <appender name="FILE-${userid}" class="ch.qos.logback.core.FileAppender">
+                <file>./logs/mdc/${date}_${userid}.log</file>
+                <append>true</append>
+                <layout class="ch.qos.logback.classic.PatternLayout">
+                    <pattern>%d [%thread] %level %mdc %logger{35} - %msg%n</pattern>
+                </layout>
+            </appender>
+        </sift>
+    </appender>
+
+    <appender name="mdcdaily" class="ch.qos.logback.classic.sift.SiftingAppender">
+        <discriminator>
+            <key>userid</key>
+            <defaultValue>unknown</defaultValue>
+        </discriminator>
+        <sift>
+            <appender name="rolling" class="ch.qos.logback.core.rolling.RollingFileAppender">
+                <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                    <fileNamePattern>./logs/${userid}/%d{yyyy/MM/dd}/daily.log</fileNamePattern>
+                </rollingPolicy>
+                <encoder>
+                    <Pattern>%-20(%d{HH:mm:ss.SSS} [%thread]) %-5level %logger{80} - %msg%n</Pattern>
+                </encoder>
+            </appender>
+        </sift>
+    </appender>
+
+    <appender name="error" class="ch.qos.logback.core.FileAppender">
+        <file>./logs/error/error_${date}.log</file>
+        <append>true</append>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>%-20(%d{HH:mm:ss.SSS} [%thread]) %-5level %logger{80} - %msg%n</Pattern>
+        </layout>
+    </appender>
+
+    <appender name="filestash" class="ch.qos.logback.core.FileAppender">
+        <file>./logs/logstash/logstash_${date}.log</file>
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+            <customFields>{"application":"16log"}</customFields>
+        </encoder>
+    </appender>
+
+    <appender name="logstash" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+        <destination>127.0.0.1:5000</destination>
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+            <customFields>{"application":"16log"}</customFields>
+        </encoder>
+    </appender>
+
+
+    <root level="INFO">
+        <appender-ref ref="CONSOLE" />
+        <appender-ref ref="rolling" />
+        <appender-ref ref="mdc" />
+        <appender-ref ref="mdcdaily" />
+        <appender-ref ref="filestash" />
+        <appender-ref ref="logstash" />
+    </root>
+
+</configuration>
