@@ -281,5 +281,7 @@
 		<module>14nettyclient</module>
 		<module>15elastic</module>
 		<module>16log</module>
+		<module>17mq</module>
+		<module>18telegrambot</module>
 	</modules>
 </project>
