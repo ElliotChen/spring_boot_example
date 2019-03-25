@@ -60,19 +60,20 @@
         </layout>
     </appender>
 
-    <appender name="filestash" class="ch.qos.logback.core.FileAppender">
+    <appender name="filebeat" class="ch.qos.logback.core.FileAppender">
         <file>./logs/logstash/logstash_${date}.log</file>
-        <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+        <encoder charset="UTF-8" class="net.logstash.logback.encoder.LogstashEncoder">
             <customFields>{"application":"16log"}</customFields>
         </encoder>
     </appender>
-
+    <!--
     <appender name="logstash" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
         <destination>127.0.0.1:5000</destination>
         <encoder class="net.logstash.logback.encoder.LogstashEncoder">
             <customFields>{"application":"16log"}</customFields>
         </encoder>
     </appender>
+    -->
 
 
     <root level="INFO">
@@ -80,8 +81,8 @@
         <appender-ref ref="rolling" />
         <appender-ref ref="mdc" />
         <appender-ref ref="mdcdaily" />
-        <appender-ref ref="filestash" />
-        <appender-ref ref="logstash" />
+        <appender-ref ref="filebeat" />
+        <!--<appender-ref ref="logstash" />-->
     </root>
 
 </configuration>
