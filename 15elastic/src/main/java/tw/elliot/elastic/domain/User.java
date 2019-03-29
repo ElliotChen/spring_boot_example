@@ -9,7 +9,7 @@ import org.springframework.data.elasticsearch.annotations.Field;
 import java.util.List;
 
 @Data
-@Document(indexName = "world", type = "country")
+@Document(indexName = "estw", type = "user")
 public class User {
 	@Id
 	private String id;

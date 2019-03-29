@@ -10,4 +10,6 @@ import java.util.List;
 public interface UserRepo extends ElasticsearchRepository<User, String> {
 
 	List<User> findByName(String name);
+
+	List<User> findByTagsExists(String tag);
 }
