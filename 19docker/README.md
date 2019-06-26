@@ -129,3 +129,9 @@ docker container ls -a
 ```
 docker rm ${containerId}or${containerName}
 ```
+
+#### remove untaged images
+
+```
+docker rmi $(docker images -q -f dangling=true)
+```
