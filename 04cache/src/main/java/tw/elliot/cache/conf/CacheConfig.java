@@ -13,6 +13,7 @@ import org.springframework.cache.jcache.JCacheCacheManager;
 import org.springframework.cache.support.CompositeCacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 
@@ -29,9 +30,6 @@ public class CacheConfig {
 
 	private CacheProperties cacheProperties;
 	private RedisConnectionFactory redisConnectionFactory;
-
-	@Autowired
-	private CacheManager cacheManager;
 
 	public CacheConfig(CacheProperties cacheProperties, RedisConnectionFactory redisConnectionFactory) {
 		this.cacheProperties = cacheProperties;
@@ -60,12 +58,18 @@ public class CacheConfig {
 	}
 	 */
 
+	private JCacheCacheManager buildJCacheCacheManager() {
+		JCacheCacheManager jm = null;
+		return jm;
+	}
+
 	private RedisCacheManager buildRedisCacheManager() {
 		RedisCacheManager.RedisCacheManagerBuilder rcb = RedisCacheManager.builder(redisConnectionFactory);
 		return rcb.build();
 	}
 
 	@Bean
+	@Primary
 	public CacheManager buildCompositeCacheManager() {
 		log.warn("Found jcachemanager : [{}]", this.cacheManager);
 		//EhCacheCacheManager ehCacheCacheManager = this.buildEhCAcheCacheManager();
