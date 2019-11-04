@@ -1,5 +1,11 @@
+server:
+  port: 8080
+
 debug: false
 
 logging:
-  config: classpath:org/springframework/boot/logging/log4j2/log4j2-file.xml
-
+  config: classpath:log4j2.xml
+  #config: classpath:org/springframework/boot/logging/log4j2/log4j2.xml
+  #config: classpath:org/springframework/boot/logging/log4j2/log4j2-file.xml
+  #path: ./logs
+  #file: ./logs/application.log

@@ -2,6 +2,13 @@ spring:
   redis:
     host: 127.0.0.1
     port: 6379
+    database: 0
+    lettuce:
+      pool:
+        max-active: 64
+        max-wait: 300ms
+        max-idle: 16
+        min-idle: 8
   cache:
     redis:
       cache-null-values: false

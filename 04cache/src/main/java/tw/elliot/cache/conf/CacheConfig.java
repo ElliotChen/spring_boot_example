@@ -71,7 +71,7 @@ public class CacheConfig {
 	@Bean
 	@Primary
 	public CacheManager buildCompositeCacheManager() {
-		log.warn("Found jcachemanager : [{}]", this.cacheManager);
+		//log.warn("Found jcachemanager : [{}]", this.cacheManager);
 		//EhCacheCacheManager ehCacheCacheManager = this.buildEhCAcheCacheManager();
 		RedisCacheManager redisCacheManager = this.buildRedisCacheManager();
 
@@ -79,7 +79,7 @@ public class CacheConfig {
 
 		List<CacheManager> cms = new ArrayList<>();
 		//cms.add(ehCacheCacheManager);
-		cms.add(this.cacheManager);
+		//cms.add(this.cacheManager);
 		cms.add(redisCacheManager);
 
 		cm.setCacheManagers(cms);
