@@ -7,6 +7,8 @@ management:
 #    prometheus:
 #      enabled: true
   endpoints:
+    enabled-by-default: true
     web:
       exposure:
         include: "*"
+

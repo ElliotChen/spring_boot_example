@@ -9,8 +9,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class Application {
 
 	public static void main(String[] args) {
-		log.error("System out !!!");
-		log.error("-----Test log4j2!------");
+		log.debug("System out !!!");
+		log.debug("-----Test log4j2!------");
 		SpringApplication.run(Application.class, args);
 	}
 

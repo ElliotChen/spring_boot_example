@@ -60,3 +60,4 @@ gradle-app.setting
 #08adminlte/
 
 logs/
+*/docker/data/
