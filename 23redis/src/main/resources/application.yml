@@ -1,0 +1,8 @@
+
+redis:
+  mater:
+    host: localhost
+    port: 6379
+  slaves:
+    - host: localhost
+      port: 6380
