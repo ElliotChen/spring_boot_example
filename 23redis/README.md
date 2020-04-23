@@ -1,4 +1,6 @@
-# Redis Master Slave Mode
+# Redis 應用
+
+## Redis Master Slave Mode
 
 各類的讀寫分離已經是常態了，
 而且在容器化的幫助下，要模擬各種情形實在不是什麼太大的負擔，
@@ -14,7 +16,7 @@
 
 相關程式放在 [Github](https://github.com/ElliotChen/spring_boot_example/tree/master/23redis) 中
 
-## Master
+### Master
 
 ```yaml
   redis-master:
@@ -28,7 +30,7 @@
 
 測試時使用alpine的版本，並注意port的對應。
 
-## Slave
+### Slave
 
 ```yaml
   redis-slave:
@@ -46,7 +48,7 @@
 要注意的是command ```redis-server --slaveof redis-master 6379```
 指定```slaveof```，，並注意port的對應即可。
 
-## Tool
+### Tool
 
 ```yaml
   redis-commander:
@@ -68,11 +70,11 @@
 ![redis commander](https://blog.elliot.tw/wp-content/uploads/2020/04/redis-commander01.png)
 透過refresh就能同時看到master, slaves key值的增減
 
-## Spring Boot
+### Spring Boot
 
 感謝Spring，要做的事少了很多
 
-### pom
+#### pom
 
 ```xml
 <dependency>
@@ -83,7 +85,7 @@
 
 只要加入```starter-data-redis```即可
 
-### application.yml
+#### application.yml
 
 ```yaml
 redis:
@@ -98,7 +100,7 @@ redis:
 master只有一台
 slaves可以設定多台
 
-## Demo
+### Demo
 
 透過url[http://localhost:8080/service/demo](http://localhost:8080/service/demo) 就能加入demo用的值，
 可以觀察到Master及Slave都會有值的變化
@@ -106,3 +108,94 @@ slaves可以設定多台
 ![redis-commander02](https://blog.elliot.tw/wp-content/uploads/2020/04/redis-commander02.png)
 
 ![redis-commander03](https://blog.elliot.tw/wp-content/uploads/2020/04/redis-commander03.png)
+
+
+## Distributed Lock
+
+### 前言
+
+分布式鎖應用場景相當廣，利用redis, RDB(mysql, oracle ...), ZK等來達成的例子所在多有。
+
+Spring Integration 提供了一個可切換的分布式鎖機制，可以避免大家自行重新開發。
+
+使用Redis主要是因為效率高，其他類型的效率慢上好幾個等級，當然如果是應用在早期的系統，使用mysql也是方便的選擇。
+
+### 準備
+
+#### Dependencies
+
+```xml
+<dependency>
+	<groupId>org.springframework.boot</groupId>
+	<artifactId>spring-boot-starter-data-redis</artifactId>
+</dependency>
+<dependency>
+	<groupId>org.springframework.boot</groupId>
+	<artifactId>spring-boot-starter-integration</artifactId>
+</dependency>
+<dependency>
+	<groupId>org.springframework.integration</groupId>
+	<artifactId>spring-integration-redis</artifactId>
+</dependency>
+```
+
+需要加入上列的libraries
+
+#### configuration
+
+```java
+@Bean
+public RedisLockRegistry redisLockRegistry(RedisConnectionFactory redisConnectionFactory) {
+	return new RedisLockRegistry(redisConnectionFactory, "eckey");
+}
+```
+
+配合Redis，使用```RedisLockRegistry```
+
+
+### Sample
+
+```java
+	@GetMapping(path = "/lock")
+	public String lockAndDo() {
+		/*
+		1. Obtain
+		2. TryLock
+		3. Unlock
+		 */
+		String lockKey = "SKU_2020_NIKE_AJ_M_BlUE_9";
+		log.info("Try to get Lock with key[{}]", lockKey);
+		Lock lock = redisLockRegistry.obtain(lockKey);
+
+		try {
+			boolean lockStatus = lock.tryLock(10, TimeUnit.SECONDS);
+			log.info("Lock with key[{}] is [{}]", lockKey, lockStatus);
+
+			if (lockStatus) {
+				try {
+					/*
+					Do our process here
+			 		*/
+					// pretend to be busy.
+					TimeUnit.SECONDS.sleep(5);
+				} finally {
+					log.info("Unlock key[{}] success!", lockKey);
+					lock.unlock();
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "Finish";
+	}
+```
+
+簡單4步驟
+
+1. 決定要鎖的key，像是SKU
+2. Obtain Lock
+3. Try to Lock
+4. Unlock
+
+就同與Sample一樣，就能為系統增加分布鎖的功能。
+ 
