@@ -16,17 +16,18 @@
 		<maven.compiler.source>13</maven.compiler.source>
 		<maven.compiler.target>13</maven.compiler.target>
 
-		<spring.version>5.2.5.RELEASE</spring.version>
-		<spring.security.version>5.3.1.RELEASE</spring.security.version>
-		<spring.boot.version>2.2.6.RELEASE</spring.boot.version>
-		<spring.data.version>Moore-SR6</spring.data.version>
+		<spring.version>5.2.6.RELEASE</spring.version>
+		<spring.security.version>5.3.2.RELEASE</spring.security.version>
+		<spring.boot.version>2.3.0.RELEASE</spring.boot.version>
+		<spring.data.version>Moore-SR7</spring.data.version>
 		<hibernate.version>5.4.14.Final</hibernate.version>
 		<jackson.version>2.10.3</jackson.version>
 		<junit.version>5.6.1</junit.version>
 		<jetty.version>9.4.11.v20180605</jetty.version>
-		<micrometer.version>1.4.1</micrometer.version>
+		<micrometer.version>1.5.1</micrometer.version>
 		<reactor.version>Dysprosium-SR1</reactor.version>
 		<jasypt.version>3.0.2</jasypt.version>
+		<guava.version>29.0-jre</guava.version>
 
 		<plug.compiler.version>3.8.1</plug.compiler.version>
 		<plug.clean.version>3.1.0</plug.clean.version>
@@ -218,6 +219,11 @@
 				<version>3.3.0</version>
 				<scope>test</scope>
 			</dependency>
+			<dependency>
+				<groupId>com.google.guava</groupId>
+				<artifactId>guava</artifactId>
+				<version>${guava.version}</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
@@ -327,7 +333,7 @@
 				<version>${plug.info.version}</version>
 			</plugin>
 			<plugin>
-				<artifactId>maven-surefire-plugin</artifactId>
+				<artifactId>maven-surefire-report-plugin</artifactId>
 				<version>${plug.surefire.version}</version>
 			</plugin>
 		</plugins>

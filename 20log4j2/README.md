@@ -127,3 +127,82 @@ logging:
 
 [LogstashLayout](https://github.com/vy/log4j2-logstash-layout)
 
+## Servlet / Controller Log
+
+### Interceptor
+
+使用Interceptor來做Http Request統一的Log
+
+```java
+class MyInterceptor extends HandlerInterceptorAdapter {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+    }
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
+    }
+}
+```
+
+1. extend from HandlerInterceptorAdapter
+2. override preHandle 與 afterCompletion
+
+這時可以將MDC內容放入，若要量測時間，可考量將StopWatch也放入
+
+## Service Log
+
+### AOP / Aspect
+
+要記錄Service，最快的方式就是用AOP。
+
+#### Annotation
+
+利用Annotation來標記要做Log的Method.
+
+```java
+public @interface ServiceLogger {
+}
+```
+
+```java
+public class OurService {
+
+	@ServiceLogger
+	public void doSomething() {
+		log.info("do do do !");
+	}
+}
+```
+
+#### Aspect
+
+再利用Aspect來針對Pointcut處理，此時標注所有被加上ServiceLogger的全被列為對象。
+需要的資料就透過ThreadLocal拿
+
+像是MDC, RequestContextHolder, SecurityContextHolder都是Spring架構下合用的資料來源。
+
+```java
+@Aspect
+@Component
+@Slf4j
+public class LoggingAspect {
+	@Around("@annotation(tw.elliot.log4j2.annotation.ServiceLogger)")
+	public Object logExecutionTime(ProceedingJoinPoint joinPoint) throws Throwable {
+		Signature signature = joinPoint.getSignature();
+		String method = signature.getName();
+
+		//Use stop watch to trace used time.
+		StopWatch stopWatch = new StopWatch();
+		log.info("Before Service [{}]-- ", method);
+
+		stopWatch.start();
+
+		Object proceed = joinPoint.proceed();
+
+		stopWatch.stop();
+
+		log.info("-- After Service. Used time [{}] ms.", stopWatch.getTotalTimeMillis());
+
+		return proceed;
+	}
+}
+
+```
