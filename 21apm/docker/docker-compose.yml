@@ -22,6 +22,6 @@ services:
       - prometheus
 
   app:
-    image: elliot/21apm:1.0-SNAPSHOT
+    image: elliot/21apm:1.0.0-SNAPSHOT
     ports:
       - '8080:8080'

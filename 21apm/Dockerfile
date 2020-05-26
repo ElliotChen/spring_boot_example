@@ -1,4 +1,4 @@
-FROM openjdk:13-jdk-alpine
+FROM openjdk:14-jre-alpine
 VOLUME /tmp
 EXPOSE 8080
 
