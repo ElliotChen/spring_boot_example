@@ -153,8 +153,36 @@ class MyInterceptor extends HandlerInterceptorAdapter {
 
 要記錄Service，最快的方式就是用AOP。
 
+#### PointCut
+
+建立一個PointCut，指出哪些需要被AOP logger處理的
+像下面就指所有tw.elliot.log4j2.service.＊下的class所包含的method都是對象
+
+```java
+public class ServicePointCut {
+	@Pointcut("within(tw.elliot.log4j2.service.*)")
+	public void servicePoint() {
+
+	}
+}
+```
+
+在Aspect中使用上面建好的PointCut
+
+```java
+@Aspect
+@Component
+@Slf4j
+public class LoggingAspect {
+	@Around("tw.elliot.log4j2.aop.ServicePointCut.servicePoint()")
+	public Object logExecutionTime(ProceedingJoinPoint joinPoint) throws Throwable {
+    }
+}
+```
+
 #### Annotation
 
+另一種方式，
 利用Annotation來標記要做Log的Method.
 
 ```java

@@ -15,7 +15,8 @@ import tw.elliot.log4j2.interceptor.MDCLogging;
 @Component
 @Slf4j
 public class LoggingAspect {
-	@Around("@annotation(tw.elliot.log4j2.annotation.ServiceLogger)")
+	/*@Around("@annotation(tw.elliot.log4j2.annotation.ServiceLogger)")*/
+	@Around("tw.elliot.log4j2.aop.ServicePointCut.servicePoint()")
 	public Object logExecutionTime(ProceedingJoinPoint joinPoint) throws Throwable {
 		Signature signature = joinPoint.getSignature();
 		String method = signature.getName();
