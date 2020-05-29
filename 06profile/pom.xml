@@ -18,7 +18,8 @@
 	</parent>
 
 	<properties>
-
+		<docker.image.prefix>elliot</docker.image.prefix>
+		<active.profile>${project.activeProfiles[0].id}</active.profile>
 	</properties>
 
 	<dependencies>
@@ -33,6 +34,10 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
 
 		<dependency>
@@ -57,10 +62,19 @@
 	</dependencies>
 
 	<build>
+		<finalName>${project.name}-${active.profile}-${project.version}</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<image>
+						<name>${docker.image.prefix}/${project.artifactId}/${active.profile}:${project.version}</name>
+					</image>
+					<additionalProperties>
+						<activeProfile>${active.profile}</activeProfile>
+					</additionalProperties>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
@@ -83,6 +97,9 @@
 			<properties>
 				<spring-boot.run.profiles>dev</spring-boot.run.profiles>
 			</properties>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
 		</profile>
 	</profiles>
 

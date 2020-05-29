@@ -13,8 +13,8 @@
 		<!--<java.version>12</java.version>-->
 
 		<global.version>1.0-SNAPSHOT</global.version>
-		<maven.compiler.source>13</maven.compiler.source>
-		<maven.compiler.target>13</maven.compiler.target>
+		<maven.compiler.source>14</maven.compiler.source>
+		<maven.compiler.target>14</maven.compiler.target>
 
 		<spring.version>5.2.6.RELEASE</spring.version>
 		<spring.security.version>5.3.2.RELEASE</spring.security.version>
@@ -298,10 +298,21 @@
 					<executions>
 						<execution>
 							<goals>
+								<goal>build-info</goal>
 								<goal>repackage</goal>
 							</goals>
 						</execution>
 					</executions>
+					<configuration>
+						<image>
+							<env>
+								<BP_JVM_VERSION>14.0.1</BP_JVM_VERSION>
+							</env>
+						</image>
+						<layers>
+							<enabled>true</enabled>
+						</layers>
+					</configuration>
 				</plugin>
 				<plugin>
 					<groupId>com.github.ulisesbocchio</groupId>
