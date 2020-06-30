@@ -111,3 +111,48 @@ mvn -Pstage -Dspring-boot.run.profiles=dev spring-boot:run
 ```
 mvn -Pstage spring-boot:run
 ```
+
+### Resource Filtering
+
+由於現在IDE都支援Maven Profile的切換，所以在開發上提供了一定的便利性，
+也就改用Resource Filtering的方式來修改
+
+#### application.yml
+
+在application.yml加上active的設定
+
+```yaml
+spring:
+  profiles:
+    active: @activeProfile@
+```
+
+#### profile in pom.xml
+
+profile 裡加上```activeProfile```的element，其中的資料在執行mvn resources時會replace ```@activeProfile@```
+
+```xml
+<profile>
+	<id>stage</id>
+	<properties>
+		<activeProfile>stage</activeProfile>
+	</properties>
+</profile>
+```
+
+#### build in pom.xml
+
+在resource裡加上```filtering```，才會進行replace的動作
+
+```xml
+<resource>
+	<directory>src/main/resources</directory>
+	<includes>
+		<include>application.yml</include>
+		<include>application-${activeProfile}.yml</include>
+	</includes>
+	<filtering>true</filtering>
+</resource>
+```
+
+所以在build的時候指定profile，執行jar時就不再需要加上參數了。

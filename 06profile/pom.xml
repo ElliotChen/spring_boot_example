@@ -19,7 +19,6 @@
 
 	<properties>
 		<docker.image.prefix>elliot</docker.image.prefix>
-		<active.profile>${project.activeProfiles[0].id}</active.profile>
 	</properties>
 
 	<dependencies>
@@ -62,40 +61,56 @@
 	</dependencies>
 
 	<build>
-		<finalName>${project.name}-${active.profile}-${project.version}</finalName>
+		<finalName>${project.name}-${activeProfile}-${project.version}</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
 					<image>
-						<name>${docker.image.prefix}/${project.artifactId}/${active.profile}:${project.version}</name>
+						<name>${docker.image.prefix}/${project.artifactId}/${activeProfile}:${project.version}</name>
 					</image>
 					<additionalProperties>
-						<activeProfile>${active.profile}</activeProfile>
+						<activeProfile>${activeProfile}</activeProfile>
 					</additionalProperties>
 				</configuration>
 			</plugin>
 		</plugins>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<excludes>
+					<exclude>application-*.yml</exclude>
+				</excludes>
+			</resource>
+			<resource>
+				<directory>src/main/resources</directory>
+				<includes>
+					<include>application.yml</include>
+					<include>application-${activeProfile}.yml</include>
+				</includes>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
 	</build>
 
 	<profiles>
 		<profile>
 			<id>prod</id>
 			<properties>
-				<spring-boot.run.profiles>prod</spring-boot.run.profiles>
+				<activeProfile>prod</activeProfile>
 			</properties>
 		</profile>
 		<profile>
 			<id>stage</id>
 			<properties>
-				<spring-boot.run.profiles>stage</spring-boot.run.profiles>
+				<activeProfile>stage</activeProfile>
 			</properties>
 		</profile>
 		<profile>
 			<id>dev</id>
 			<properties>
-				<spring-boot.run.profiles>dev</spring-boot.run.profiles>
+				<activeProfile>dev</activeProfile>
 			</properties>
 			<activation>
 				<activeByDefault>true</activeByDefault>

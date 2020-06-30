@@ -5,3 +5,7 @@
 spring:
   application:
     name: 06profile
+  profiles:
+    active: @activeProfile@
+
+
