@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import tw.elliot.log4j2.entity.Player;
 import tw.elliot.log4j2.service.OurService;
 
 @RestController
@@ -22,8 +23,9 @@ public class DemoController {
 
 	@GetMapping("/first")
 	public String first() {
+		Player player = this.initPlayer();
 		log.info("Check this !");
-
+		log.info("Log Player[]: {}", player);
 		//Test ServiceLogger
 		ourService.doSomething();
 
@@ -50,5 +52,11 @@ public class DemoController {
 		log.info("package imp: {}", pack.getImplementationVersion());
 
 		return pack.getImplementationVersion();
+	}
+
+	private Player initPlayer() {
+		Player player = new Player("張文強", "K123456789", "0987654321");
+
+		return player;
 	}
 }

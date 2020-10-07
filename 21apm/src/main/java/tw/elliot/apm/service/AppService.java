@@ -8,6 +8,7 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -27,6 +28,8 @@ public class AppService implements InitializingBean {
 
 	private Counter irsOrderCounter;
 	private Counter etsOrderCounter;
+
+	private Random random = new Random();
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		//(onlineUser)->{return onlineUser.intValue();}
@@ -50,10 +53,10 @@ public class AppService implements InitializingBean {
 	}
 
 	public void irsOrder() {
-		irsOrderCounter.increment();
+		irsOrderCounter.increment(random.nextInt(5));
 	}
 
 	public void etsOrder() {
-		etsOrderCounter.increment();
+		etsOrderCounter.increment(random.nextInt(5));
 	}
 }

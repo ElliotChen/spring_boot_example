@@ -1,14 +1,18 @@
-package tw.elliot.apm;
+package tw.ellliot.swagger;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.scheduling.annotation.EnableScheduling;
+import springfox.documentation.oas.annotations.EnableOpenApi;
 
+/**
+ * @author elliot
+ */
+@EnableOpenApi
 @SpringBootApplication
-@EnableScheduling
 public class Application {
 
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);
 	}
+
 }
