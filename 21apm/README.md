@@ -397,3 +397,14 @@ git.total.commit.count=54
 ```
 
 除了build-info外，還多出了git commit相關的資料
+
+
+### build Image
+
+#### Dockerfile
+
+```
+mvn package dockerfile:build
+```
+
+#### Spring Boot Image
