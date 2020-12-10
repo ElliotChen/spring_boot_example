@@ -76,7 +76,7 @@
     -->
 
 
-    <root level="INFO">
+    <root>
         <appender-ref ref="CONSOLE" />
         <appender-ref ref="rolling" />
         <appender-ref ref="mdc" />

@@ -61,7 +61,7 @@
             <plugin>
                 <groupId>com.spotify</groupId>
                 <artifactId>docker-maven-plugin</artifactId>
-                <version>1.2.0</version>
+                <version>1.4.10</version>
                 <configuration>
                     <imageName>example</imageName>
                     <baseImage>anapsix/alpine-java</baseImage>

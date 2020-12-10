@@ -408,3 +408,7 @@ mvn package dockerfile:build
 ```
 
 #### Spring Boot Image
+
+```
+mvn spring-boot:build-image
+```

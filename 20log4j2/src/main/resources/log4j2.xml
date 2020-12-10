@@ -24,6 +24,20 @@
 				<TimeBasedTriggeringPolicy />
 			</Policies>
 		</RollingFile>
+		<RollingFile name="LogstashFile" fileName="${sys:LOG_PATH}/logstash_${date:yyyy-MM-dd}.log" filePattern="${sys:LOG_PATH}/$${date:yyyy-MM}/lsh-%d{yyyy-MM-dd-HH}-%i.log.gz">
+			<LogstashLayout dateTimeFormatPattern="yyyy-MM-dd'T'HH:mm:ss.SSSZZZ"
+							eventTemplateUri="classpath:LogstashJsonEventLayoutV1.json"
+							prettyPrintEnabled="false"
+							stackTraceEnabled="false">
+				<EventTemplateAdditionalFields>
+					<KeyValuePair key="application" value="log4j2demo"/>
+				</EventTemplateAdditionalFields>
+			</LogstashLayout>
+			<Policies>
+				<SizeBasedTriggeringPolicy size="10 MB" />
+			</Policies>
+		</RollingFile>
+		<!--
 		<RollingFile name="LogstashFile" fileName="${sys:LOG_PATH}/logstash.log" filePattern="${sys:LOG_PATH}/$${date:yyyy-MM}/lsh-%d{yyyy-MM-dd-HH}-%i.log.gz">
 			<LogstashLayout dateTimeFormatPattern="yyyy-MM-dd'T'HH:mm:ss.SSSZZZ"
 							eventTemplateUri="classpath:LogstashJsonEventLayoutV1.json"
@@ -37,6 +51,7 @@
 				<SizeBasedTriggeringPolicy size="10 MB" />
 			</Policies>
 		</RollingFile>
+		-->
 	</Appenders>
 	<Loggers>
 		<Logger name="org.apache.catalina.startup.DigesterFactory" level="error" />
