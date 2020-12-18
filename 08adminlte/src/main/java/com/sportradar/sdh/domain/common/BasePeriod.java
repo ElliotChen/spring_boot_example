@@ -9,8 +9,10 @@ public class BasePeriod extends BaseEntity {
 	protected Integer periodNum;
 	protected String periodName;
 
+	@Override
 	public String getCompositedId() {
 		return "";
 	}
+	@Override
 	public void setCompositedId(String compositedId) {};
 }

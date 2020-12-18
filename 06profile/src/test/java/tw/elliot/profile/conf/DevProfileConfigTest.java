@@ -1,14 +1,13 @@
 package tw.elliot.profile.conf;
 
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringRunner;
-
-@RunWith(SpringRunner.class)
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+@ExtendWith(SpringExtension.class)
 @SpringBootTest
 @ActiveProfiles("dev")
 public class DevProfileConfigTest {
@@ -22,10 +21,10 @@ public class DevProfileConfigTest {
 	public void testProfileName() {
 
 		/*測試共用區的設定有效*/
-		Assert.assertEquals("06profile", this.name);
+		Assertions.assertEquals("06profile", this.name);
 
 		/*測試各別區的設定有效*/
-		Assert.assertEquals("dev", this.profile);
+		Assertions.assertEquals("dev", this.profile);
 
 	}
 

@@ -14,10 +14,6 @@
 	<name>26db</name>
 	<description>Demo DB</description>
 
-	<properties>
-		<java.version>14</java.version>
-	</properties>
-
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -132,7 +128,6 @@
 			<plugin>
 				<groupId>org.liquibase</groupId>
 				<artifactId>liquibase-maven-plugin</artifactId>
-				<version>4.2.1</version>
 			</plugin>
 		</plugins>
 		<resources>

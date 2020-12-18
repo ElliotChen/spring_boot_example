@@ -283,7 +283,7 @@
 		 *
 		 * @param  {array} src Source array
 		 * @return {array} Array of unique items
-		 * @ignore
+		 * @Disabled
 		 */
 		var _unique = function (src) {
 			// A faster unique method is to use object keys to identify used values,
@@ -6281,7 +6281,7 @@
 		 *     ]
 		 *
 		 * @type {Array}
-		 * @ignore
+		 * @Disabled
 		 */
 		var __apiStruct = [];
 
@@ -6290,7 +6290,7 @@
 		 * `Array.prototype` reference.
 		 *
 		 * @type object
-		 * @ignore
+		 * @Disabled
 		 */
 		var __arrayProto = Array.prototype;
 
@@ -6313,7 +6313,7 @@
 		 *   * `DataTables.Api` - API instance
 		 * @return {array|null} Matching DataTables settings objects. `null` or
 		 *   `undefined` is returned if no matching DataTable is found.
-		 * @ignore
+		 * @Disabled
 		 */
 		var _toSettings = function (mixed) {
 			var idx, jq;
@@ -6835,7 +6835,7 @@
 		 * @param {string|integer} [selector] jQuery selector string or integer
 		 * @param  {array} Array of DataTables settings objects to be filtered
 		 * @return {array}
-		 * @ignore
+		 * @Disabled
 		 */
 		var __table_selector = function (selector, a) {
 			// Integer is used to pick out a table by index

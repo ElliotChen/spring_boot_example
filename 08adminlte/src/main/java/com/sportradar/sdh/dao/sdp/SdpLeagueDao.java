@@ -2,7 +2,6 @@ package com.sportradar.sdh.dao.sdp;
 
 import com.github.pagehelper.Page;
 import com.sportradar.sdh.domain.sdp.League;
-import com.sportradar.sdh.domain.sdp.Sport;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

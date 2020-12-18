@@ -2,7 +2,6 @@ package com.sportradar.sdh.service;
 
 import com.sportradar.sdh.dto.dts.DataTablesInput;
 import com.sportradar.sdh.dto.dts.DataTablesOutput;
-import com.sportradar.sdh.dto.sdp.MarketDto;
 import com.sportradar.sdh.dto.sdp.MarketOptionDto;
 
 import java.util.List;

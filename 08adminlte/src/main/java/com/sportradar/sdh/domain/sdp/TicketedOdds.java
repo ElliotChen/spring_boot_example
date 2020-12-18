@@ -4,10 +4,10 @@
  */
 package com.sportradar.sdh.domain.sdp;
 
+import lombok.Data;
+
 import java.io.Serializable;
 import java.sql.Timestamp;
-
-import lombok.Data;
 
 @Data
 public class TicketedOdds implements Serializable {

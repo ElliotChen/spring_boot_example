@@ -2,10 +2,10 @@ package com.sportradar.sdh.domain.dgt;
 
 import com.sportradar.sdh.domain.common.BaseRegionSport;
 import com.sportradar.sdh.domain.common.SourceTypeEnum;
+import com.sportradar.sdh.domain.sdp.Region;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.util.StringUtils;
-import com.sportradar.sdh.domain.sdp.Region;
 
 @Data
 @NoArgsConstructor

@@ -2,12 +2,10 @@ package com.sportradar.sdh.domain.sdp;
 
 import com.sportradar.sdh.domain.common.BaseRegion;
 import com.sportradar.sdh.domain.common.BaseRegionSport;
-import com.sportradar.sdh.domain.common.IdCompositable;
 import com.sportradar.sdh.domain.common.SourceTypeEnum;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;

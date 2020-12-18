@@ -24,9 +24,11 @@ public abstract class BaseCompetitor extends BaseEntity {
 
     protected Date updatedTime;
 
+	@Override
 	public String getCompositedId() {
 		return String.valueOf(competitorId);
 	}
+	@Override
 	public void setCompositedId(String compositedId) {
 		this.competitorId = Long.parseLong(compositedId);
 	};

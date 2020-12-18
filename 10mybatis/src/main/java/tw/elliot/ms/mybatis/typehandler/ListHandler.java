@@ -21,7 +21,7 @@ public class ListHandler extends BaseTypeHandler<List<? extends UpdateIdable>> {
 	public ListHandler() {
 		this.classOfT = (Class<?>) ((ParameterizedType) getClass().getGenericSuperclass())
 				.getActualTypeArguments()[0];
-		System.out.println(classOfT);
+		log.debug("Get Type: {}", classOfT);
 	}
 
 	public Object getInstance() {

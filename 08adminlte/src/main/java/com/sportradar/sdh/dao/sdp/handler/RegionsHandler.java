@@ -1,6 +1,5 @@
 package com.sportradar.sdh.dao.sdp.handler;
 
-import com.sportradar.sdh.domain.common.BaseRegion;
 import com.sportradar.sdh.domain.common.BaseRegionSport;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;

@@ -13,34 +13,36 @@
 		<!--<java.version>12</java.version>-->
 
 		<global.version>1.0-SNAPSHOT</global.version>
-		<maven.compiler.source>14</maven.compiler.source>
-		<maven.compiler.target>14</maven.compiler.target>
+		<maven.compiler.source>15</maven.compiler.source>
+		<maven.compiler.target>15</maven.compiler.target>
 
 		<spring.version>5.3.2</spring.version>
 		<spring.security.version>5.4.2</spring.security.version>
-		<spring.boot.version>2.4.0</spring.boot.version>
-		<spring.data.version>Neumann-SR5</spring.data.version>
+		<spring.boot.version>2.4.1</spring.boot.version>
+		<spring.data.version>Neumann-SR6</spring.data.version>
 		<hibernate.version>5.4.20.Final</hibernate.version>
 		<jackson.version>2.12.0</jackson.version>
 		<junit.version>5.7.0</junit.version>
 		<jetty.version>9.4.11.v20180605</jetty.version>
-		<micrometer.version>1.6.1</micrometer.version>
+		<micrometer.version>1.6.2</micrometer.version>
 		<reactor.version>2020.0.2</reactor.version>
 		<jasypt.version>3.0.3</jasypt.version>
-		<guava.version>30.0-jre</guava.version>
+		<guava.version>30.1-jre</guava.version>
 		<log4j.version>2.14.0</log4j.version>
+		<liquibase.version>4.2.2</liquibase.version>
 
 		<plug.compiler.version>3.8.1</plug.compiler.version>
 		<plug.clean.version>3.1.0</plug.clean.version>
-		<plug.surefire.version>2.22.2</plug.surefire.version>
+		<plug.surefire.version>3.0.0-M5</plug.surefire.version>
 		<plug.jar.version>3.2.0</plug.jar.version>
 		<plug.war.version>3.3.1</plug.war.version>
-		<plug.info.version>3.1.0</plug.info.version>
-		<plug.resources.version>3.1.0</plug.resources.version>
+		<plug.info.version>3.1.1</plug.info.version>
+		<plug.resources.version>3.2.0</plug.resources.version>
 		<plug.site.version>3.9.1</plug.site.version>
 		<plug.deploy.version>2.8.2</plug.deploy.version>
 		<plug.install.version>2.5.2</plug.install.version>
 		<plug.dependency.version>3.1.2</plug.dependency.version>
+		<plug.pmd.version>3.14.0</plug.pmd.version>
 	</properties>
 
 	<dependencyManagement>
@@ -141,6 +143,12 @@
 			</dependency>
 
 			<dependency>
+				<groupId>org.hibernate.validator</groupId>
+				<artifactId>hibernate-validator</artifactId>
+				<version>6.0.17.Final</version>
+			</dependency>
+
+			<dependency>
 				<groupId>net.bytebuddy</groupId>
 				<artifactId>byte-buddy</artifactId>
 				<version>1.10.18</version>
@@ -153,7 +161,7 @@
 			<dependency>
 				<groupId>net.logstash.logback</groupId>
 				<artifactId>logstash-logback-encoder</artifactId>
-				<version>6.4</version>
+				<version>6.5</version>
 			</dependency>
 			<dependency>
 				<groupId>org.jboss.logging</groupId>
@@ -166,7 +174,7 @@
 				<version>3.4.5</version>
 			</dependency>
 			<dependency>
-					<groupId>com.h2database</groupId>
+				<groupId>com.h2database</groupId>
 				<artifactId>h2</artifactId>
 				<version>1.4.200</version>
 			</dependency>
@@ -233,7 +241,7 @@
 			<dependency>
 				<groupId>org.liquibase</groupId>
 				<artifactId>liquibase-core</artifactId>
-				<version>4.2.0</version>
+				<version>${liquibase.version}</version>
 				<!--
 				<exclusions>
 					<exclusion>
@@ -310,6 +318,23 @@
 					<version>${plug.info.version}</version>
 				</plugin>
 				<plugin>
+					<artifactId>maven-pmd-plugin</artifactId>
+					<version>${plug.pmd.version}</version>
+				</plugin>
+				<plugin>
+					<artifactId>maven-failsafe-plugin</artifactId>
+					<version>${plug.surefire.version}</version>
+					<executions>
+						<execution>
+							<id>integration-test</id>
+							<goals>
+								<goal>integration-test</goal>
+								<goal>verify</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+				<plugin>
 					<groupId>org.eclipse.jetty</groupId>
 					<artifactId>jetty-maven-plugin</artifactId>
 					<version>${jetty.version}</version>
@@ -329,7 +354,7 @@
 					<configuration>
 						<image>
 							<env>
-								<BP_JVM_VERSION>14.0.2</BP_JVM_VERSION>
+								<BP_JVM_VERSION>15.*</BP_JVM_VERSION>
 							</env>
 						</image>
 						<layers>
@@ -349,6 +374,11 @@
 					<configuration>
 
 					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.liquibase</groupId>
+					<artifactId>liquibase-maven-plugin</artifactId>
+					<version>${liquibase.version}</version>
 				</plugin>
 			</plugins>
 		</pluginManagement>
@@ -377,6 +407,10 @@
 			<plugin>
 				<artifactId>maven-surefire-report-plugin</artifactId>
 				<version>${plug.surefire.version}</version>
+			</plugin>
+			<plugin>
+				<artifactId>maven-pmd-plugin</artifactId>
+				<version>${plug.pmd.version}</version>
 			</plugin>
 		</plugins>
 	</reporting>

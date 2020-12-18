@@ -1,6 +1,5 @@
 package com.sportradar.sdh.service;
 
-import com.sportradar.sdh.domain.br.Region;
 import com.sportradar.sdh.dto.dts.DataTablesInput;
 import com.sportradar.sdh.dto.dts.DataTablesOutput;
 import com.sportradar.sdh.dto.sdp.MarketDto;

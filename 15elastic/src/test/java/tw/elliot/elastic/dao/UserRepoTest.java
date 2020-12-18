@@ -1,20 +1,18 @@
 package tw.elliot.elastic.dao;
 
 import lombok.extern.slf4j.Slf4j;
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import tw.elliot.elastic.domain.User;
 
 import java.util.List;
 
-import static org.junit.Assert.*;
-
 @Slf4j
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest
 public class UserRepoTest {
 
@@ -22,7 +20,7 @@ public class UserRepoTest {
 	private UserRepo userRepo;
 	@Test
 	public void test() {
-		Assert.assertNotNull(this.userRepo);
+		Assertions.assertNotNull(this.userRepo);
 		User user = new User();
 		user.setId(String.valueOf(System.currentTimeMillis()));
 		user.setName("uts");
@@ -33,6 +31,6 @@ public class UserRepoTest {
 	@Test
 	public void testFind() {
 		List<User> users = this.userRepo.findByName("uts");
-		Assert.assertFalse(users.isEmpty());
+		Assertions.assertFalse(users.isEmpty());
 	}
 }

@@ -1,25 +1,25 @@
 package tw.elliot.redis.service;
 
 import lombok.extern.slf4j.Slf4j;
-import org.apache.catalina.Pipeline;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.connection.StringRedisConnection;
-import org.springframework.data.redis.core.*;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.data.redis.core.RedisCallback;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest
 @Slf4j
 public class MyConfigServiceTest {
@@ -31,20 +31,20 @@ public class MyConfigServiceTest {
 	private StringRedisTemplate str;
 
 	private int numKeys = 10000;
-	@Ignore
+	@Disabled
 	@Test
 	public void testCacheData() {
 		String key = "akey";
 		String value = service.findCacheData(key);
-		Assert.assertEquals("123", value);
+		Assertions.assertEquals("123", value);
 
 		value = service.findCacheData(key);
-		Assert.assertEquals("123", value);
+		Assertions.assertEquals("123", value);
 
 		value = service.findCacheData(key);
-		Assert.assertEquals("123", value);
+		Assertions.assertEquals("123", value);
 	}
-	@Ignore
+	@Disabled
 	@Test
 	public void testCachePutAndEvict() {
 		String key = "akey";
@@ -52,16 +52,16 @@ public class MyConfigServiceTest {
 		String newValue = "456";
 
 		String value = service.findCacheData(key);
-		Assert.assertEquals(oldValue, value);
+		Assertions.assertEquals(oldValue, value);
 
 		service.updateCacheData(key, newValue);
 		value = service.findCacheData(key);
-		Assert.assertEquals(newValue, value);
+		Assertions.assertEquals(newValue, value);
 
 
 		service.cleanCacheData(key);
 		value = service.findCacheData(key);
-		Assert.assertEquals(oldValue, value);
+		Assertions.assertEquals(oldValue, value);
 
 	}
 
@@ -71,7 +71,7 @@ public class MyConfigServiceTest {
 			log.info("Wait too long, skip test");
 			return;
 		}
-		Assert.assertNotNull(this.str);
+		Assertions.assertNotNull(this.str);
 
 		long start = System.currentTimeMillis();
 

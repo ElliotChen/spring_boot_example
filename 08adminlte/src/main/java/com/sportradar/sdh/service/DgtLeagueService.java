@@ -1,7 +1,6 @@
 package com.sportradar.sdh.service;
 
 import com.sportradar.sdh.domain.dgt.League;
-import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 

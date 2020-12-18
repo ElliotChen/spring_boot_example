@@ -1,6 +1,5 @@
 package com.sportradar.sdh.ctrl;
 
-import com.sportradar.sdh.domain.sdp.Region;
 import com.sportradar.sdh.dto.sdp.RegionDto;
 import com.sportradar.sdh.service.*;
 import lombok.extern.slf4j.Slf4j;

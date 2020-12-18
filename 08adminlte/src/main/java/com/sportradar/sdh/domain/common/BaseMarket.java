@@ -1,8 +1,8 @@
 package com.sportradar.sdh.domain.common;
 
-import java.util.Date;
-
 import lombok.Data;
+
+import java.util.Date;
 
 @Data
 public abstract class BaseMarket extends BaseEntity {

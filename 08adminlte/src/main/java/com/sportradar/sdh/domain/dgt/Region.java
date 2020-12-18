@@ -33,6 +33,7 @@ public class Region extends BaseRegion {
 
 	}
 
+	@Override
 	public String getCompositedId() {
 		return String.valueOf(this.regionNum);
 	}

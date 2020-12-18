@@ -2,8 +2,6 @@ package com.sportradar.sdh.domain.common;
 
 import lombok.Data;
 
-import java.io.Serializable;
-
 @Data
 public abstract class BaseSportMarket extends BaseEntity {
 

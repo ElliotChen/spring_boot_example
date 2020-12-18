@@ -5,7 +5,6 @@ import com.sportradar.sdh.domain.common.SourceTypeEnum;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import org.springframework.util.StringUtils;
 
 @EqualsAndHashCode(callSuper = true)
 @Data

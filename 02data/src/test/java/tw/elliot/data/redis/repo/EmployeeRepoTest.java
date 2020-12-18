@@ -1,19 +1,18 @@
 package tw.elliot.data.redis.repo;
 
 import lombok.extern.slf4j.Slf4j;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import tw.elliot.data.redis.model.Employee;
 
 import java.util.List;
 
 @Slf4j
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest
 public class EmployeeRepoTest {
 
@@ -22,7 +21,7 @@ public class EmployeeRepoTest {
 
 	@Test
 	public void testCreate() {
-		Assert.assertNotNull(repo);
+		Assertions.assertNotNull(repo);
 		Employee employee = new Employee();
 		employee.setId(123L);
 		employee.setFirstname("A");
@@ -34,7 +33,7 @@ public class EmployeeRepoTest {
 	@Test
 	public void testFindByFirstname() {
 		List<Employee> employees = repo.findByLastname("B");
-		Assert.assertEquals(1, employees.size());
+		Assertions.assertEquals(1, employees.size());
 
 		Employee employee = employees.get(0);
 

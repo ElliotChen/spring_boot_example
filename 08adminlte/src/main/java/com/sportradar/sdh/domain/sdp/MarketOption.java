@@ -1,13 +1,11 @@
 package com.sportradar.sdh.domain.sdp;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.sportradar.sdh.domain.common.BaseMarketOption;
-import com.sportradar.sdh.domain.common.IdCompositable;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.apache.commons.lang3.StringUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @NoArgsConstructor

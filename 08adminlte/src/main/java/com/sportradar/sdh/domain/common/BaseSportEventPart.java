@@ -10,9 +10,11 @@ public class BaseSportEventPart extends BaseEntity {
 
 	protected String eventPartName;
 
+	@Override
 	public String getCompositedId() {
 		return String.valueOf(sportId + " " + eventPartId);
 	}
+	@Override
 	public void setCompositedId(String compositedId) {
 		String[] ids = compositedId.split(" ");
 		this.sportId = Long.parseLong(ids[0]);

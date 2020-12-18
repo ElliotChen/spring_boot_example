@@ -2,20 +2,20 @@ package com.sportradar.sdh.domain.common;
 
 import lombok.Data;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 @Data
 public abstract class BaseEntity implements IdCompositable {
-	protected Boolean isPreloaded = new Boolean(false);
+	protected Boolean isPreloaded = Boolean.FALSE;
 
 	protected Language language = new Language(1,"English");
 
 	protected Partner partner = new Partner(1,"QL");
 
+	@Override
 	public String getCompositedId() {
 		return "";
 	}
+
+	@Override
 	public void setCompositedId(String compositedId) {};
 
 

@@ -50,6 +50,7 @@ public class MarketOption extends BaseMarketOption {
 		return String.valueOf(this.marketId + " " + marketTypeId + " " + optionNum + " " + optionType);
 	}
 
+	@Override
 	public void setCompositedId(String compositedId) {
 		String[] keys = compositedId.trim().split(" ");
 
