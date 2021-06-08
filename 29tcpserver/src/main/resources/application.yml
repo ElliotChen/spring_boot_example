@@ -1,6 +1,6 @@
 
 res:
-  entryResultPath: "./resources"
+  entryResultPath: "/Users/elliot/IdeaProjects/spring_boot_example/29tcpserver/src/main/resources"
   charEncoding: "BIG5"
   fileExtension: "txt"
 logging:

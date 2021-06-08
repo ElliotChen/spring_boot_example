@@ -39,15 +39,19 @@ public class DefaultEntryHandler extends BaseEntryHandler {
 
 		filename = StringUtils.replace(filename, "*", "_");
 		filename = StringUtils.replace(filename, "/", "_");
+		filename = StringUtils.replace(filename, "@", "_");
+		filename = StringUtils.replace(filename, " ", "_");
 
 		String urlString = entryResultPath + File.separator + filename + "." +fileExtension;
 		log.info("Try to search file [{}]", urlString);
 		String result ="";
 		try {
-			File file = new File(entryResultPath, filename+"."+fileExtension);
+			File file = new File(urlString);
 			result = StreamUtils.copyToString(new FileInputStream(file), Charset.forName(charEncoding));
 		} catch (Exception e) {
 			log.error("Load From [{}] failed.", urlString, e);
+
+			result = entry;
 		}
 		return result;
 	}
