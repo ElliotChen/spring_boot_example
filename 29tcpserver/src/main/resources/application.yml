@@ -1,0 +1,11 @@
+
+res:
+  entryResultPath: "./resources"
+  charEncoding: "BIG5"
+  fileExtension: "txt"
+logging:
+  level:
+    tw:
+      elliot:
+        tcpserver:
+          support: DEBUG

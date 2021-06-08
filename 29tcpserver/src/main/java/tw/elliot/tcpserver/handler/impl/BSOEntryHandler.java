@@ -1,15 +1,13 @@
 package tw.elliot.tcpserver.handler.impl;
 
-import tw.elliot.tcpserver.handler.EntryHandler;
 import tw.elliot.tcpserver.support.SessionStatus;
 import tw.elliot.tcpserver.support.TcpSession;
 import tw.elliot.tcpserver.util.ThreadLocalUtil;
 
 import java.util.regex.Pattern;
 
-public class LoginEntryHandler extends AbstractRegexEntryHandler {
-
-	public static final String REGEX_LOGIN = "BS.*";
+public class BSOEntryHandler extends AbstractRegexEntryHandler {
+	public static final String REGEX_LOGIN = "BSO\\+";
 
 	public static final Pattern PATTERN_LOGIN = Pattern.compile(REGEX_LOGIN);
 
@@ -20,12 +18,7 @@ public class LoginEntryHandler extends AbstractRegexEntryHandler {
 
 	@Override
 	public String doHandleEntry(String entry) {
-		TcpSession tcpSession = ThreadLocalUtil.TCP_SEESION.get();
-		if (null != tcpSession) {
-			tcpSession.setStatus(SessionStatus.AUTHORIZED);
-		}
-		return "A-IN";
+		return "SINE IN ..ENTER HELP BSI";
 	}
-
-
 }
+
