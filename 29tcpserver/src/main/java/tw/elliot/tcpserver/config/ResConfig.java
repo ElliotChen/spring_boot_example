@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
-import tw.elliot.tcpserver.config.data.ResConfigData;
 import tw.elliot.tcpserver.handler.EntryHandler;
 import tw.elliot.tcpserver.handler.impl.*;
 import tw.elliot.tcpserver.support.SessionKeeper;
