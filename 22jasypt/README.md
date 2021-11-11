@@ -59,3 +59,49 @@ spring:
   ....
     password: ENC(3HNOeOw62KXKgX/SJr8vRgXrXnVfTCphHtK7++hy4DKVliop08b43LvS5AcYMRkK)
 ```
+
+## package 自動加密
+
+### appliction.xml
+
+利用“DEC()“來標示要被加密的資料如下列範例；
+
+```yaml
+    url: jdbc:mysql://localhost:3306/test
+    username: root
+    password: DEC(a1b2c3d4)
+    platform: mysql
+```
+
+### pom.xml
+
+在plugin中加入```path```與 ```execution goal```
+
+```xml
+<plugin>
+	<groupId>com.github.ulisesbocchio</groupId>
+	<artifactId>jasypt-maven-plugin</artifactId>
+	<configuration>
+		<path>file:${project.build.outputDirectory}/application.yml</path>
+	</configuration>
+	<executions>
+		<execution>
+			<id>encrypt</id>
+			<phase>process-resources
+			</phase>
+			<goals>
+				<goal>encrypt</goal>
+			</goals>
+		</execution>
+	</executions>
+</plugin>
+```
+### Result
+
+```yaml
+    url: jdbc:mysql://localhost:3306/test
+    username: root
+    password: ENC(s8WgsMbLOF5kf087mUG8fCI9p4cn5idisHJIFFcp7rk2WYnBcKJNEAwfop2TJc7N)
+    platform: mysql
+```
+這樣在一般的```mvn package```的流程中可以得到被加密的檔案。

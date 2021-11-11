@@ -66,6 +66,20 @@
 			<plugin>
 				<groupId>com.github.ulisesbocchio</groupId>
 				<artifactId>jasypt-maven-plugin</artifactId>
+				<configuration>
+					<path>file:${project.build.outputDirectory}/application.yml</path>
+				</configuration>
+				<executions>
+					<execution>
+						<id>encrypt</id>
+						<phase>
+							process-resources
+						</phase>
+						<goals>
+							<goal>encrypt</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>

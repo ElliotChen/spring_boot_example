@@ -4,11 +4,13 @@ spring:
     driver-class-name: com.mysql.jdbc.Driver
     url: jdbc:mysql://localhost:3306/test
     username: root
-    password: ENC(3HNOeOw62KXKgX/SJr8vRgXrXnVfTCphHtK7++hy4DKVliop08b43LvS5AcYMRkK)
+    password: DEC(a1b2c3d4)
+#    password: ENC(3HNOeOw62KXKgX/SJr8vRgXrXnVfTCphHtK7++hy4DKVliop08b43LvS5AcYMRkK)
     platform: mysql
 
 jasypt:
   encryptor:
+    password: $5G!7#s
 #    algorithm: PBEWITHHMACSHA512ANDAES_256
-    password: elliot
+#    password: elliot
 #    ivGeneratorClassname: org.jasypt.iv.RandomIvGenerator
