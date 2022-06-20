@@ -35,7 +35,7 @@
 		<liquibase.version>4.4.3</liquibase.version>
 		<hikari.version>5.0.0</hikari.version>
 		<lombok.version>1.18.22</lombok.version>
-		<mysql.connector.version>8.0.25</mysql.connector.version>
+		<mysql.connector.version>8.0.28</mysql.connector.version>
 		<ehcache3.version>3.9.5</ehcache3.version>
 		<mockito-core.version>3.11.2</mockito-core.version>
 		<graalvm.version>21.1.0</graalvm.version>
