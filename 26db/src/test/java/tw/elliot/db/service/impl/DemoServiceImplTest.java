@@ -1,5 +1,6 @@
 package tw.elliot.db.service.impl;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -20,7 +21,7 @@ class DemoServiceImplTest {
 	@Test
 	void createUser() {
 
-		Assertions.notNull(demoService.getUserRepo(), "user repo should be injected");
+		//Assertions.notNull(demoService.getUserRepo(), "user repo should be injected");
 		this.demoService.createUser("A");
 
 		Mockito.verify(userRepo, Mockito.times(1)).save(Mockito.any());

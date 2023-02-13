@@ -7,6 +7,8 @@ import tw.elliot.db.model.User;
 import tw.elliot.db.repo.UserRepo;
 import tw.elliot.db.service.DemoService;
 
+import java.util.Optional;
+
 @Service
 @Data
 public class DemoServiceImpl implements DemoService {
@@ -18,5 +20,10 @@ public class DemoServiceImpl implements DemoService {
 		user.setName(name);
 
 		this.userRepo.save(user);
+	}
+
+	@Override
+	public Optional<User> findUser(Long id) {
+		return this.userRepo.findById(id);
 	}
 }

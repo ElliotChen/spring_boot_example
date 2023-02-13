@@ -1,1 +1,1 @@
-INSERT INTO user(name, age) values ( 'A', 12 );
+INSERT INTO t_user(name, age) values ( 'A', 12 );
